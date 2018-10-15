@@ -167,7 +167,7 @@ MEDIA_URL = HOST_URL + MEDIA_URL_
 MEDIA_ROOT = os.path.join(PRJ_ROOT, 'media')
 
 LBFORUM_TITLE = "论坛首页"
-LBFORUM_SUB_TITLE = "A Forum powered by Django"
+LBFORUM_SUB_TITLE = ""
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 
@@ -206,4 +206,3 @@ REST_FRAMEWORK = {
     ],
     'PAGE_SIZE': 20
 }
-print(BASE_DIR)
