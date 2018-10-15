@@ -1,0 +1,512 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-15 10:27+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+#: vendor/lbforum/lbforum/admin.py:16
+msgid "Update forum state info"
+msgstr ""
+
+#: vendor/lbforum/lbforum/admin.py:42
+msgid "Update topic state info"
+msgstr ""
+
+#: vendor/lbforum/lbforum/admin.py:58
+msgid "sticky/unsticky topics"
+msgstr ""
+
+#: vendor/lbforum/lbforum/admin.py:63
+msgid "close/unclose topics"
+msgstr ""
+
+#: vendor/lbforum/lbforum/admin.py:68
+msgid "hide/unhide topics"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:15
+msgid "Last Reply"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:16
+msgid "Last Topic"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:52
+msgid "Order By"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:56 vendor/lbforum/lbforum/models.py:54
+#: vendor/lbforum/lbforum/models.py:92 vendor/lbforum/lbforum/models.py:108
+msgid "Forum"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:57 vendor/lbforum/lbforum/models.py:110
+#: vendor/lbforum/lbforum/templates/lbforum/forum.html:50
+msgid "Topic Type"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:58
+msgid "Subject"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:59 vendor/lbforum/lbforum/forms.py:181
+#: vendor/lbforum/lbforum/forms.py:191
+msgid "Message"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:60
+#: vendor/lbforum/lbforum/templates/lbforum/inc_post_content.html:12
+msgid "Attachments"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:61
+msgid "Need Reply"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:62
+msgid "Attachments Need Reply"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:72
+msgid "Please chose a forum"
+msgstr ""
+
+#: vendor/lbforum/lbforum/forms.py:82
+msgid "Some word in you post is forbidden, please correct it."
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:26
+msgid "Category"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:27
+msgid "Categories"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:50 vendor/lbforum/lbforum/models.py:126
+#: vendor/lbforum/lbforum/templates/lbforum/inc_topic_detail.html:44
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:112
+msgid "Last post"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:55
+#: vendor/lbforum/lbforum/templates/lbforum/widgets/categories_and_forums.html:4
+msgid "Forums"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:58
+msgid "Forum-Administrator"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:101
+msgid "Default"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:102
+#: vendor/lbforum/lbforum/templates/lbforum/inc_topic_detail.html:30
+msgid "Distillate"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:115 vendor/lbforum/lbforum/models.py:196
+msgid "Post"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:142 vendor/lbforum/lbforum/models.py:176
+msgid "Topic"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:143
+#: vendor/lbforum/lbforum/templates/lbforum/forum.html:78
+#: vendor/lbforum/lbforum/templates/lbforum/profile/inc_base_profile.html:25
+msgid "Topics"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:172
+msgid "BBCode"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:173
+msgid "Markdown"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:174
+msgid "Html"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:197
+#: vendor/lbforum/lbforum/templates/lbforum/profile/inc_base_profile.html:28
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:110
+msgid "Posts"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:206
+#, python-format
+msgid "Topic: %s"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:207
+#, python-format
+msgid "Re: %s"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:244
+msgid "User"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:246
+#: vendor/lbforum/lbforum/templates/lbforum/profile/change_profile.html:57
+msgid "Nickname"
+msgstr ""
+
+#: vendor/lbforum/lbforum/models.py:247
+#: vendor/lbforum/lbforum/templates/lbforum/profile/change_profile.html:49
+msgid "Avatar"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/forum.html:19
+msgid "Forum Description"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/forum.html:31
+msgid "Forum Admin"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/forum.html:55
+#: vendor/lbforum/lbforum/templates/lbforum/forum.html:98
+msgid "All"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/forum.html:85
+#: vendor/lbforum/lbforum/templates/lbforum/recent.html:24
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:33
+msgid "Home"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/forum.html:92
+#: vendor/lbforum/lbforum/templates/lbforum/index.html:32
+msgid "Post new topic"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/forum.html:101
+msgid "Distillate District"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_header.html:11
+msgid "My profile"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_header.html:12
+msgid "Logout"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_header.html:14
+#: vendor/lbforum/lbforum/templates/lbforum/widgets/cur_user_profile.html:42
+msgid "Sign Up"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_header.html:15
+#: vendor/lbforum/lbforum/templates/lbforum/widgets/cur_user_profile.html:45
+msgid "Login"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_header.html:22
+msgid "Search"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_post_content.html:8
+msgid "Last edit by"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_post_content.html:25
+msgid "Show Image Attachments"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_post_content.html:28
+msgid "Image Attachments"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_post_content.html:40
+#: vendor/lbforum/lbforum/templatetags/bbcode.py:35
+msgid "to see the content, user must reply first."
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_post_detail.html:20
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:85
+msgid "quote"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_post_detail.html:22
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:80
+msgid "edit"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_post_detail.html:25
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:66
+msgid "Do you want to delete it?"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_post_detail.html:25
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:66
+msgid "delete"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_topic_detail.html:21
+msgid "Closed"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_topic_detail.html:24
+msgid "Sticky"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_topic_detail.html:27
+msgid "Hided"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/inc_topic_detail.html:43
+msgid "views"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/index.html:17
+msgid "Friend Links"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/index.html:38
+msgid "More"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/markitup_preview.html:11
+msgid "preview"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/post.html:28
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:147
+msgid "You may use"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/post.html:49
+msgid "Post new"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/post.html:49
+msgid "Edit"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/post.html:63
+#: vendor/lbforum/lbforum/templates/lbforum/profile/change_profile.html:40
+msgid "Please correct the errors below."
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/post.html:88
+#: vendor/lbforum/lbforum/templates/lbforum/profile/change_profile.html:76
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:140
+msgid "Submit"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/post.html:89
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:141
+msgid "Preview"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/post.html:126
+msgid "submit"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/post_paginate.html:5
+msgid "Pages"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/base.html:12
+#: vendor/lbforum/lbforum/templates/lbforum/profile/change_profile.html:66
+msgid "Bio"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/base.html:25
+#: vendor/lbforum/lbforum/templates/lbforum/profile/base.html:27
+msgid "Introduction"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/base.html:32
+#: vendor/lbforum/lbforum/templates/lbforum/profile/change_profile.html:33
+msgid "Change profile"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/base.html:35
+msgid "Change password"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/change_profile.html:8
+#, python-format
+msgid "Change %(view_user.lbforum_profile)s's profile"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/inc_base_profile.html:18
+#: vendor/lbforum/lbforum/templates/lbforum/widgets/cur_user_profile.html:29
+msgid "Joined on"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/inc_base_profile.html:33
+msgid "View all topics"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/inc_base_profile.html:36
+msgid "View all posts"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/profile.html:8
+#, python-format
+msgid "%(view_user.lbforum_profile)s's profile"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/user_posts.html:9
+#, python-format
+msgid "%(view_user.lbforum_profile)s's posts"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/user_posts.html:19
+msgid "Posts by"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/user_topics.html:9
+#, python-format
+msgid "%(view_user.lbforum_profile)s's topics"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/user_topics.html:18
+msgid "Topics by"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/user_topics.html:23
+msgid "replies"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/user_topics.html:24
+msgid "topics"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/profile/user_topics.html:25
+msgid "last post"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/recent.html:11
+#: vendor/lbforum/lbforum/templates/lbforum/recent.html:26
+msgid "Recent Topics"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/redirect.html:18
+msgid "You should automatically be forwarded to a new page in 5 second."
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/redirect.html:21
+msgid ""
+"Click here if you do not want to wait any longer (or if your browser does "
+"not automatically forward you)"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:47
+msgid "undistillate"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:47
+msgid "distillate"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:52
+msgid "unsticky"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:52
+msgid "sticky"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:57
+msgid "unclose"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:57
+msgid "close"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:62
+msgid "unhide"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:62
+msgid "hide"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:90
+msgid "Post reply"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:103
+msgid "No Reply"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/topic.html:132
+msgid "Quick reply to this topic"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/widgets/lbf_status.html:4
+msgid "Forum Status"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/widgets/lbf_status.html:10
+msgid "Total number of registered users"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/widgets/lbf_status.html:14
+msgid "Total number of topics"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templates/lbforum/widgets/lbf_status.html:18
+msgid "Total number of posts"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templatetags/lbforum_filters.py:72
+msgid "Online"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templatetags/lbforum_filters.py:75
+msgid "Offline"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templatetags/lbforum_filters.py:105
+#, python-format
+msgid "%s ago"
+msgstr ""
+
+#: vendor/lbforum/lbforum/templatetags/lbforum_tags.py:38
+msgid "reply to see the attachments"
+msgstr ""
+
+#: vendor/lbforum/lbforum/views.py:113 vendor/lbforum/lbforum/views.py:206
+#: vendor/lbforum/lbforum/views.py:236 vendor/lbforum/lbforum/views.py:247
+#: vendor/lbforum/lbforum/views.py:262
+msgid "no right"
+msgstr ""
+
+#: vendor/lbforum/lbforum/views.py:148 vendor/lbforum/lbforum/views.py:208
+msgid "topic"
+msgstr ""
+
+#: vendor/lbforum/lbforum/views.py:154 vendor/lbforum/lbforum/views.py:203
+msgid "reply"
+msgstr ""
+
+#: vendor/lbforum/lbforum/views.py:158
+msgid "you can't reply, this topic closed."
+msgstr ""
