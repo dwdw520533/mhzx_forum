@@ -27,7 +27,4 @@ def create_app():
     init_extensions(app)
     init_func(app)
     config_blueprint(app)
-    with app.app_context():
-        app.config['MAIL_SUBJECT_PREFIX'] = db_utils.get_option('mail_prefix') or app.config['MAIL_SUBJECT_PREFIX']
-        install_init()
     return app
