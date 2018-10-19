@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import fields
 from wtforms.validators import DataRequired, Regexp, EqualTo, Length, InputRequired
-from fly_bbs import code_msg
+from mhzx import code_msg
 
 
 class RegisterForm(FlaskForm):

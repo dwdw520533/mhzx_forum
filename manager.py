@@ -1,9 +1,8 @@
-from fly_bbs import create_app
+from mhzx import create_app
 from flask_script import Manager
-import os
 
-config_name = os.environ.get('FLASK_CONFIG') or 'Dev'
-app = create_app(config_name)
+
+app = create_app()
 
 manager = Manager(app)
 

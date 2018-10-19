@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template,flash, request,session,jsonify, url_for, current_app, redirect, abort
-from fly_bbs.extensions import oauth_weibo
+from mhzx.extensions import oauth_weibo
 
 oauth_view = Blueprint('oauth', __name__, url_prefix='', template_folder='templates')
 

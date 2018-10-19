@@ -1,4 +1,4 @@
-from fly_bbs.extensions import mongo
+from mhzx.extensions import mongo
 import os
 from werkzeug.security import generate_password_hash
 from datetime import datetime

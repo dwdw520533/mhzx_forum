@@ -137,7 +137,7 @@ class CatalogsModelView(BaseModelView):
     form = CatalogsForm
 
     def after_model_delete(self, model):
-        from fly_bbs.extensions import mongo
+        from mhzx.extensions import mongo
         catalog_id = ObjectId(model['_id'])
         post_ids = [post['_id'] for post in mongo.db.posts.find({'catalog_id': catalog_id}, {'_id': 1})]
         mongo.db.users.update_many({}, {'$pull': {'collections': {'$in': post_ids}}})
@@ -187,6 +187,6 @@ class PostsModelView(BaseModelView):
     can_edit = False
     form = PostsForm
     def after_model_delete(self, model):
-        from fly_bbs.extensions import mongo
+        from mhzx.extensions import mongo
         post_id = ObjectId(model['_id'])
         mongo.db.users.update_many({}, {'$pull': {'collections': post_id}})

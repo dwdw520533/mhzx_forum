@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template,flash, request, url_for, current_app, session, jsonify, abort, redirect
-from fly_bbs import db_utils, utils, forms, models, code_msg
-from fly_bbs.extensions import mongo, whoosh_searcher, cache, clear_cache
+from mhzx import db_utils, utils, forms, models, code_msg
+from mhzx.extensions import mongo, whoosh_searcher, cache, clear_cache
 from flask_login import login_required
 from flask_login import current_user
 from bson.objectid import ObjectId

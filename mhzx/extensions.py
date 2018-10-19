@@ -4,12 +4,12 @@ from flask_login import LoginManager
 import pymongo
 from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
-from fly_bbs.models import User
-from fly_bbs.controllers import admin as admin_view
+from mhzx.models import User
+from mhzx.controllers import admin as admin_view
 from flask_uploads import UploadSet, configure_uploads
 from flask_oauthlib.client import OAuth
 # Whoosh相关
-from fly_bbs.plugins import WhooshSearcher
+from mhzx.plugins import WhooshSearcher
 from whoosh.fields import Schema, TEXT, ID, DATETIME
 from jieba.analyse import ChineseAnalyzer
 from flask_cache import Cache

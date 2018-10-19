@@ -1,5 +1,5 @@
-from fly_bbs.extensions import mongo
-from fly_bbs.models import Page
+from mhzx.extensions import mongo
+from mhzx.models import Page
 from bson.objectid import ObjectId
 
 

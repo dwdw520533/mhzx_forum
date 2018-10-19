@@ -1,7 +1,19 @@
 import os
 from flask_uploads import IMAGES
-class Dev:
-    MONGO_URI = "mongodb://192.168.4.5:27017/pyfly"
+
+DEBUG = True
+
+
+if DEBUG:
+    SQL_HOST = "127.0.0.1"
+    MONGO_URI = "mongodb://127.0.0.1:27017/mhzx"
+else:
+    SQL_HOST = "127.0.0.1"
+    MONGO_URI = "mongodb://127.0.0.1:27017/mhzx"
+
+
+class Config:
+    MONGO_URI = MONGO_URI
     MAIL_SERVER = 'smtp.163.com'
     MAIL_PROT = 465
     MAIL_USE_TLS = True
@@ -23,10 +35,13 @@ class Dev:
     CACHE_REDIS_DB = '0'
 
 
-class Pud:
-    pass
-
-config = {
-    "Dev": Dev,
-    "Pud": Pud
+SQL_CONF = {
+    "host": SQL_HOST,
+    "port": 1989,
+    "user": "sa",
+    "password": "123456",
+    "database": "wm",
+    "timeout": 10,
+    "login_timeout": 5,
+    "charset": "utf8"
 }

@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template,flash, request,session,jsonify, url_for, current_app, redirect, abort
 from flask_login import login_user, logout_user, login_required, current_user
-from fly_bbs import utils,forms, models, db_utils, code_msg
-from fly_bbs.extensions import mongo
+from mhzx import utils,forms, models, db_utils, code_msg
+from mhzx.extensions import mongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
 from random import randint
 from datetime import datetime
+from mhzx.ops.user import ZxUser
+from mhzx.config import SQL_CONF
+
+zx_user = ZxUser(SQL_CONF)
 user_view = Blueprint("user", __name__, url_prefix="", template_folder="templates")
 
 
@@ -183,21 +187,26 @@ def register():
         user = mongo.db.users.find_one({'email': user_form.email.data})
         if user:
             return jsonify(code_msg.EMAIL_EXIST)
+        user_id = user_form.userid.data
+        user_name = user_form.username.data
+        password = user_form.password.data
+        question = user_form.question.data
+        answer = user_form.answer.data
         user = dict({
             'is_active': True,
             'coin': 0,
-            'userid': user_form.userid.data,
-            'username': user_form.username.data,
-            'question': user_form.question.data,
-            'answer': user_form.answer.data,
+            'userid': user_id,
+            'username': user_name,
+            'question': question,
+            'answer': answer,
             'vip': 0,
             'reply_count': 0,
             'avatar': url_for('static', filename='images/avatar/' + str(randint(0, 12)) + '.jpg'),
-            'password': generate_password_hash(user_form.password.data),
+            'password': generate_password_hash(password),
             'create_at': datetime.utcnow()
         })
         mongo.db.users.insert_one(user)
-        # send_active_email(user['username'], user['_id'], user['email'])
+        zx_user.register_user(user_id, password, question, answer, "123")
         return jsonify(code_msg.REGISTER_SUCCESS.put('action', url_for('user.login')))
     ver_code = utils.gen_verify_num()
     # session['ver_code'] = ver_code['answer']

@@ -1,4 +1,4 @@
-from fly_bbs.utils import JSONEncoder
+from mhzx.utils import JSONEncoder
 from werkzeug.security import check_password_hash
 
 
