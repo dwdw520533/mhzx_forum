@@ -40,6 +40,8 @@ EMAIL_EMPTY = R(status=50001, msg='邮箱不能为空')
 USER_ID_ERROR = R(status=50001, msg='用户名格式不正确')
 USER_ID_EMPTY = R(status=50001, msg='用户名不能为空')
 USERNAME_EMPTY = R(status=50001, msg='昵称不能为空')
+QUESTION_EMPTY = R(status=50001, msg='密保问题不能为空')
+ANSWER_EMPTY = R(status=50001, msg='密保答案不能为空')
 NOW_PASSWORD_EMPTY = R(status=50001, msg='两次输入的密码不一致')
 # 帖子
 POST_TITLE_EMPTY = R(status=50001, msg='标题不能为空')

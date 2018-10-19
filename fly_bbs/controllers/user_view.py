@@ -188,6 +188,8 @@ def register():
             'coin': 0,
             'userid': user_form.userid.data,
             'username': user_form.username.data,
+            'question': user_form.question.data,
+            'answer': user_form.answer.data,
             'vip': 0,
             'reply_count': 0,
             'avatar': url_for('static', filename='images/avatar/' + str(randint(0, 12)) + '.jpg'),
