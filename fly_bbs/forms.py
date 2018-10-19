@@ -1,21 +1,20 @@
 from flask_wtf import FlaskForm
 from wtforms import fields
-from wtforms.validators import DataRequired, Email, EqualTo, Length, InputRequired
+from wtforms.validators import DataRequired, Regexp, EqualTo, Length, InputRequired
 from fly_bbs import code_msg
 
 
 class RegisterForm(FlaskForm):
-    email = fields.StringField(validators=[DataRequired(code_msg.EMAIL_EMPTY.get_msg()),
-                                           Email(code_msg.EMAIL_ERROR.get_msg())])
+    userid = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg()),
+                                            Regexp("^[a-z0-9]+$", code_msg.USER_ID_ERROR.get_msg())])
     username = fields.StringField(validators=[DataRequired(code_msg.USERNAME_EMPTY.get_msg())])
     vercode = fields.StringField(validators=[InputRequired(code_msg.VERIFY_CODE_ERROR.get_msg())])
     password = fields.PasswordField(validators=[Length(min=6, max=16, message=code_msg.PASSWORD_LENGTH_ERROR.get_msg())])
     re_password = fields.PasswordField(validators=[EqualTo('password', code_msg.PASSWORD_REPEAT_ERROR.get_msg())])
-    # desc = fields.StringField()
 
 
 class LoginForm(FlaskForm):
-    email = fields.StringField(validators=[DataRequired(code_msg.EMAIL_EMPTY.get_msg())])
+    userid = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg())])
     vercode = fields.StringField(validators=[InputRequired(code_msg.VERIFY_CODE_ERROR.get_msg())])
     password = fields.PasswordField(validators=[DataRequired(code_msg.PASSWORD_LENGTH_ERROR.get_msg())])
 

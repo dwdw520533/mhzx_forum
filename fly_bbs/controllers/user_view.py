@@ -184,9 +184,9 @@ def register():
         if user:
             return jsonify(code_msg.EMAIL_EXIST)
         user = dict({
-            'is_active': False,
+            'is_active': True,
             'coin': 0,
-            'email': user_form.email.data,
+            'userid': user_form.userid.data,
             'username': user_form.username.data,
             'vip': 0,
             'reply_count': 0,
@@ -195,7 +195,7 @@ def register():
             'create_at': datetime.utcnow()
         })
         mongo.db.users.insert_one(user)
-        send_active_email(user['username'], user['_id'], user['email'])
+        # send_active_email(user['username'], user['_id'], user['email'])
         return jsonify(code_msg.REGISTER_SUCCESS.put('action', url_for('user.login')))
     ver_code = utils.gen_verify_num()
     # session['ver_code'] = ver_code['answer']
@@ -209,7 +209,7 @@ def login():
         if not user_form.validate():
             return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(user_form.errors)))
         utils.verify_num(user_form.vercode.data)
-        user = mongo.db.users.find_one({'email': user_form.email.data})
+        user = mongo.db.users.find_one({'userid': user_form.userid.data})
         if not user:
             return jsonify(code_msg.USER_NOT_EXIST)
         if not models.User.validate_login(user['password'], user_form.password.data):

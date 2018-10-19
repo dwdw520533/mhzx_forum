@@ -37,6 +37,8 @@ PASSWORD_LENGTH_ERROR = R(status=50001, msg='密码长度应该在6-16之间')
 PASSWORD_REPEAT_ERROR = R(status=50001, msg='两次输入的密码不一致')
 EMAIL_ERROR = R(status=50001, msg='邮箱格式不正确')
 EMAIL_EMPTY = R(status=50001, msg='邮箱不能为空')
+USER_ID_ERROR = R(status=50001, msg='用户名格式不正确')
+USER_ID_EMPTY = R(status=50001, msg='用户名不能为空')
 USERNAME_EMPTY = R(status=50001, msg='昵称不能为空')
 NOW_PASSWORD_EMPTY = R(status=50001, msg='两次输入的密码不一致')
 # 帖子
