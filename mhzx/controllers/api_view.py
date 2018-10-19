@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from flask_uploads import UploadNotAllowed
 from mhzx import models, code_msg
 from mhzx.util import db_utils
-from mhzx.extensions import mongo, upload_photos, whoosh_searcher, clear_cache
+from mhzx.extensions import mongo, upload_photos, whoosh_searcher
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 from datetime import datetime

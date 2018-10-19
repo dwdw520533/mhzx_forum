@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, jsonify, abort, redirect
 from mhzx import forms, models, code_msg
 from mhzx.util import db_utils, utils
-from mhzx.extensions import mongo, whoosh_searcher, cache, clear_cache
+from mhzx.extensions import mongo, whoosh_searcher
 from flask_login import login_required
 from flask_login import current_user
 from bson.objectid import ObjectId
@@ -19,7 +19,7 @@ bbs_index = Blueprint("index", __name__, url_prefix="", template_folder="templat
 @bbs_index.route("/catalog/<ObjectId:catalog_id>")
 @bbs_index.route("/catalog/<ObjectId:catalog_id>/page/<int:pn>")
 @bbs_index.route("/catalog/<ObjectId:catalog_id>/page/<int:pn>/size/<int:size>")
-@cache.cached(timeout=2 * 60, key_prefix=utils.gen_cache_key)
+#@cache.cached(timeout=2 * 60, key_prefix=utils.gen_cache_key)
 def index(pn=1, size=10, catalog_id=None):
     # flash("asdsdsad")
 

@@ -12,7 +12,7 @@ from flask_oauthlib.client import OAuth
 from mhzx.plugins import WhooshSearcher
 from whoosh.fields import Schema, TEXT, ID, DATETIME
 from jieba.analyse import ChineseAnalyzer
-from flask_cache import Cache
+#from flask_cache import Cache
 import functools
 
 # 初始化Mail
@@ -27,7 +27,7 @@ login_manager.login_view = 'user.login'
 upload_photos = UploadSet('photos')
 
 # Cache
-cache = Cache()
+# cache = Cache()
 
 # OAuth
 oauth = OAuth()
@@ -52,8 +52,8 @@ def init_extensions(app):
     mongo.init_app(app, "MONGO")
     oauth.init_app(app)
     login_manager.init_app(app)
-    if app.config.get('USE_CACHE', False):
-        cache.init_app(app, {})
+    # if app.config.get('USE_CACHE', False):
+    #     cache.init_app(app, {})
 
     with app.app_context():
         # 添加flask-admin视图
@@ -75,10 +75,10 @@ def init_extensions(app):
         whoosh_searcher.add_index('posts', post_schema)
 
 
-def clear_cache(f):
-    @functools.wraps(f)
-    def decorator(*args, **kwargs):
-        cache.clear()
-        return f(*args, **kwargs)
-    return decorator
+# def clear_cache(f):
+#     @functools.wraps(f)
+#     def decorator(*args, **kwargs):
+#         cache.clear()
+#         return f(*args, **kwargs)
+#     return decorator
 
