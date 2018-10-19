@@ -4,7 +4,6 @@ from .custom_functions import init_func
 from mhzx.config import Config
 from mhzx.extensions import init_extensions
 from mhzx.util import db_utils
-from mhzx.script.install_init import init as install_init
 
 
 # app.config.update(DEBUG = True,
