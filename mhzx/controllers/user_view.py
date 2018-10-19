@@ -140,17 +140,6 @@ def user_pass_forget(code=None):
                            , code=code, has_code=has_code, user=user)
 
 
-def send_active_email(username, user_id, email, is_forget=False):
-    code = mongo.db.active_codes.insert_one({'user_id': user_id})
-    if is_forget:
-        body = render_template('email/user_repwd.html', url=url_for('user.user_pass_forget', code=code.inserted_id, _external=True))
-        utils.send_email(email, '重置密码', body=body)
-        return
-    body = render_template('email/user_activate.html', username=username,
-                           url=url_for('user.user_active', code=code.inserted_id, _external=True))
-    utils.send_email(email, '账号激活', body=body)
-
-
 @user_view.route('/active', methods=['GET', 'POST'])
 def user_active():
     if request.method == 'GET':

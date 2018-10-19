@@ -1,10 +1,8 @@
 import json
 import random
 from bson import ObjectId
-from flask_mail import Message
-from mhzx import models, extensions
-from threading import Thread
-from flask import current_app, session, request
+from mhzx import models
+from flask import session, request
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -15,7 +13,7 @@ class JSONEncoder(json.JSONEncoder):
 
 
 def verify_num(code):
-    from .code_msg import VERIFY_CODE_ERROR
+    from ..code_msg import VERIFY_CODE_ERROR
 
     if code != session['ver_code']:
         raise models.GlobalApiException(VERIFY_CODE_ERROR)
@@ -33,19 +31,3 @@ def gen_verify_num():
 def gen_cache_key():
     return 'view//' + request.full_path
 
-
-def send_mail_async(app, msg):
-    with app.app_context():
-        extensions.mail.send(msg)
-
-
-def send_email(to, subject, body, is_txt=True):
-    app = current_app._get_current_object()
-    msg = Message(subject=app.config.get('MAIL_SUBJECT_PREFIX') + subject, sender=app.config.get('MAIL_USERNAME'), recipients=[to])
-    if is_txt:
-        msg.body = body
-    else:
-        msg.html = body
-    thr = Thread(target=send_mail_async, args=[app, msg])
-    thr.start()
-    return thr

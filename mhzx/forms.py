@@ -1,3 +1,4 @@
+import re
 from flask_wtf import FlaskForm
 from wtforms import fields
 from wtforms.validators import DataRequired, Regexp, EqualTo, Length, InputRequired
@@ -6,7 +7,7 @@ from mhzx import code_msg
 
 class RegisterForm(FlaskForm):
     userid = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg()),
-                                            Regexp("^[a-z0-9]+$", code_msg.USER_ID_ERROR.get_msg())])
+                                            Regexp(re.compile(r"^[a-z0-9]+$"), code_msg.USER_ID_ERROR.get_msg())])
     username = fields.StringField(validators=[DataRequired(code_msg.USERNAME_EMPTY.get_msg())])
     question = fields.StringField(validators=[DataRequired(code_msg.QUESTION_EMPTY.get_msg())])
     answer = fields.StringField(validators=[DataRequired(code_msg.ANSWER_EMPTY.get_msg())])
