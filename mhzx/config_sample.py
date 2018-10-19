@@ -8,7 +8,7 @@ if DEBUG:
     SQL_HOST = "127.0.0.1"
     MONGO_URI = "mongodb://127.0.0.1:27017/mhzx"
 else:
-    SQL_HOST = "127.0.0.1"
+    SQL_HOST = "172.31.187.199"
     MONGO_URI = "mongodb://127.0.0.1:27017/mhzx"
 
 

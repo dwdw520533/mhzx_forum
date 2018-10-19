@@ -7,10 +7,8 @@ from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
 from random import randint
 from datetime import datetime
-from mhzx.ops.user import ZxUser
-from mhzx.config import SQL_CONF
+from mhzx.ops.user import register_zx_user
 
-zx_user = ZxUser(SQL_CONF)
 user_view = Blueprint("user", __name__, url_prefix="", template_folder="templates")
 
 
@@ -207,7 +205,7 @@ def register():
             'create_at': datetime.utcnow()
         })
         mongo.db.users.insert_one(user)
-        zx_user.register_user(user_id, password, question, answer, "123")
+        register_zx_user(user_id, password, question, answer, "123")
         return jsonify(code_msg.REGISTER_SUCCESS.put('action', url_for('user.login')))
     ver_code = utils.gen_verify_num()
     # session['ver_code'] = ver_code['answer']

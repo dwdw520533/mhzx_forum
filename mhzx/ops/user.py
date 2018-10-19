@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 from mhzx.ops.mssql import Mysql
+from mhzx.config import SQL_CONF
 
 
 class ZxUser(object):
@@ -99,3 +100,13 @@ class ZxUser(object):
     #         return False, "用户不存在"
     #     sql = "select * from [dbo].[roles] where userid=%s" % user["ID"]
     #     return True, self.ms.execute_query(sql)
+
+
+user_objects = [
+    ZxUser(i) for i in SQL_CONF.values()
+]
+
+
+def register_zx_user(*args, **kwargs):
+    for user_obj in user_objects:
+        user_obj.register_user(*args, **kwargs)
