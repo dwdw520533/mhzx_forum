@@ -1,6 +1,9 @@
 from mhzx.extensions import mongo
 from werkzeug.security import generate_password_hash
 from datetime import datetime
+from mhzx import create_app
+
+app = create_app()
 
 
 def init():
@@ -46,6 +49,7 @@ def init():
             'val': 'Power by PyFly'
         },
     ]
+    mongo.init_app(app)
     mongo.db.options.insert_many(options)
     mongo.db.users.insert_one({
         'email': 'admin',

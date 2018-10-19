@@ -18,7 +18,7 @@ import functools
 # 初始化Mail
 mail = Mail()
 # 初始化Flask-Admin
-admin = Admin(name='PyFly 后台管理')
+admin = Admin(name='梦幻诛仙后台管理')
 mongo = PyMongo()
 login_manager = LoginManager()
 login_manager.login_view = 'user.login'
