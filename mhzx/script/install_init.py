@@ -1,12 +1,9 @@
-from mhzx.extensions import mongo
-import os
+from mhzx.util.extensions import mongo
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 
+
 def init():
-    lock_file = os.path.join(os.getcwd(), 'installed.lock')
-    if os.path.exists(lock_file):
-        return
     options = [
         {
             'name': '网站标题',
@@ -49,7 +46,7 @@ def init():
             'val': 'Power by PyFly'
         },
     ]
-    result = mongo.db.options.insert_many(options)
+    mongo.db.options.insert_many(options)
     mongo.db.users.insert_one({
         'email': 'admin',
         'username': 'admin',
@@ -63,6 +60,6 @@ def init():
         'create_at': datetime.utcnow(),
     })
 
-    if len(result.inserted_ids) > 0:
-        with open(lock_file, 'w') as file:
-            file.write('1')
+
+if __name__ == '__main__':
+    init()

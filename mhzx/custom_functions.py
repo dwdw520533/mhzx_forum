@@ -1,4 +1,4 @@
-from .db_utils import get_list,get_option,get_page, find_one
+from mhzx.util.db_utils import get_list,get_option,get_page, find_one
 from datetime import datetime, timedelta
 
 def utc2local(utc_st):

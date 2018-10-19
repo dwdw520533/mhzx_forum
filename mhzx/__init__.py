@@ -2,9 +2,9 @@ from flask import Flask
 from mhzx.controllers import config_blueprint
 from .custom_functions import init_func
 from mhzx.config import Config
-from mhzx.extensions import init_extensions
-from mhzx import db_utils
-from mhzx.install_init import init as install_init
+from mhzx.util.extensions import init_extensions
+from mhzx.util import db_utils
+from mhzx.script.install_init import init as install_init
 
 
 # app.config.update(DEBUG = True,

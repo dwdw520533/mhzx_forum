@@ -1,7 +1,6 @@
 from wtforms import form, fields
-from wtforms.validators import DataRequired, Email, EqualTo,Length
-from flask_admin.contrib.pymongo import ModelView, filters
-from flask_admin.form import upload
+from wtforms.validators import DataRequired, Email
+from flask_admin.contrib.pymongo import ModelView
 from flask import redirect, url_for, request
 from flask_login import current_user
 from os import path as op
@@ -137,7 +136,7 @@ class CatalogsModelView(BaseModelView):
     form = CatalogsForm
 
     def after_model_delete(self, model):
-        from mhzx.extensions import mongo
+        from mhzx.util.extensions import mongo
         catalog_id = ObjectId(model['_id'])
         post_ids = [post['_id'] for post in mongo.db.posts.find({'catalog_id': catalog_id}, {'_id': 1})]
         mongo.db.users.update_many({}, {'$pull': {'collections': {'$in': post_ids}}})
@@ -187,6 +186,6 @@ class PostsModelView(BaseModelView):
     can_edit = False
     form = PostsForm
     def after_model_delete(self, model):
-        from mhzx.extensions import mongo
+        from mhzx.util.extensions import mongo
         post_id = ObjectId(model['_id'])
         mongo.db.users.update_many({}, {'$pull': {'collections': post_id}})

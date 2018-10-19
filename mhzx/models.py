@@ -1,4 +1,4 @@
-from mhzx.utils import JSONEncoder
+from mhzx.util.utils import JSONEncoder
 from werkzeug.security import check_password_hash
 
 

@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template,flash, request,session,jsonify, url_for, current_app, redirect, abort
+from flask import Blueprint, render_template, request, jsonify, url_for, redirect, abort
 from flask_login import login_user, logout_user, login_required, current_user
-from mhzx import utils,forms, models, db_utils, code_msg
-from mhzx.extensions import mongo
+from mhzx import forms, models, code_msg
+from mhzx.util import db_utils, utils
+from mhzx.util.extensions import mongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
 from random import randint
