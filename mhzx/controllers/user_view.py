@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, url_for, redirec
 from flask_login import login_user, logout_user, login_required, current_user
 from mhzx import forms, models, code_msg
 from mhzx.util import db_utils, utils
-from mhzx.util.extensions import mongo
+from mhzx.extensions import mongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
 from random import randint

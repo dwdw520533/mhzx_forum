@@ -2,7 +2,7 @@ from flask import Flask
 from mhzx.controllers import config_blueprint
 from .custom_functions import init_func
 from mhzx.config import Config
-from mhzx.util.extensions import init_extensions
+from mhzx.extensions import init_extensions
 from mhzx.util import db_utils
 from mhzx.script.install_init import init as install_init
 

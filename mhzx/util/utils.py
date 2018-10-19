@@ -2,8 +2,7 @@ import json
 import random
 from bson import ObjectId
 from flask_mail import Message
-from mhzx import models
-from mhzx.util import extensions
+from mhzx import models, extensions
 from threading import Thread
 from flask import current_app, session, request
 

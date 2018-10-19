@@ -1,4 +1,4 @@
-from mhzx.util.extensions import mongo
+from mhzx.extensions import mongo
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from mhzx import models
-from mhzx.util.extensions import mongo
+from mhzx.extensions import mongo
 from flask_login import login_required
 from flask_login import current_user
 from bson.json_util import dumps

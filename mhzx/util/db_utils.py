@@ -1,4 +1,4 @@
-from mhzx.util.extensions import mongo
+from mhzx.extensions import mongo
 from mhzx.models import Page
 from bson.objectid import ObjectId
 

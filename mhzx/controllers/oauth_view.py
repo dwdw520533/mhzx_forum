@@ -1,5 +1,5 @@
 from flask import Blueprint, request,session, url_for, redirect
-from mhzx.util.extensions import oauth_weibo
+from mhzx.extensions import oauth_weibo
 
 oauth_view = Blueprint('oauth', __name__, url_prefix='', template_folder='templates')
 
