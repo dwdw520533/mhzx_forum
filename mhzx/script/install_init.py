@@ -49,7 +49,6 @@ def init():
             'val': 'Power by PyFly'
         },
     ]
-    mongo.init_app(app)
     mongo.db.options.insert_many(options)
     mongo.db.users.insert_one({
         'email': 'admin',
