@@ -56,7 +56,7 @@ def init():
         'username': 'admin',
         'password': generate_password_hash('admin'),
         'is_admin': True,
-        'renzheng': '社区超级管理员',
+        'renzheng': '超级管理员',
         'vip': 5,
         'coin': 99999,
         'avatar': '/static/images/avatar/1.jpg',
