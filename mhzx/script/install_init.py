@@ -1,9 +1,9 @@
-from mhzx.extensions import mongo
 from werkzeug.security import generate_password_hash
 from datetime import datetime
-from mhzx import create_app
+import pymongo
 
-app = create_app()
+client = pymongo.MongoClient(host="127.0.0.1", port=27017)
+db = client["mhzx"]
 
 
 def init():
@@ -49,8 +49,8 @@ def init():
             'val': 'Power by PyFly'
         },
     ]
-    mongo.db.options.insert_many(options)
-    mongo.db.users.insert_one({
+    db.options.insert_many(options)
+    db.users.insert_one({
         'email': 'admin',
         'userid': 'admin',
         'username': 'admin',
