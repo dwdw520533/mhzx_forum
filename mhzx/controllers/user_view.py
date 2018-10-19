@@ -175,7 +175,7 @@ def register():
         user_id = user_form.userid.data
         user = mongo.db.users.find_one({'userid': user_id})
         if user:
-            return jsonify(code_msg.EMAIL_EXIST)
+            return jsonify(code_msg.USER_ID_EXIST)
         user_name = user_form.username.data
         password = user_form.password.data
         question = user_form.question.data
