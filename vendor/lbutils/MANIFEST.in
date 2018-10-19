@@ -1,5 +1,0 @@
-include LICENSE
-include MANIFEST.in
-include README.rst
-recursive-include lbutils/templates *
-recursive-include locale django.po
