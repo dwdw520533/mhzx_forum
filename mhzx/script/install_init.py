@@ -49,6 +49,7 @@ def init():
     mongo.db.options.insert_many(options)
     mongo.db.users.insert_one({
         'email': 'admin',
+        'userid': 'admin',
         'username': 'admin',
         'password': generate_password_hash('admin'),
         'is_admin': True,
