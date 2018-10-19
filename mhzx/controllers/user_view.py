@@ -172,10 +172,10 @@ def register():
         if not user_form.validate():
             return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(user_form.errors)))
         utils.verify_num(user_form.vercode.data)
-        user = mongo.db.users.find_one({'email': user_form.email.data})
+        user_id = user_form.userid.data
+        user = mongo.db.users.find_one({'userid': user_id})
         if user:
             return jsonify(code_msg.EMAIL_EXIST)
-        user_id = user_form.userid.data
         user_name = user_form.username.data
         password = user_form.password.data
         question = user_form.question.data

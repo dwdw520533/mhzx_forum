@@ -39,7 +39,6 @@ class ZxUser(object):
             datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])])
         sql = "INSERT INTO [dbo].[users] (ID,name,passwd,prompt,answer," \
               "truename,idnumber,email,qq,creatime) VALUES(%s)" % values
-        print(sql)
         self.ms.execute_non_query(sql)
         return True, self.get_user_by_uid(uid)
 
