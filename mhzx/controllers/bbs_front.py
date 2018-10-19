@@ -45,7 +45,6 @@ def index(pn=1, size=10, catalog_id=None):
 @bbs_index.route('/add', methods=['GET', 'POST'])
 @bbs_index.route('/edit/<ObjectId:post_id>', methods=['GET', 'POST'])
 @login_required
-@clear_cache
 def add(post_id=None):
     posts_form = forms.PostsForm()
     if posts_form.is_submitted():

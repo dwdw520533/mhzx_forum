@@ -177,7 +177,6 @@ def reply_update(comment_id):
 
 @api_view.route('/post/delete/<ObjectId:post_id>', methods=['POST'])
 @login_required
-@clear_cache
 def post_delete(post_id):
     post = mongo.db.posts.find_one_or_404({'_id': ObjectId(post_id)})
     if post['user_id'] != current_user.user['_id'] and not current_user.user['is_admin']:
@@ -193,7 +192,6 @@ def post_delete(post_id):
 
 @api_view.route('/post/set/<ObjectId:post_id>/<string:field>/<int:val>', methods=['POST'])
 @login_required
-@clear_cache
 def post_set(post_id, field, val):
     post = mongo.db.posts.find_one_or_404({'_id': post_id})
     if field != 'is_closed':
