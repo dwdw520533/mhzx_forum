@@ -68,6 +68,7 @@ def post_adopt(comment_id):
         mongo.db.users.update_one({'_id': comment['user_id']}, {'$inc': {'coin': reward}})
     if user:
         # 给回帖人添加一条通知消息
+        post["user"] = user
         add_message(user, render_template('user_message/adopt_message.html', post=post, comment=comment))
     return jsonify(models.R.ok())
 
