@@ -11,17 +11,17 @@ def init():
         {
             'name': '网站标题',
             'code': 'title',
-            'val': 'PyFly'
+            'val': '梦幻诛仙'
         },
         {
             'name': '网站描述',
             'code': 'description',
-            'val': 'PyFly'
+            'val': '梦幻诛仙游戏论坛'
         },
         {
             'name': '网站关键字',
             'code': 'keywords',
-            'val': 'PyFly'
+            'val': '诛仙 私服 诛仙私服 梦幻诛仙 辰皇 破军'
         },
         {
             'name': '网站Logo',
@@ -31,7 +31,7 @@ def init():
         {
             'name': '签到奖励区间（格式: 1-100）',
             'code': 'sign_interval',
-            'val': '1-100'
+            'val': '1-5'
         },
         {
             'name': '开启用户注册（0关闭，1开启)',
@@ -41,12 +41,12 @@ def init():
         {
             'name': '管理员邮箱(申请友链链接用到)',
             'code': 'email',
-            'val': '981764793@qq.com'
+            'val': '569293863@qq.com'
         },
         {
             'name': '底部信息(支持html代码)',
             'code': 'footer',
-            'val': 'Power by PyFly'
+            'val': 'Copyright © 2018 mhzx1345.com'
         },
     ]
     db.options.insert_many(options)
