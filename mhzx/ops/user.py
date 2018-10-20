@@ -45,23 +45,10 @@ class ZxUser(object):
     def get_password(self, name, pwd):
         return "0x" + hashlib.md5((name + pwd).encode("utf-8")).hexdigest().upper()
 
-    def update_password(self, name, new_passwd):
-        sql = "UPDATE [dbo].[users] SET passwd=%s where name='%s'" % (new_passwd, name)
+    def update_password(self, name, password):
+        password = self.get_password(name, password)
+        sql = "UPDATE [dbo].[users] SET passwd=%s where name='%s'" % (password, name)
         self.ms.execute_non_query(sql)
-
-    def change_password(self, name, old_pwd, new_pwd):
-        user = self.get_user_by_name_pwd(name, self.get_password(name, old_pwd))
-        if not user:
-            return False, "用户名或密码错误"
-        self.update_password(name, self.get_password(name, new_pwd))
-        return True, None
-
-    def back_password(self, name, question, answer, passwd):
-        user = self.get_user_by_question(name, question, answer)
-        if not user:
-            return False, "用户名或密保错误"
-        self.update_password(name, self.get_password(name, passwd))
-        return True, None
 
     def recharge_yb(self, name, cash, zone_id=1):
         cash = int(cash) * 100
@@ -109,3 +96,8 @@ user_objects = [
 def register_zx_user(*args, **kwargs):
     for user_obj in user_objects:
         user_obj.register_user(*args, **kwargs)
+
+
+def update_zx_user_password(*args, **kwargs):
+    for user_obj in user_objects:
+        user_obj.update_password(*args, **kwargs)

@@ -7,7 +7,7 @@ from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
 from random import randint
 from datetime import datetime
-from mhzx.ops.user import register_zx_user
+from mhzx.ops.user import register_zx_user, update_zx_user_password
 
 user_view = Blueprint("user", __name__, url_prefix="", template_folder="templates")
 
@@ -76,6 +76,7 @@ def user_repass():
     if not models.User.validate_login(user['password'], nowpassword):
         raise models.GlobalApiException(code_msg.PASSWORD_ERROR)
     mongo.db.users.update({'_id': user['_id']}, {'$set': {'password': generate_password_hash(password)}})
+    update_zx_user_password(user["userid"], password)
     return jsonify(models.R.ok())
 
 
@@ -92,14 +93,15 @@ def user_pass_forget():
         ver_code = forget_form.vercode.data
         utils.verify_num(ver_code)
         user = mongo.db.users.find_one({'userid': user_id})
-        if user:
-            return jsonify(code_msg.USER_ID_EXIST)
+        if not user:
+            return jsonify(code_msg.USER_ID_NOT_EXIST)
         if user["question"] != question:
             return jsonify(code_msg.QUESTION_ERROR)
         if user["answer"] != answer:
             return jsonify(code_msg.ANSWER_ERROR)
         mongo.db.users.update({'_id': user['_id']}, {'$set': {
             'password': generate_password_hash(password)}})
+        update_zx_user_password(user_id, password)
         return jsonify(models.R.ok())
     else:
         ver_code = utils.gen_verify_num()
