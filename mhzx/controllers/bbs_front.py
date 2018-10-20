@@ -8,6 +8,7 @@ from bson.objectid import ObjectId
 import pymongo
 from datetime import datetime
 from whoosh import sorting, qparser
+from mhzx.ops.coin import award_coin
 
 
 bbs_index = Blueprint("index", __name__, url_prefix="", template_folder="templates")
@@ -85,6 +86,8 @@ def add(post_id=None):
             #     mongo.db.users.update_one({'_id': user['_id']}, {'$inc': {'coin': -reward}})
             mongo.db.posts.save(posts)
             post_id = posts['_id']
+            # 发帖奖励金币
+            award_coin(user, post_id)
 
         # 更新索引文档
         update_index(mongo.db.posts.find_one_or_404({'_id': post_id}))
@@ -92,7 +95,6 @@ def add(post_id=None):
         return jsonify(models.R.ok(msg).put('action', url_for('index.index')))
     else:
         ver_code = utils.gen_verify_num()
-        # session['ver_code'] = ver_code['answer']
         posts = None
         if post_id:
             posts = mongo.db.posts.find_one_or_404({'_id': post_id})

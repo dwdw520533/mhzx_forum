@@ -1,0 +1,5 @@
+# 金币奖励类型
+AWARD_TYPE_ADD_BBS = "add_bbs"
+AWARD_COIN_NUMBER = {
+    AWARD_TYPE_ADD_BBS: 1,
+}

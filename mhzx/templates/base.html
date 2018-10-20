@@ -21,7 +21,11 @@
     <ul class="layui-nav fly-nav layui-hide-xs">
       {% for item in get_list('pages', sort_by=('sort', -1)) %}
         <li class="layui-nav-item layui-this">
-          <a href="{{ item.url }}">{{ item.name }} <i class="layui-icon">{{ item.icon_code|safe }}</i>  </a>
+            {% if item.name == "首页" %}
+            <a href="{{ item.url }}">{{ item.name }} <i class="layui-icon">{{ item.icon_code|safe }}</i></a>
+            {% else %}
+            <a href="{{ item.url }}" target="_blank">{{ item.name }} <i class="layui-icon">{{ item.icon_code|safe }}</i></a>
+            {% endif %}
         </li>
       {% endfor %}
     </ul>
