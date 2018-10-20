@@ -14,7 +14,7 @@ USER_UN_ACTIVE_OR_DISABLED = R(status=403, msg='账号未激活或已被禁用')
 USER_UN_HAD_PERMISSION = R(status=403, msg='权限不足')
 
 # 用户相关
-CHANGE_PWD_SUCCESS = R(status=1, msg='密码修改成功')
+CHANGE_PWD_SUCCESS = R(status=0, msg='密码修改成功')
 PASSWORD_ERROR = R(status=50101, msg='密码错误')
 USER_NOT_EXIST = R(status=50102, msg='用户不存在')
 CHANGE_PWD_FAIL = R(status=50103, msg='密码修改失败，请联系管理员')
@@ -22,7 +22,7 @@ REPEAT_SIGNED = R(status=50105, msg='不能重复签到')
 
 RE_PWD_MAIL_SEND = R(status=0, msg='密码重置邮件已发送，请前往邮箱查看')
 RE_ACTIVATE_MAIL_SEND = R(status=0, msg='重新发送邮件成功, 请前往您的邮箱查看邮件激活你的账号')
-REGISTER_SUCCESS = R(status=0, msg='用户注册成功, 请前往您的注册邮箱查看邮件激活你的账号后登录')
+REGISTER_SUCCESS = R(status=0, msg='用户注册成功, 请前往登录')
 LOGIN_SUCCESS = R(status=0, msg='登录成功')
 
 # 帖子
