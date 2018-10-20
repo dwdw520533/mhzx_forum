@@ -1,7 +1,10 @@
 import datetime
 import hashlib
+import logging
 from mhzx.ops.mssql import Mysql
 from mhzx.config import SQL_CONF
+
+logger = logging.getLogger(__name__)
 
 
 class ZxUser(object):
@@ -95,7 +98,8 @@ user_objects = [
 
 def register_zx_user(*args, **kwargs):
     for user_obj in user_objects:
-        user_obj.register_user(*args, **kwargs)
+        ret = user_obj.register_user(*args, **kwargs)
+        logger.info("regist zx user ret: %s", ret)
 
 
 def update_zx_user_password(*args, **kwargs):
