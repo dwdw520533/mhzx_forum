@@ -9,12 +9,12 @@
                   href="/catalog/{{ item._id }}">{{ item.name }}</a></li>
         {% endfor %}
 
-        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
-        {% if current_user.is_authenticated %}
-          <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="{{ url_for('user.user_posts') }}">我发表的贴</a></li>
-          <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a
-                  href="{{ url_for('user.user_posts') + '#collection' }}">我收藏的贴</a></li>
-        {% endif %}
+{#        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>#}
+{#        {% if current_user.is_authenticated %}#}
+{#          <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="{{ url_for('user.user_posts') }}">我发表的贴</a></li>#}
+{#          <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a#}
+{#                  href="{{ url_for('user.user_posts') + '#collection' }}">我收藏的贴</a></li>#}
+{#        {% endif %}#}
 
       </ul>
 
