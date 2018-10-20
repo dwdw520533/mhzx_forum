@@ -43,10 +43,10 @@
             <img src="{{ current_user.user.avatar }}">
           </a>
           <dl class="layui-nav-child">
-            <dd><a href="{{ url_for('user.user_home', user_id=current_user.user._id) }}">我的主页</a></dd>
-            <dd><a href="{{ url_for('user.user_posts') }}">我的帖子</a></dd>
-            <dd><a href="{{ url_for('user.user_set') }}">基本设置</a></dd>
-            <dd><a href="{{ url_for('user.user_message') }}">我的消息</a></dd>
+            <dd><a href="{{ url_for('user.user_home', user_id=current_user.user._id) }}" style="text-align: center;">我的主页</a></dd>
+            <dd><a href="{{ url_for('user.user_posts') }}" style="text-align: center;">我的帖子</a></dd>
+            <dd><a href="{{ url_for('user.user_set') }}" style="text-align: center;">基本设置</a></dd>
+            <dd><a href="{{ url_for('user.user_message') }}" style="text-align: center;">我的消息</a></dd>
             <hr style="margin: 5px 0;">
             <dd><a href="{{ url_for('user.logout') }}" style="text-align: center;">退出</a></dd>
           </dl>
