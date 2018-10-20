@@ -68,20 +68,20 @@
                               class="layui-textarea fly-editor" style="height: 260px;" {{ 'disabled' if post.is_closed }}>{{ post['content'] }}</textarea>
                   </div>
                 </div>
-                <div class="layui-form-item">
-                  <div class="layui-inline">
-                    <label class="layui-form-label">悬赏金币</label>
-                    <div class="layui-input-inline" style="width: 190px;">
-                      <select name="reward" {{ 'disabled' if not is_add }}>
-                        {% for i in range(0, 101, 20) %}
-                          <option value="{{ i }}" {{ 'selected' if post and post['reward'] == i }}>{{ i }}</option>
-                        {% endfor %}
-
-                      </select>
-                    </div>
-                    <div class="layui-form-mid layui-word-aux">发表后无法更改悬赏数目</div>
-                  </div>
-                </div>
+{#                <div class="layui-form-item">#}
+{#                  <div class="layui-inline">#}
+{#                    <label class="layui-form-label">悬赏金币</label>#}
+{#                    <div class="layui-input-inline" style="width: 190px;">#}
+{#                      <select name="reward" {{ 'disabled' if not is_add }}>#}
+{#                        {% for i in range(0, 101, 20) %}#}
+{#                          <option value="{{ i }}" {{ 'selected' if post and post['reward'] == i }}>{{ i }}</option>#}
+{#                        {% endfor %}#}
+{##}
+{#                      </select>#}
+{#                    </div>#}
+{#                    <div class="layui-form-mid layui-word-aux">发表后无法更改悬赏数目</div>#}
+{#                  </div>#}
+{#                </div>#}
                 <div class="layui-form-item">
                   <label for="L_vercode" class="layui-form-label">人类验证</label>
                   <div class="layui-input-inline">
