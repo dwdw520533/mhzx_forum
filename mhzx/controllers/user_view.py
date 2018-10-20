@@ -102,9 +102,9 @@ def user_pass_forget():
             'password': generate_password_hash(password)}})
         return jsonify(models.R.ok())
     else:
-        user = current_user.user
         ver_code = utils.gen_verify_num()
-        return render_template('user/forget.html', user=user, ver_code=ver_code['question'])
+        return render_template('user/forget.html', user=None,
+                               ver_code=ver_code['question'])
 
 
 @user_view.route('/active', methods=['GET', 'POST'])
