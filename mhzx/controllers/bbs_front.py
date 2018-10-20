@@ -56,9 +56,9 @@ def add(post_id=None):
         if not user.get('is_active', False) or user.get('is_disabled', False):
             return jsonify(code_msg.USER_UN_ACTIVE_OR_DISABLED)
 
-        user_coin = user.get('coin', 0)
-        if posts_form.reward.data > user_coin:
-            return jsonify(models.R.ok('悬赏金币不能大于拥有的金币，当前账号金币为：' + str(user_coin)))
+        # user_coin = user.get('coin', 0)
+        # if posts_form.reward.data > user_coin:
+        #     return jsonify(models.R.ok('悬赏金币不能大于拥有的金币，当前账号金币为：' + str(user_coin)))
         posts = {
             'title': posts_form.title.data,
             'catalog_id': ObjectId(posts_form.catalog_id.data),
@@ -70,7 +70,7 @@ def add(post_id=None):
         post_index['catalog_id'] = str(posts['catalog_id'])
 
         msg = '发帖成功！'
-        reward = posts_form.reward.data
+        # reward = posts_form.reward.data
         if post_id:
             posts['modify_at'] = datetime.now()
             mongo.db.posts.update_one({'_id': post_id}, {'$set': posts})
@@ -78,11 +78,11 @@ def add(post_id=None):
 
         else:
             posts['create_at'] = datetime.utcnow()
-            posts['reward'] = reward
+            posts['reward'] = 0
             posts['user_id'] = user['_id']
             # 扣除用户发帖悬赏
-            if reward > 0:
-                mongo.db.users.update_one({'_id': user['_id']}, {'$inc': {'coin': -reward}})
+            # if reward > 0:
+            #     mongo.db.users.update_one({'_id': user['_id']}, {'$inc': {'coin': -reward}})
             mongo.db.posts.save(posts)
             post_id = posts['_id']
 
