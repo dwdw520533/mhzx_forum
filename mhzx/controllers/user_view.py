@@ -65,42 +65,12 @@ def user_set():
 
 @user_view.route('/repass', methods=['POST'])
 def user_repass():
-    if 'email' in request.values:
-        # email = request.values.get('email')
-        # ver_code = request.values.get('ver_code')
-        # code = request.values.get('code')
-        # password = request.values.get('password')
-        # repassword = request.values.get('repassword')
-        pwd_form = forms.ForgetPasswordForm()
-        if not pwd_form.validate():
-            return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(pwd_form.errors)))
-        email = pwd_form.email.data
-        ver_code = pwd_form.vercode.data
-        code = pwd_form.code.data
-        password = pwd_form.password.data
-        # 验证码校验
-        utils.verify_num(ver_code)
-
-        # 查询、删除邮箱激活码
-        active_code = mongo.db.active_codes.find_one_or_404({'_id': ObjectId(code)})
-        mongo.db.active_codes.delete_one({'_id': ObjectId(code)})
-        # 更新用户密码
-        user = mongo.db.users.update({'_id': active_code['user_id'], 'email': email},
-                                     {'$set': {'password': generate_password_hash(password)}})
-        # print(user)
-        if user['nModified'] == 0:
-            return jsonify(code_msg.CHANGE_PWD_FAIL.put('action', url_for('user.login')))
-        return jsonify(code_msg.CHANGE_PWD_SUCCESS.put('action', url_for('user.login')))
     if not current_user.is_authenticated:
         return redirect(url_for('user.login'))
-    # nowpassword = request.values.get('nowpassword')
-    # password = request.values.get('password')
-    # repassword = request.values.get('repassword')
     pwd_form = forms.ChangePassWordForm()
     if not pwd_form.validate():
         return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(pwd_form.errors)))
     nowpassword = pwd_form.nowpassword.data
-    # print(nowpassword)
     password = pwd_form.password.data
     user = current_user.user
     if not models.User.validate_login(user['password'], nowpassword):
@@ -110,34 +80,31 @@ def user_repass():
 
 
 @user_view.route('/forget', methods=['POST', 'GET'])
-@user_view.route('/forget/<ObjectId:code>', methods=['POST', 'GET'])
-def user_pass_forget(code=None):
+def user_pass_forget():
     if request.method == 'POST':
-        mail_form = forms.SendForgetMailForm()
-        if not mail_form.validate():
+        forget_form = forms.ForgetPasswordForm()
+        if not forget_form.validate():
             return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(mail_form.errors)))
-        email = mail_form.email.data
-        ver_code = mail_form.vercode.data
-
+        user_id = forget_form.userid.data
+        password = forget_form.password.data
+        question = forget_form.question.data
+        answer = forget_form.answer.data
+        ver_code = forget_form.vercode.data
         utils.verify_num(ver_code)
-        user = mongo.db.users.find_one({'email': email})
-        if not user:
-            return jsonify(code_msg.USER_NOT_EXIST)
-        send_active_email(user['username'], user_id=user['_id'], email=email, is_forget=True)
-        return jsonify(code_msg.RE_PWD_MAIL_SEND.put('action', url_for('user.login')))
-    has_code = False
-    user = None
-    if code:
-        active_code = mongo.db.active_codes.find_one({'_id': code})
-        has_code = True
-        if not active_code:
-            return render_template('user/forget.html', page_name='user', has_code=True, code_invalid=True)
-        user = mongo.db.users.find_one({'_id': active_code['user_id']})
-
-    ver_code = utils.gen_verify_num()
-    # session['ver_code'] = ver_code['answer']
-    return render_template('user/forget.html', page_name='user', ver_code=ver_code['question']
-                           , code=code, has_code=has_code, user=user)
+        user = mongo.db.users.find_one({'userid': user_id})
+        if user:
+            return jsonify(code_msg.USER_ID_EXIST)
+        if user["question"] != question:
+            return jsonify(code_msg.QUESTION_ERROR)
+        if user["answer"] != answer:
+            return jsonify(code_msg.ANSWER_ERROR)
+        mongo.db.users.update({'_id': user['_id']}, {'$set': {
+            'password': generate_password_hash(password)}})
+        return jsonify(models.R.ok())
+    else:
+        user = current_user.user
+        ver_code = utils.gen_verify_num()
+        return render_template('user/forget.html', user=user, ver_code=ver_code['question'])
 
 
 @user_view.route('/active', methods=['GET', 'POST'])

@@ -9,14 +9,26 @@
         </ul>
         <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
           <div class="layui-tab-item layui-show">
-
-            {% if has_code %}
-              {% if code_invalid %}
-                <div class="fly-error">该重置密码链接已失效，请重新校验您的信息</div>
-              {% else %}
-                <div class="fly-msg">{{ user.username }}，请重置您的密码</div>
-                <div class="layui-form layui-form-pane" style="margin-top: 30px;">
-                  <form action="{{ url_for('user.user_repass') }}" method="post">
+              <div class="layui-form layui-form-pane">
+                <form method="post">
+                    <div class="layui-form-item">
+                <label for="L_userid" class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="L_userid" name="userid" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+                  <div class="layui-form-item">
+                <label for="L_question" class="layui-form-label">密保问题</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="L_question" name="question" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_answer" class="layui-form-label">密保答案</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="L_answer" name="answer" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+              </div>
                     <div class="layui-form-item">
                       <label for="L_pass" class="layui-form-label">密码</label>
                       <div class="layui-input-inline">
@@ -32,35 +44,6 @@
                                autocomplete="off" class="layui-input">
                       </div>
                     </div>
-                    <div class="layui-form-item">
-                      <label for="L_vercode" class="layui-form-label">人类验证</label>
-                      <div class="layui-input-inline">
-                        <input type="text" id="L_vercode" name="ver_code" required lay-verify="required"
-                               placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
-                      </div>
-                      <div class="layui-form-mid">
-                        <span style="color: #c00;">{{ ver_code }}</span>
-                      </div>
-                    </div>
-                    <div class="layui-form-item">
-                      <input type="hidden" name="code" value="{{ code }}">
-                      <input type="hidden" name="email" value="{{ user.email }}">
-                      <button class="layui-btn" alert="1" lay-filter="*" lay-submit>提交</button>
-                    </div>
-                  </form>
-                </div>
-              {% endif %}
-            {% else %}
-              <div class="layui-form layui-form-pane">
-                <form method="post">
-                  <div class="layui-form-item">
-                    <label for="L_email" class="layui-form-label">邮箱</label>
-                    <div class="layui-input-inline">
-                      <input type="text" id="L_email" name="email" required lay-verify="required|email"
-                             autocomplete="off"
-                             class="layui-input">
-                    </div>
-                  </div>
                   <div class="layui-form-item">
                     <label for="L_vercode" class="layui-form-label">人类验证</label>
                     <div class="layui-input-inline">
@@ -76,7 +59,6 @@
                   </div>
                 </form>
               </div>
-            {% endif %}
 
 
           </div>
