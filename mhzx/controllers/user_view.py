@@ -84,7 +84,7 @@ def user_pass_forget():
     if request.method == 'POST':
         forget_form = forms.ForgetPasswordForm()
         if not forget_form.validate():
-            return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(mail_form.errors)))
+            return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(forget_form.errors)))
         user_id = forget_form.userid.data
         password = forget_form.password.data
         question = forget_form.question.data
