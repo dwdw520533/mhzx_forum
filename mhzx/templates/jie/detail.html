@@ -71,7 +71,7 @@
           <span>{{ post.create_at|mongo_date_str }}</span>
         </div>
         <div class="detail-hits" id="LAY_jieAdmin" data-id="{{ post._id }}">
-          <span style="padding-right: 10px; color: #FF7200">悬赏：{{ post.get('reward', 0) }}金币</span>
+{#          <span style="padding-right: 10px; color: #FF7200">悬赏：{{ post.get('reward', 0) }}金币</span>#}
           {% if current_user.is_authenticated and (post.user._id == current_user.user._id or current_user.user.is_admin) and not post.is_closed %}
             <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="/edit/{{ post._id }}">编辑此贴</a></span>
           {% endif %}
