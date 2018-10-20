@@ -102,7 +102,7 @@ def user_pass_forget():
         mongo.db.users.update({'_id': user['_id']}, {'$set': {
             'password': generate_password_hash(password)}})
         update_zx_user_password(user_id, password)
-        return jsonify(models.R.ok())
+        return jsonify(code_msg.CHANGE_PWD_SUCCESS.put('action', url_for('user.login')))
     else:
         ver_code = utils.gen_verify_num()
         return render_template('user/forget.html', user=None,
