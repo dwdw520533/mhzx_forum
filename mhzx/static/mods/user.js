@@ -37,12 +37,7 @@ layui.define(['laypage', 'fly', 'element', 'flow'], function(exports){
           <a class="jie-title" href="/post/{{d.rows[i]._id}}/" target="_blank">{{= d.rows[i].title}}</a>\
         {{# } else { }}\
           {{# if(d.rows[i].is_cream){ }}\
-          <span class="fly-jing layui-hide-xs">精</span>\
-          {{# } }}\
-          {{# if(d.rows[i].is_closed){ }}\
-            <span class="jie-status jie-status-ok">已结</span>\
-          {{# } else { }}\
-            <span class="jie-status">未结</span>\
+          <span class="fly-jing layui-hide-xs">精帖</span>\
           {{# } }}\
           <a class="jie-title" href="/post/{{d.rows[i]._id}}/" target="_blank">{{= d.rows[i].title}}</a>\
           <i class="layui-hide-xs">{{ layui.util.timeAgo(d.rows[i].create_at.$date, 1) }}</i>\
