@@ -149,9 +149,9 @@
                 {% if current_user.is_authenticated  and (current_user.user.is_admin) %}
                   <span type="del">删除</span>
                 {% endif %}
-                {% if not post.accepted and current_user.is_authenticated  and post.user._id == current_user.user._id %}
-                  <span class="jieda-accept" type="accept">采纳</span>
-                {% endif %}
+{#                {% if not post.accepted and current_user.is_authenticated  and post.user._id == current_user.user._id %}#}
+{#                  <span class="jieda-accept" type="accept">采纳</span>#}
+{#                {% endif %}#}
 
               </div>
 
