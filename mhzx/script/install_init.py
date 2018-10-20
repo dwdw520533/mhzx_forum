@@ -2,7 +2,7 @@ from werkzeug.security import generate_password_hash
 from datetime import datetime
 import pymongo
 
-client = pymongo.MongoClient(host="127.0.0.1", port=27017)
+client = pymongo.MongoClient(host="192.168.3.36", port=27017)
 db = client["mhzx"]
 
 

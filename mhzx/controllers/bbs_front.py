@@ -70,12 +70,12 @@ def add(post_id=None):
         post_index = posts.copy()
         post_index['catalog_id'] = str(posts['catalog_id'])
 
-        msg = '发帖成功！'
+        msg = '发帖成功，奖励金币+1'
         # reward = posts_form.reward.data
         if post_id:
             posts['modify_at'] = datetime.now()
             mongo.db.posts.update_one({'_id': post_id}, {'$set': posts})
-            msg = '修改成功！'
+            msg = '修改成功'
 
         else:
             posts['create_at'] = datetime.utcnow()

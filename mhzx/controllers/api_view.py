@@ -8,6 +8,9 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 from datetime import datetime
 import random
+from mhzx.constant import AWARD_TYPE_REPLY_BBS
+from mhzx.ops.coin import award_coin
+
 api_view = Blueprint("api", __name__, url_prefix="", template_folder="templates")
 
 
@@ -120,11 +123,15 @@ def post_reply():
     # 增加用户回帖和帖子回复量计数
     mongo.db.users.update_one({'_id': user['_id']}, {'$inc': {'reply_count': 1}})
     mongo.db.posts.update({'_id': post_id}, {'$inc': {'comment_count': 1}})
-
+    coin_msg = False
     if post['user_id'] != current_user.user['_id']:
         # 给发帖人新增一条通知消息
         user = mongo.db.users.find_one({'_id': post['user_id']})
-        add_message(user, render_template('user_message/reply_message.html', post=post, user=current_user.user, comment=comment))
+        add_message(user, render_template(
+            'user_message/reply_message.html',
+            post=post, user=current_user.user, comment=comment))
+        award_coin(current_user.user, comment["_id"], AWARD_TYPE_REPLY_BBS)
+        coin_msg = True
 
     if content.startswith('@'):
         end = content.index(' ')
@@ -134,7 +141,8 @@ def post_reply():
             # 给被@的人新增一条通知消息
             add_message(user, render_template('user_message/reply_message.html', post=post, user=current_user.user, comment=comment))
 
-    return jsonify(code_msg.COMMENT_SUCCESS)
+    return jsonify(code_msg.COMMENT_SUCCESS_COIN
+                   if coin_msg else code_msg.COMMENT_SUCCESS)
 
 
 @api_view.route('/reply/delete/<ObjectId:comment_id>', methods=['POST'])

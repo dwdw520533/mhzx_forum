@@ -28,6 +28,7 @@ LOGIN_SUCCESS = R(status=0, msg='登录成功')
 # 帖子
 HAD_ACCEPTED_ANSWER = R(status=50201, msg='已有被采纳回答')
 COMMENT_SUCCESS = R(status=0, msg='回帖成功')
+COMMENT_SUCCESS_COIN = R(status=0, msg='回帖成功，奖励金币+1')
 DELETE_SUCCESS = R(status=0, msg='删除成功')
 
 # 参数校验相关 50001
