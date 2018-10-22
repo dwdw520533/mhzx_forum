@@ -57,3 +57,7 @@ CATALOG_EMPTY = R(status=50001, msg='所属专栏不能为空')
 FILE_EMPTY = R(status=50001, msg='没有上传任何文件')
 UPLOAD_UN_ALLOWED = R(status=50001, msg='不支持的文件格式')
 
+# 短信
+SMS_PHONE_ERROR = R(status=50201, msg='手机号错误')
+SMS_SEND_REPEAT = R(status=50201, msg='已发送短信验证码，不允许重复发送')
+SMS_SEND_SUCCESS = R(status=0, msg='短信发送成功')

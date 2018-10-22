@@ -7,7 +7,9 @@ from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
 from random import randint
 from datetime import datetime
+from mhzx.constant import SMS_TYPE_REGISTER
 from mhzx.ops.user import register_zx_user, update_zx_user_password
+from mhzx.ops.phone import send_sms_phone_code, filter_phone, generate_verify_code
 
 user_view = Blueprint("user", __name__, url_prefix="", template_folder="templates")
 
@@ -202,3 +204,15 @@ def logout():
     logout_user()
     return redirect(url_for('index.index'))
 
+
+@user_view.route('/sms', methods=['GET'])
+def send_verify_sms():
+    phone = request.values.get('phone')
+    sms_type = request.values.get('sms_type', SMS_TYPE_REGISTER)
+    if not filter_phone(phone):
+        return jsonify(code_msg.SMS_PHONE_ERROR)
+    phone_code = generate_verify_code(phone, sms_type)
+    if not phone_code:
+        return jsonify(code_msg.SMS_SEND_REPEAT)
+    send_sms_phone_code(phone_code)
+    return jsonify(code_msg.SMS_SEND_SUCCESS)

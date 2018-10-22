@@ -6,6 +6,7 @@ import re
 import random
 import datetime
 from mhzx.util import sms
+from mhzx.util import cache
 from mhzx.constant import *
 from mhzx.mongo import PhoneCode
 
@@ -28,6 +29,9 @@ def filter_phone(phone_number):
 
 
 def generate_verify_code(phone_number, sms_type=SMS_TYPE_REGISTER):
+    phone_key = "phone_verify_%s_%s" % (phone_number, sms_type)
+    if not cache.add(phone_key, 1, 60):
+        return None
     phone_code = PhoneCode.objects(
         verified=None, phone_number=phone_number,
         sms_type=sms_type).order_by("-created").first()
