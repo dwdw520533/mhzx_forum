@@ -47,3 +47,15 @@ SQL_CONF = {
         "charset": "utf8"
     }
 }
+
+
+ALIYUN_ACCESS_ID = "LTAIYfxArveaM9C6"
+ALIYUN_ACCESS_SECRET = "cXg0iumlpoANhyKoPHyf23YqHdgjY0"
+
+MONGO = {
+    'mhzx': {
+        'name': 'mhzx',
+        'host': '127.0.0.1',
+        'port': 27017,
+    }
+}

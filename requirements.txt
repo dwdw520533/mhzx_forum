@@ -28,3 +28,4 @@ Whoosh==2.7.4
 WTForms==2.1
 Flask-Cache
 pymssql
+mongoengine

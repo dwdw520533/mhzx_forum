@@ -1,22 +1,14 @@
+import mongoengine
 from flask import Flask
 from mhzx.controllers import config_blueprint
 from .custom_functions import init_func
-from mhzx.config import Config
+from mhzx.config import Config, MONGO
 from mhzx.extensions import init_extensions
 from mhzx.util import db_utils
 
 
-# app.config.update(DEBUG = True,
-#     MAIL_SERVER='smtp.qq.com',
-#     MAIL_PROT=465,
-#     MAIL_USE_TLS = True,
-#     MAIL_USE_SSL = False,
-#     MAIL_USERNAME = '邮箱地址',
-#     MAIL_PASSWORD  = '',#从系统中获取授权码
-#     MAIL_DEBUG = True)
-
-
-# 初始化模板全局函数
+for alias, attrs in MONGO.items():
+    mongoengine.register_connection(alias, **attrs)
 
 
 def create_app():
