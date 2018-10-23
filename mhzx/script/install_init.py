@@ -52,7 +52,7 @@ def init():
     db.options.insert_many(options)
     db.users.insert_one({
         'email': 'admin',
-        'userid': 'admin',
+        'loginname': 'admin',
         'username': 'admin',
         'password': generate_password_hash('admin'),
         'is_admin': True,

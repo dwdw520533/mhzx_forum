@@ -11,9 +11,9 @@
         <div class="layui-form layui-form-pane layui-tab-item layui-show">
           <form method="post" action="/user/set">
             <div class="layui-form-item">
-              <label for="L_userid" class="layui-form-label">用户名</label>
+              <label for="L_loginname" class="layui-form-label">用户名</label>
               <div class="layui-input-inline">
-                <input type="text" id="L_userid" name="userid" required lay-verify="required" autocomplete="off" value="{{ current_user.user['userid'] }}" class="layui-input" disabled>
+                <input type="text" id="L_loginname" name="loginname" required lay-verify="required" autocomplete="off" value="{{ current_user.user['loginname'] }}" class="layui-input" disabled>
               </div>
               <div class="layui-form-mid layui-word-aux">用户名是您的唯一登录标识，暂不支持修改。</div></div>
             <div class="layui-form-item">

@@ -64,32 +64,6 @@ class ZxUser(object):
         self.ms.execute_non_query(sql)
         return True, None
 
-    # def read_role_file(self, max_role_id=0):
-    #     role_data, file_name = [], os.path.join(conf.LINUX_DATA_DIR, "role.txt")
-    #     if not os.path.exists(file_name):
-    #         return role_data
-    #     for line in open(file_name, "r").readlines():
-    #         roleid, userid, name = line.split(",")[:3]
-    #         if not (roleid.isdigit() and int(roleid) > max_role_id):
-    #             continue
-    #         role_data.append([roleid, userid, name.strip('"')])
-    #     return role_data
-    #
-    # def sync_role_data(self):
-    #     ret = self.ms.first("select max(roleid) as roleid from [dbo].[roles];")
-    #     for data in self.read_role_file(ret["roleid"] or 0):
-    #         value = "(%s)" % ",".join(["'%s'" % i for i in data])
-    #         sql = "INSERT INTO [dbo].[roles] (roleid,userid,name) VALUES %s" % value
-    #         self.ms.execute_non_query(sql)
-    #         print("#add role data:", data)
-    #
-    # def query_role(self, name):
-    #     user = self.get_user_by_name(name)
-    #     if not user:
-    #         return False, "用户不存在"
-    #     sql = "select * from [dbo].[roles] where userid=%s" % user["ID"]
-    #     return True, self.ms.execute_query(sql)
-
 
 user_objects = [
     ZxUser(i) for i in SQL_CONF.values()

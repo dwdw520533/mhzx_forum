@@ -9,7 +9,8 @@ from random import randint
 from datetime import datetime
 from mhzx.constant import SMS_TYPE_REGISTER
 from mhzx.ops.user import register_zx_user, update_zx_user_password
-from mhzx.ops.phone import send_sms_phone_code, filter_phone, generate_verify_code
+from mhzx.ops.phone import (send_sms_phone_code, filter_phone,
+                            generate_verify_code, verify_phone_code)
 
 user_view = Blueprint("user", __name__, url_prefix="", template_folder="templates")
 
@@ -78,7 +79,7 @@ def user_repass():
     if not models.User.validate_login(user['password'], nowpassword):
         raise models.GlobalApiException(code_msg.PASSWORD_ERROR)
     mongo.db.users.update({'_id': user['_id']}, {'$set': {'password': generate_password_hash(password)}})
-    update_zx_user_password(user["userid"], password)
+    update_zx_user_password(user["loginname"], password)
     return jsonify(models.R.ok())
 
 
@@ -88,13 +89,13 @@ def user_pass_forget():
         forget_form = forms.ForgetPasswordForm()
         if not forget_form.validate():
             return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(forget_form.errors)))
-        user_id = forget_form.userid.data
+        loginname = forget_form.loginname.data
         password = forget_form.password.data
         question = forget_form.question.data
         answer = forget_form.answer.data
         ver_code = forget_form.vercode.data
         utils.verify_num(ver_code)
-        user = mongo.db.users.find_one({'userid': user_id})
+        user = mongo.db.users.find_one({'loginname': loginname})
         if not user:
             return jsonify(code_msg.USER_ID_NOT_EXIST)
         if user["question"] != question:
@@ -103,7 +104,7 @@ def user_pass_forget():
             return jsonify(code_msg.ANSWER_ERROR)
         mongo.db.users.update({'_id': user['_id']}, {'$set': {
             'password': generate_password_hash(password)}})
-        update_zx_user_password(user_id, password)
+        update_zx_user_password(loginname, password)
         return jsonify(code_msg.CHANGE_PWD_SUCCESS.put('action', url_for('user.login')))
     else:
         ver_code = utils.gen_verify_num()
@@ -136,28 +137,36 @@ def user_active():
 
 @user_view.route('/reg', methods=['GET', 'POST'])
 def register():
-    if db_utils.get_option('open_user', {}).get('val') != '1':
-        abort(404)
+    # if db_utils.get_option('open_user', {}).get('val') != '1':
+    #     abort(404)
     user_form = forms.RegisterForm()
     if user_form.is_submitted():
         if not user_form.validate():
             return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(user_form.errors)))
-        utils.verify_num(user_form.vercode.data)
-        user_id = user_form.userid.data
-        user = mongo.db.users.find_one({'userid': user_id})
+        phone = user_form.phone.data
+        if not filter_phone(phone):
+            return jsonify(code_msg.SMS_PHONE_ERROR)
+        user = mongo.db.users.find_one({'phone': phone})
+        if user:
+            return jsonify(code_msg.SMS_PHONE_EXIST)
+        if not verify_phone_code(phone, user_form.vercode.data):
+            raise models.GlobalApiException(code_msg.VERIFY_CODE_ERROR)
+        loginname = user_form.loginname.data
+        password = user_form.password.data
+        user = mongo.db.users.find_one({'loginname': loginname})
         if user:
             return jsonify(code_msg.USER_ID_EXIST)
-        user_name = user_form.username.data
-        password = user_form.password.data
-        question = user_form.question.data
-        answer = user_form.answer.data
+        if not filter_phone(phone):
+            return jsonify(code_msg.SMS_PHONE_ERROR)
+        user = mongo.db.users.find_one({'phone': phone})
+        if user:
+            return jsonify(code_msg.SMS_PHONE_EXIST)
         user = dict({
             'is_active': True,
             'coin': 0,
-            'userid': user_id,
-            'username': user_name,
-            'question': question,
-            'answer': answer,
+            'phone': phone,
+            'loginname': loginname,
+            'username': user_form.username.data or loginname,
             'vip': 0,
             'reply_count': 0,
             'avatar': url_for('static', filename='images/avatar/' + str(randint(0, 12)) + '.jpg'),
@@ -165,7 +174,7 @@ def register():
             'create_at': datetime.utcnow()
         })
         mongo.db.users.insert_one(user)
-        register_zx_user(user_id, password, question, answer, "123")
+        register_zx_user(loginname, password, "123", "123", "123")
         return jsonify(code_msg.REGISTER_SUCCESS.put('action', url_for('user.login')))
     ver_code = utils.gen_verify_num()
     # session['ver_code'] = ver_code['answer']
@@ -179,7 +188,7 @@ def login():
         if not user_form.validate():
             return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(user_form.errors)))
         utils.verify_num(user_form.vercode.data)
-        user = mongo.db.users.find_one({'userid': user_form.userid.data})
+        user = mongo.db.users.find_one({'loginname': user_form.loginname.data})
         if not user:
             return jsonify(code_msg.USER_NOT_EXIST)
         if not models.User.validate_login(user['password'], user_form.password.data):
@@ -211,8 +220,11 @@ def send_verify_sms():
     sms_type = request.values.get('sms_type', SMS_TYPE_REGISTER)
     if not filter_phone(phone):
         return jsonify(code_msg.SMS_PHONE_ERROR)
-    phone_code = generate_verify_code(phone, sms_type)
-    if not phone_code:
-        return jsonify(code_msg.SMS_SEND_REPEAT)
-    send_sms_phone_code(phone_code)
+    # user = mongo.db.users.find_one({'phone': phone})
+    # if user:
+    #     return jsonify(code_msg.SMS_PHONE_EXIST)
+    # phone_code = generate_verify_code(phone, sms_type)
+    # if not phone_code:
+    #     return jsonify(code_msg.SMS_SEND_REPEAT)
+    # send_sms_phone_code(phone_code)
     return jsonify(code_msg.SMS_SEND_SUCCESS)

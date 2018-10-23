@@ -144,7 +144,7 @@ class CatalogsModelView(BaseModelView):
 
 
 class UsersForm(form.Form):
-    userid = fields.StringField('用户名', validators=[DataRequired('用户名不能为空')])
+    loginname = fields.StringField('用户名', validators=[DataRequired('用户名不能为空')])
     username = fields.StringField('昵称', validators=[DataRequired('昵称不能为空')])
     is_active = fields.BooleanField('激活状态')
     is_disabled = fields.BooleanField('禁用')
@@ -155,11 +155,12 @@ class UsersForm(form.Form):
     description = fields.TextAreaField('签名')
     city = fields.StringField('城市')
     renzheng = fields.StringField('认证信息')
-    form_columns = ('userid', 'username', 'is_active', 'is_admin', 'avatar', 'coin', 'description', 'city')
+    form_columns = ('loginname', 'username', 'is_active', 'is_admin', 'avatar', 'coin', 'description', 'city')
+
 
 class UsersModelView(BaseModelView):
-    column_list = ('userid','username', 'is_active', 'is_disabled', 'is_admin', 'vip', 'avatar', 'coin', 'description', 'city', 'renzheng')
-    column_labels = dict(userid='用户名', username='昵称', is_active='激活状态',vip='VIP等级', is_disabled='禁用', is_admin='管理员', avatar='头像', coin='金币', description='签名', city='城市', renzheng='认证信息')
+    column_list = ('loginname','username', 'is_active', 'is_disabled', 'is_admin', 'vip', 'avatar', 'coin', 'description', 'city', 'renzheng')
+    column_labels = dict(loginname='用户名', username='昵称', is_active='激活状态',vip='VIP等级', is_disabled='禁用', is_admin='管理员', avatar='头像', coin='金币', description='签名', city='城市', renzheng='认证信息')
     # column_sortable_list = 'name'
     # column_default_sort = ('name', False)
     can_create = True

@@ -11,9 +11,9 @@ def award_coin(user, object_id, award_type=AWARD_TYPE_ADD_BBS):
     if not coin:
         return
     mongo.db.users.update({"_id": user["_id"]}, {"$inc": {"coin": coin}})
-    logger.info("#award user %s coin: %s, %s", user["userid"], award_type, coin)
+    logger.info("#award user %s coin: %s, %s", user["loginname"], award_type, coin)
     record = {
-        'user_id': user['userid'],
+        'loginname': user['loginname'],
         'object_id': object_id,
         'award_type': award_type,
         'coin': coin,

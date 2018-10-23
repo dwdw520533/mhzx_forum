@@ -6,18 +6,17 @@ from mhzx import code_msg
 
 
 class RegisterForm(FlaskForm):
-    userid = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg()),
-                                            Regexp(re.compile(r"^[a-z0-9]+$"), code_msg.USER_ID_ERROR.get_msg())])
-    username = fields.StringField(validators=[DataRequired(code_msg.USERNAME_EMPTY.get_msg())])
-    question = fields.StringField(validators=[DataRequired(code_msg.QUESTION_EMPTY.get_msg())])
-    answer = fields.StringField(validators=[DataRequired(code_msg.ANSWER_EMPTY.get_msg())])
+    loginname = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg()),
+                                               Regexp(re.compile(r"^[a-z0-9]+$"), code_msg.USER_ID_ERROR.get_msg())])
+    username = fields.StringField()
     vercode = fields.StringField(validators=[InputRequired(code_msg.VERIFY_CODE_ERROR.get_msg())])
     password = fields.PasswordField(validators=[Length(min=6, max=16, message=code_msg.PASSWORD_LENGTH_ERROR.get_msg())])
     re_password = fields.PasswordField(validators=[EqualTo('password', code_msg.PASSWORD_REPEAT_ERROR.get_msg())])
+    phone = fields.StringField(validators=[DataRequired(code_msg.QUESTION_EMPTY.get_msg())])
 
 
 class LoginForm(FlaskForm):
-    userid = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg())])
+    loginname = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg())])
     vercode = fields.StringField(validators=[InputRequired(code_msg.VERIFY_CODE_ERROR.get_msg())])
     password = fields.PasswordField(validators=[DataRequired(code_msg.PASSWORD_LENGTH_ERROR.get_msg())])
 
@@ -32,14 +31,13 @@ class PostsForm(FlaskForm):
 
 
 class ForgetPasswordForm(FlaskForm):
-    userid = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg()),
-                                            Regexp(re.compile(r"^[a-z0-9]+$"), code_msg.USER_ID_ERROR.get_msg())])
-    question = fields.StringField(validators=[DataRequired(code_msg.QUESTION_EMPTY.get_msg())])
-    answer = fields.StringField(validators=[DataRequired(code_msg.ANSWER_EMPTY.get_msg())])
+    loginname = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg()),
+                                               Regexp(re.compile(r"^[a-z0-9]+$"), code_msg.USER_ID_ERROR.get_msg())])
     vercode = fields.StringField(validators=[InputRequired(code_msg.VERIFY_CODE_ERROR.get_msg())])
     password = fields.PasswordField(
         validators=[Length(min=6, max=16, message=code_msg.PASSWORD_LENGTH_ERROR.get_msg())])
     repassword = fields.PasswordField(validators=[EqualTo('password', code_msg.PASSWORD_REPEAT_ERROR.get_msg())])
+    phone = fields.StringField(validators=[DataRequired(code_msg.QUESTION_EMPTY.get_msg())])
 
 
 class ChangePassWordForm(FlaskForm):
