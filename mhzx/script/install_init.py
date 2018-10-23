@@ -11,17 +11,17 @@ def init():
         {
             'name': '网站标题',
             'code': 'title',
-            'val': '梦幻诛仙'
+            'val': '时光诛仙'
         },
         {
             'name': '网站描述',
             'code': 'description',
-            'val': '梦幻诛仙游戏论坛'
+            'val': '时光诛仙游戏论坛'
         },
         {
             'name': '网站关键字',
             'code': 'keywords',
-            'val': '诛仙 私服 诛仙私服 梦幻诛仙 辰皇 破军'
+            'val': '诛仙 私服 诛仙私服 时光诛仙 辰皇 破军'
         },
         {
             'name': '网站Logo',

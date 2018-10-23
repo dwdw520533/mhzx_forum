@@ -1,7 +1,6 @@
 from flask_mail import Mail
 from flask_admin import Admin
 from flask_login import LoginManager
-import pymongo
 from bson.objectid import ObjectId
 from flask_pymongo import PyMongo
 from mhzx.models import User
@@ -12,13 +11,11 @@ from flask_oauthlib.client import OAuth
 from mhzx.plugins import WhooshSearcher
 from whoosh.fields import Schema, TEXT, ID, DATETIME
 from jieba.analyse import ChineseAnalyzer
-#from flask_cache import Cache
-import functools
 
 # 初始化Mail
 mail = Mail()
 # 初始化Flask-Admin
-admin = Admin(name='梦幻诛仙后台管理')
+admin = Admin(name='时光诛仙后台管理')
 mongo = PyMongo()
 login_manager = LoginManager()
 login_manager.login_view = 'user.login'
