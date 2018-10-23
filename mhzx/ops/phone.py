@@ -28,18 +28,21 @@ def filter_phone(phone_number):
     return match.group() if match else None
 
 
-def generate_verify_code(phone_number, sms_type=SMS_TYPE_REGISTER):
+def generate_verify_code(phone_number, sms_type=SMS_TYPE_REGISTER, is_mock=False):
     phone_key = "phone_verify_%s_%s" % (phone_number, sms_type)
     if not cache.add(phone_key, 1, 60):
         return None
-    phone_code = PhoneCode.objects(
-        verified=None, phone_number=phone_number,
-        sms_type=sms_type).order_by("-created").first()
-    if phone_code and phone_code.created + datetime.timedelta(0, CODE_TIMEOUT) >= \
-            datetime.datetime.now():
-        code = phone_code.code
+    if is_mock:
+        code = "111111"
     else:
-        code = "%06d" % random.randint(0, 100000)
+        phone_code = PhoneCode.objects(
+            verified=None, phone_number=phone_number,
+            sms_type=sms_type).order_by("-created").first()
+        if phone_code and phone_code.created + datetime.timedelta(0, CODE_TIMEOUT) >= \
+                datetime.datetime.now():
+            code = phone_code.code
+        else:
+            code = "%06d" % random.randint(0, 100000)
     phone_code = PhoneCode.get(code=code, phone_number=phone_number)
     if not phone_code:
         phone_code = PhoneCode(code=code, phone_number=phone_number)

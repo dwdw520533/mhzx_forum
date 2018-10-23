@@ -2,6 +2,7 @@ import os
 from flask_uploads import IMAGES
 
 DEBUG = True
+IS_MOCK = True
 
 
 if DEBUG:

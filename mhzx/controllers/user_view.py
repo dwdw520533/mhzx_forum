@@ -7,6 +7,7 @@ from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash
 from random import randint
 from datetime import datetime
+from mhzx.config import IS_MOCK
 from mhzx.constant import SMS_TYPE_REGISTER
 from mhzx.ops.user import register_zx_user, update_zx_user_password
 from mhzx.ops.phone import (send_sms_phone_code, filter_phone,
@@ -217,14 +218,15 @@ def logout():
 @user_view.route('/sms', methods=['GET'])
 def send_verify_sms():
     phone = request.values.get('phone')
-    sms_type = request.values.get('sms_type', SMS_TYPE_REGISTER)
+    sms_type = int(request.values.get('sms_type', SMS_TYPE_REGISTER))
     if not filter_phone(phone):
         return jsonify(code_msg.SMS_PHONE_ERROR)
-    # user = mongo.db.users.find_one({'phone': phone})
-    # if user:
-    #     return jsonify(code_msg.SMS_PHONE_EXIST)
-    # phone_code = generate_verify_code(phone, sms_type)
-    # if not phone_code:
-    #     return jsonify(code_msg.SMS_SEND_REPEAT)
-    # send_sms_phone_code(phone_code)
+    user = mongo.db.users.find_one({'phone': phone})
+    if user:
+        return jsonify(code_msg.SMS_PHONE_EXIST)
+    phone_code = generate_verify_code(phone, sms_type, IS_MOCK)
+    if not phone_code:
+        return jsonify(code_msg.SMS_SEND_REPEAT)
+    if not IS_MOCK:
+        send_sms_phone_code(phone_code)
     return jsonify(code_msg.SMS_SEND_SUCCESS)
