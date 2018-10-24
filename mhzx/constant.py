@@ -1,10 +1,17 @@
 # 金币奖励类型
 AWARD_TYPE_ADD_BBS = "add_bbs"
 AWARD_TYPE_REPLY_BBS = "reply_bbs"
+AWARD_TYPE_DAILY_SIGN = "daily_sign"
 AWARD_COIN_NUMBER = {
     AWARD_TYPE_ADD_BBS: 1,
     AWARD_TYPE_REPLY_BBS: 1,
+    AWARD_TYPE_DAILY_SIGN: 1,
 }
+
+RESTRICT_AWARD_ONE = [
+    AWARD_TYPE_ADD_BBS,
+    AWARD_TYPE_REPLY_BBS,
+]
 
 # 短信类型
 SMS_TYPE_REGISTER = 1           # 用户注册

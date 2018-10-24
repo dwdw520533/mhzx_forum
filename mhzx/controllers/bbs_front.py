@@ -70,7 +70,6 @@ def add(post_id=None):
         post_index = posts.copy()
         post_index['catalog_id'] = str(posts['catalog_id'])
 
-        msg = '发帖成功，奖励金币+1'
         # reward = posts_form.reward.data
         if post_id:
             posts['modify_at'] = datetime.now()
@@ -87,7 +86,8 @@ def add(post_id=None):
             mongo.db.posts.save(posts)
             post_id = posts['_id']
             # 发帖奖励金币
-            award_coin(user, post_id)
+            ret = award_coin(user, post_id)
+            msg = '发帖成功，奖励金币+1' if ret else "发帖成功"
 
         # 更新索引文档
         update_index(mongo.db.posts.find_one_or_404({'_id': post_id}))

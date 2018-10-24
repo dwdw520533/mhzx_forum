@@ -7,8 +7,7 @@ from mhzx.extensions import mongo, upload_photos, whoosh_searcher
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 from datetime import datetime
-import random
-from mhzx.constant import AWARD_TYPE_REPLY_BBS
+from mhzx.constant import *
 from mhzx.ops.coin import award_coin
 
 api_view = Blueprint("api", __name__, url_prefix="", template_folder="templates")
@@ -130,8 +129,7 @@ def post_reply():
         add_message(user, render_template(
             'user_message/reply_message.html',
             post=post, user=current_user.user, comment=comment))
-        award_coin(current_user.user, comment["_id"], AWARD_TYPE_REPLY_BBS)
-        coin_msg = True
+        coin_msg = award_coin(current_user.user, comment["_id"], AWARD_TYPE_REPLY_BBS)
 
     if content.startswith('@'):
         end = content.index(' ')
@@ -232,20 +230,21 @@ def user_sign():
     user = current_user.user
     doc = {
         'user_id': user['_id'],
-        'date': date
+        'date': date,
     }
     sign_log = mongo.db['user_signs'].find_one(doc)
     if sign_log:
         return jsonify(code_msg.REPEAT_SIGNED)
     # 随机奖励
-    interval = db_utils.get_option('sign_interval', {'val': '1-100'})['val'].split('-')
-    coin = random.randint(int(interval[0]), int(interval[1]))
+    # interval = db_utils.get_option('sign_interval', {'val': '1-100'})['val'].split('-')
+    # coin = random.randint(int(interval[0]), int(interval[1]))
+    # 固定奖励
+    coin = AWARD_COIN_NUMBER.get(AWARD_TYPE_DAILY_SIGN)
     doc['coin'] = coin
-    # print(coin)
     # 插入签到记录
     mongo.db['user_signs'].insert_one(doc)
     # 增加金币
-    mongo.db.users.update({'_id': user['_id']}, {"$inc": {'coin': coin}})
+    award_coin(current_user.user, doc["_id"], AWARD_TYPE_DAILY_SIGN, coin)
     return jsonify(models.R.ok(data={'signed': True, 'coin': coin}))
 
 

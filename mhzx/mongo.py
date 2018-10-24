@@ -14,4 +14,17 @@ class PhoneCode(DynamicDocument):
     sms_type = IntField(default=1)
     verified = DateTimeField()
 
-    created = DateTimeField(required=True, default=datetime.datetime.now)
+    created = DateTimeField(default=datetime.datetime.now)
+
+
+class AwardRestrict(DynamicDocument):
+    """
+    award restrict model.
+    """
+    meta = {"db_alias": "mhzx",
+            "indexes": ["user_id", "restrict_key"]}
+
+    user_id = StringField(required=True)
+    restrict_key = StringField(required=True)
+    restrict_type = IntField(default=1)
+    created = DateTimeField(default=datetime.datetime.now)
