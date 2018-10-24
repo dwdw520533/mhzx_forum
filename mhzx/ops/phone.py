@@ -43,7 +43,7 @@ def generate_verify_code(phone_number, sms_type=SMS_TYPE_REGISTER, is_mock=False
             code = phone_code.code
         else:
             code = "%06d" % random.randint(0, 100000)
-    phone_code = PhoneCode.get(code=code, phone_number=phone_number)
+    phone_code = PhoneCode.objects(code=code, phone_number=phone_number).first()
     if not phone_code:
         phone_code = PhoneCode(code=code, phone_number=phone_number)
     phone_code.verified = None
