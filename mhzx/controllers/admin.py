@@ -5,8 +5,10 @@ from flask import redirect, url_for, request
 from flask_login import current_user
 from os import path as op
 from bson.objectid import ObjectId
+from flask_admin.contrib.mongoengine import ModelView as MeModelView
 
 file_path = op.join(op.dirname(__file__), 'static')
+
 
 class BaseModelView(ModelView):
     permission_name = ''
@@ -19,11 +21,25 @@ class BaseModelView(ModelView):
         # redirect to login page if user doesn't have access
         return redirect(url_for('user.login', next=request.url))
 
+
+class BaseMeModelView(MeModelView):
+    permission_name = ''
+
+    def is_accessible(self):
+        # return True
+        return current_user.is_authenticated and current_user.user.get('is_admin')
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        return redirect(url_for('user.login', next=request.url))
+
+
 class OptionsForm(form.Form):
     name = fields.StringField('名称')
     code = fields.StringField('代码', )
     val = fields.StringField('值')
     form_columns = ('name', 'code', 'val')
+
 
 class OptionsModelView(BaseModelView):
     column_list = ('name', 'code', 'val')
@@ -42,6 +58,7 @@ class FriendLinksForm(form.Form):
     sort = fields.IntegerField('排序', default=0)
     form_columns = ('name', 'url')
 
+
 class FriendLinksModelView(BaseModelView):
     column_list = ('url', 'name', 'sort')
     column_labels = dict(name='网站名称', url='网站链接', sort='排序')
@@ -52,11 +69,13 @@ class FriendLinksModelView(BaseModelView):
     can_edit = True
     form = FriendLinksForm
 
+
 class PassagewaysForm(form.Form):
     name = fields.StringField('名称')
     url = fields.StringField('链接')
     sort = fields.IntegerField('排序', default=0)
     form_columns = ('name', 'url')
+
 
 class PassagewaysModelView(BaseModelView):
     column_list = ('name', 'url', 'sort')
@@ -68,12 +87,14 @@ class PassagewaysModelView(BaseModelView):
     can_edit = True
     form = PassagewaysForm
 
+
 class AdsForm(form.Form):
     name = fields.StringField('名称')
     url = fields.StringField('链接')
     color = fields.StringField('颜色', default='#5FB878')
     sort = fields.IntegerField('排序', default=0)
     form_columns = ('name', 'url')
+
 
 class AdsModelView(BaseModelView):
     column_list = ('name', 'url', 'color', 'sort')
@@ -85,11 +106,13 @@ class AdsModelView(BaseModelView):
     can_edit = True
     form = AdsForm
 
+
 class FooterLinksForm(form.Form):
     name = fields.StringField('名称')
     url = fields.StringField('链接')
     sort = fields.IntegerField('排序', default=0)
     form_columns = ('name', 'url')
+
 
 class FooterLinksModelView(BaseModelView):
     column_list = ('name', 'url', 'sort')
@@ -101,12 +124,14 @@ class FooterLinksModelView(BaseModelView):
     can_edit = True
     form = FooterLinksForm
 
+
 class PagesForm(form.Form):
     name = fields.StringField('名称')
     url = fields.StringField('链接')
     sort = fields.IntegerField('排序', default=0)
     icon_code = fields.StringField('图标代码（http://www.layui.com/doc/element/icon.html）')
     form_columns = ('name', 'url', 'icon_code')
+
 
 class PagesModelView(BaseModelView):
     column_list = ( 'name', 'url', 'icon_code', 'sort')
@@ -168,6 +193,7 @@ class UsersModelView(BaseModelView):
     can_edit = True
     form = UsersForm
 
+
 class PostsForm(form.Form):
     title = fields.StringField('标题', validators=[DataRequired('标题不能为空')])
     reward = fields.IntegerField('悬赏')
@@ -176,6 +202,7 @@ class PostsForm(form.Form):
     is_cream = fields.BooleanField('加精')
     is_closed = fields.BooleanField('已结')
     form_columns = ('title','reward','comment_count', 'is_top','is_cream', 'is_closed')
+
 
 class PostsModelView(BaseModelView):
     column_list = ('title','comment_count', 'view_count', 'is_top','is_cream', 'is_closed', 'create_at', 'modify_at', 'reward')
@@ -186,7 +213,46 @@ class PostsModelView(BaseModelView):
     can_delete = True
     can_edit = False
     form = PostsForm
+
     def after_model_delete(self, model):
         from mhzx.extensions import mongo
         post_id = ObjectId(model['_id'])
         mongo.db.users.update_many({}, {'$pull': {'collections': post_id}})
+
+
+class ProductModelView(BaseMeModelView):
+    column_list = (
+        'product_code',
+        'product_name',
+        'product_type',
+        'product_image',
+        'price',
+        'price_type',
+        'item',
+        'num',
+        'limit',
+        'inventory',
+        'require_perm',
+        'content',
+        'status',
+    )
+    column_labels = dict(
+        product_code='商品编号',
+        product_name='商品名称',
+        product_type='商品类型',
+        product_image='商品图片',
+        price='商品价格',
+        price_type='价格类型',
+        item='物品ID',
+        num='物品数量',
+        limit='使用上限',
+        inventory='库存',
+        require_perm='购买权限',
+        content='商品内容',
+        status='商品状态'
+    )
+    # column_sortable_list = 'name'
+    # column_default_sort = ('name', False)
+    can_create = True
+    can_delete = True
+    can_edit = True

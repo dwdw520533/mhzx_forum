@@ -12,6 +12,7 @@ from mhzx.constant import SMS_TYPE_REGISTER
 from mhzx.ops.user import register_zx_user, update_zx_user_password
 from mhzx.ops.phone import (send_sms_phone_code, filter_phone,
                             generate_verify_code, verify_phone_code)
+from mhzx.mongo import Product
 
 user_view = Blueprint("user", __name__, url_prefix="", template_folder="templates")
 
@@ -37,6 +38,17 @@ def user_message(pn=1):
         mongo.db.users.update({'_id': user['_id']}, {'$set': {'unread': 0}})
     message_page = db_utils.get_page('messages', pn, filter1={'user_id': user['_id']}, sort_by=('_id', -1))
     return render_template('user/message.html', user_page='message', page_name='user', page=message_page)
+
+
+@user_view.route('/order')
+@user_view.route('/order/page/<int:pn>')
+@login_required
+def user_order(pn=1):
+    user = current_user.user
+    order_page = db_utils.get_page('order', pn, filter1={'user_id': str(user['_id'])}, sort_by=('_id', -1))
+    for order in order_page.result:
+        order["product"] = Product.objects(id=str(order["product"])).first().dict_data
+    return render_template('user/order.html', user_page='order', page_name='user', page=order_page)
 
 
 @user_view.route('/message/remove', methods=['POST'])
@@ -165,6 +177,8 @@ def register():
         user = dict({
             'is_active': True,
             'coin': 0,
+            'credit': 0,
+            'credit_used': 0,
             'phone': phone,
             'loginname': loginname,
             'username': user_form.username.data or loginname,
@@ -172,7 +186,8 @@ def register():
             'reply_count': 0,
             'avatar': url_for('static', filename='images/avatar/' + str(randint(0, 12)) + '.jpg'),
             'password': generate_password_hash(password),
-            'create_at': datetime.utcnow()
+            'create_at': datetime.utcnow(),
+            'perms': []
         })
         mongo.db.users.insert_one(user)
         register_zx_user(loginname, password, "123", "123", "123")

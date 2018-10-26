@@ -2,8 +2,8 @@ from werkzeug.security import generate_password_hash
 from datetime import datetime
 import pymongo
 
-client = pymongo.MongoClient(host="192.168.3.36", port=27017)
-db = client["mhzx"]
+client = pymongo.MongoClient(host="192.168.4.5", port=27017)
+db = client["pysls"]
 
 
 def init():
@@ -49,7 +49,7 @@ def init():
             'val': 'Copyright © 2018 mhzx1345.com'
         },
     ]
-    db.options.insert_many(options)
+    #db.options.insert_many(options)
     db.users.insert_one({
         'email': 'admin',
         'loginname': 'admin',

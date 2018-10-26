@@ -11,6 +11,9 @@ class ZxUser(object):
     def __init__(self, config):
         self.ms = Mysql(config)
 
+    def get_user_credit(self, uid):
+        return self.ms.first("select count(num) as credit from [dbo].[usercashnow] where ID=%s;" % uid)
+
     def get_user_by_uid(self, uid):
         return self.ms.first("select * from [dbo].[users] where ID=%s;" % uid)
 
@@ -65,17 +68,13 @@ class ZxUser(object):
         return True, None
 
 
-user_objects = [
-    ZxUser(i) for i in SQL_CONF.values()
-]
+user_sql = ZxUser(SQL_CONF)
 
 
 def register_zx_user(*args, **kwargs):
-    for user_obj in user_objects:
-        ret = user_obj.register_user(*args, **kwargs)
-        logger.info("regist zx user ret: %s", ret)
+    ret = user_sql.register_user(*args, **kwargs)
+    logger.info("regist zx user ret: %s", ret)
 
 
 def update_zx_user_password(*args, **kwargs):
-    for user_obj in user_objects:
-        user_obj.update_password(*args, **kwargs)
+    user_sql.update_password(*args, **kwargs)

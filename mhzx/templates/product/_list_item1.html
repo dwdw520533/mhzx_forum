@@ -1,0 +1,14 @@
+<li data-id="{{ item.product_code }}" class="layui-elem-field" style="margin: 10px">
+<a class="fly-case-img" href="/prod/detail/{{ item._id }}" rel="nofollow">
+<img src="{{ item.product_image }}" alt="{{ item.product_name }}">
+</a>
+ <h2>
+     <a href="/prod/detail/{{ item._id }}" rel="nofollow" style="color: #2D93CA">{{ item.product_name }}</a>
+ </h2>
+    <div class="fly-case-info"">
+        <p class="layui-elip" style="font-size: 12px;">
+            <span style="color: #cc0000;">{{ item.price }}</span>金币</p>
+        <p>已售<a class="fly-case-nums fly-case-active" href="javascript:;" data-type="showPraise" style=" padding:0 5px; color: #01AAED;">{{ item.sale_num or 0 }}</a>件</p>
+        <button class="layui-btn layui-btn-primary fly-case-active" data-type="praise" style="padding-right: 10px">立即兑换</button>
+    </div>
+</li>

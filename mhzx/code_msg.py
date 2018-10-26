@@ -5,6 +5,7 @@ from .models import R
 SERVER_ERROR = R(status=500, msg='系统错误')
 PARAM_ERROR = R(status=50001, msg='参数错误')
 VERIFY_CODE_ERROR = R(status=50002, msg='验证码错误')
+PERM_ERROR = R(status=50003, msg='对不起，您没有本次操作权限')
 
 # 权限
 USER_UN_LOGIN = R(status=403, msg='请先登录')
@@ -19,6 +20,8 @@ PASSWORD_ERROR = R(status=50101, msg='密码错误')
 USER_NOT_EXIST = R(status=50102, msg='用户不存在')
 CHANGE_PWD_FAIL = R(status=50103, msg='密码修改失败，请联系管理员')
 REPEAT_SIGNED = R(status=50105, msg='不能重复签到')
+COIN_BALANCE_NOT_ENOUGH = R(status=50110, msg='您的账户金币不足')
+CREDIT_BALANCE_NOT_ENOUGH = R(status=50110, msg='您的账户积分不足')
 
 RE_PWD_MAIL_SEND = R(status=0, msg='密码重置邮件已发送，请前往邮箱查看')
 RE_ACTIVATE_MAIL_SEND = R(status=0, msg='重新发送邮件成功, 请前往您的邮箱查看邮件激活你的账号')
@@ -62,3 +65,11 @@ SMS_PHONE_ERROR = R(status=50201, msg='手机号错误')
 SMS_PHONE_EXIST = R(status=50201, msg='手机号已被注册')
 SMS_SEND_REPEAT = R(status=50201, msg='已发送短信验证码，不允许重复发送')
 SMS_SEND_SUCCESS = R(status=0, msg='短信验证码发送成功')
+
+# 订单
+ORDER_NOT_EXIST = R(status=50301, msg='订单不存在')
+ORDER_SURPASS_LIMIT = R(status=50302, msg='您已领取过该礼包，不可再次领取')
+
+# 商品
+PRODUCT_CODE_EMPTY = R(status=50401, msg='商品编号不能为空')
+PRODUCT_NOT_EXIST = R(status=50402, msg='商品不存在')

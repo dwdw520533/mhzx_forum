@@ -1,4 +1,6 @@
 import json
+import uuid
+import base64
 import random
 from bson import ObjectId
 from mhzx import models
@@ -28,6 +30,10 @@ def gen_verify_num():
     return data
 
 
-def gen_cache_key():
-    return 'view//' + request.full_path
-
+def generate_cd_key(salt="sgzx123123", com=16, off=3):
+    user_password = uuid.uuid1().hex
+    new = base64.b64encode((user_password + salt).encode("utf-8"))
+    new = new.decode("utf-8")
+    if len(new) < com:
+        new = new.ljust(com, "a")
+    return new[off: com + off]

@@ -112,7 +112,7 @@ def update_index(post):
     post_index['content'] = post['content']
     post_index['title'] = post['title']
 
-    whoosh_searcher.update_document('posts', {'obj_id': _id}, post_index)
+    #whoosh_searcher.update_document('posts', {'obj_id': _id}, post_index)
 
 
 @bbs_index.route('/post/<ObjectId:post_id>/')

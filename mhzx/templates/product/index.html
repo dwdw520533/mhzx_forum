@@ -1,0 +1,27 @@
+{% extends 'posts_prod.html' %}
+{% import '_pagination.html' as pagination %}
+{% block content %}
+  <div class="layui-col-md8 ">
+    <div class="fly-panel" style="margin-bottom: 0;">
+      <div class="fly-panel-title fly-filter">
+        <a href="{{ url_prefix }}?sort_key={{ sort_key }}" {{ 'class=layui-this' if not post_type }}>热销商品</a>
+        <span class="fly-filter-right layui-hide-xs">
+            <a href="{{ url_prefix }}?sort_key=_id">按最新</a>
+            <span class="fly-mid"></span>
+            <a href="{{ url_prefix }}?sort_key=comment_count">按热议</a>
+          </span>
+      </div>
+
+    <div class="content" style="margin-top: 10px">
+        {% for item in page.result %}
+          {% include 'product/_list_item.html' %}
+        {% else %}
+          <div style="min-height: 60px; text-align: center; padding-top:50px; color: #999;">没有相关数据</div>
+        {% endfor %}
+    </div>
+      {% if page.total_page > 1 %}
+        {{ pagination.paginate(page, url_prefix, url_suffix) }}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

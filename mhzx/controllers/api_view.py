@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 from datetime import datetime
 from mhzx.constant import *
-from mhzx.ops.coin import award_coin
+from mhzx.ops.coin import award_coin\
 
 api_view = Blueprint("api", __name__, url_prefix="", template_folder="templates")
 
@@ -260,4 +260,3 @@ def sign_status():
         coin = sign_log.get('coin', 0)
 
     return jsonify(models.R.ok(data={'signed': signed, 'coin': coin}))
-

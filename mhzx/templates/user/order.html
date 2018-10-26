@@ -1,0 +1,74 @@
+{% extends 'user/user_base.html' %}
+{% import '_pagination.html' as pagination %}
+{% block content %}
+<div class="layui-tab layui-tab-brief" lay-filter="user" id="LAY_msg" style="margin-top: 15px;">
+<ul class="layui-tab-title" id="LAY_mine">
+  <li data-type="posts" lay-id="index" class="layui-this">已购买的商品</li>
+</ul>
+<div class="fly-panel" id="order_list">
+    <ul class="fly-list">
+        {% for item in page.result %}
+          <li>
+              <a href="/prod/detail/{{ item.product.product_id }}" class="fly-avatar">
+                <img src="{{ item.product.product_image }}" alt="{{ item.product.product_name }}">
+              </a>
+              <h2>
+                <a class="layui-badge">{{ item.product.product_type }}</a>
+                <a href="/prod/detail/{{ item.product.product_id }}">{{ item.product.product_name }}</a>
+              </h2>
+              <div class="fly-list-info" style="line-height: 30px; height: 50px;">
+                价格：<span>{{ item.price }}{{ item.product.price_type }}</span>
+                数量：<span>{{ item.num }}</span>
+                状态：<span>{{ item.status }}</span>
+                创建时间：<span>{{ item.created|mongo_date_str }}</span>
+                <button class="layui-btn fr layui-btn-sm" style="margin-right: 30px" data-key="{{ item.cd_key }}" data-method="show_cd_key">查看卡密</button>
+              </div>
+            </li>
+        {% else %}
+          <div style="min-height: 60px; text-align: center; padding-top:50px; color: #999;">您暂时没有订单信息</div>
+        {% endfor %}
+    </ul>
+    <div id="LAY_page">
+        {% if page.total_page > 1 %}
+        {% set url_prefix="/user/order" %}
+        {{ pagination.paginate(page, url_prefix, url_suffix) }}
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block other_js %}
+<script>
+layui.use('layer', function() {
+    var layer = layui.layer;
+    var active = {
+        show_cd_key: function (othis) {
+            var cd_key = othis.data("key");
+            layer.open({
+                type: 1,
+                title: "礼包CD-KEY",
+                closeBtn: false,
+                area: '300px',
+                shade: 0.8,
+                id: 'LAY_show_cd_key',
+                btn: ['立即兑换', '取消'],
+                btnAlign: 'c',
+                moveType: 1,
+                content: '<input class="layui-input-inline layui-input" type="text" value="' + cd_key + '"',
+                success: function (layero) {
+                    var btn = layero.find('.layui-layer-btn');
+                    btn.find('.layui-layer-btn0').attr({
+                        href: 'http://www.layui.com/'
+                        , target: '_blank'
+                    });
+                }
+            });
+        }
+    }
+    layui.jquery('#order_list .layui-btn').on('click', function(){
+    var othis = layui.jquery(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+  });
+})
+</script>
+{% endblock %}

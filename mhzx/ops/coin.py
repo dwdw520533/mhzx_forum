@@ -44,14 +44,41 @@ def award_coin(user, object_id, award_type=AWARD_TYPE_ADD_BBS, coin=None):
     return True
 
 
-def recharge_coin(user, coin):
-    if not coin:
-        return True
+def add_credit(user, credit=None):
+    if not credit:
+        return False
+    mongo.db.users.update({"_id": user["_id"]}, {"$inc": {"credit": credit}})
+    logger.info("#add user %s credit: %s", user["loginname"], credit)
+    record = {
+        'loginname': user['loginname'],
+        'object_id': "",
+        'award_type': "",
+        'credit': credit,
+        'create_at': datetime.datetime.utcnow()
+    }
+    mongo.db.award_record.insert_one(record)
+    return True
+
+
+def recharge_coin(user, amount):
+    if not amount:
+        raise ValueError("amount value not allow empty!")
     balance = user.get("coin", 0)
     if balance < 0:
         mongo.db.users.update({"_id": user["_id"]}, {"coin": 0})
         balance = 0
-    if not (balance > 0 and coin <= balance):
+    if not (balance > 0 and amount <= balance):
         return False
-    mongo.db.users.update({"_id": user["_id"]}, {"$inc": {"coin": -coin}})
+    mongo.db.users.update({"_id": user["_id"]}, {"$inc": {"coin": -amount}})
+    return True
+
+
+def recharge_credit(user, amount):
+    if not amount:
+        raise ValueError("amount value not allow empty!")
+    balance = user.get("credit_balance", 0)
+    if not (balance and amount <= balance):
+        return False
+    mongo.db.users.update({"_id": user["_id"]}, {
+        "$inc": {"credit_used": amount}})
     return True

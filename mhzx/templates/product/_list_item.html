@@ -1,0 +1,24 @@
+<a href="/prod/detail/{{ item._id }}" class="list-item">
+    <div class="imgLeft">
+        <span>
+            <img src="{{ item.product_image }}" alt="{{ item.product_name }}" style="width: 100%;">
+        </span>
+    </div>
+    <div class="dataRight">
+        <div class="title clear">
+            <h3 class="ellipsis">
+                {{ item.product_name }}
+            </h3>
+            <span class="view-count"><label></label>{{ item.view_count }}</span>
+        </div>
+        <div class="score-show2">
+            <span class="gold">{{ item.price }}{{ item.price_type }}</span>
+        </div>
+        <p class="introduce">中国电信5元话费。</p>
+    </div>
+    <div class="list-bottom clear">
+        <label>{{ item.product_type }}</label>
+        <label>已售{{ item.sale_num or 0 }}件</label>
+        <span class="duihuan layui-btn btn fr">我要兑换</span>
+    </div>
+</a>

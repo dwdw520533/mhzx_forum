@@ -3,6 +3,7 @@ from .user_view import user_view
 from .post_collection import post_collection
 from .api_view import api_view
 from .exception_view import exception_view
+from .product_view import product_view
 # 蓝本默认配置
 DEFAULT_BLUEPRINT = (
     # (蓝本，前缀)
@@ -11,6 +12,7 @@ DEFAULT_BLUEPRINT = (
     (post_collection, '/collection'),
     (api_view, '/api'),
     (exception_view, '/error'),
+    (product_view, '/prod'),
 )
 
 

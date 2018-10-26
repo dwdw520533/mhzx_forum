@@ -1,0 +1,57 @@
+{% extends 'posts_prod.html' %}
+{% import '_pagination.html' as pagination %}
+{% block content %}
+    <div class="layui-col-md8 ">
+    <div class="showleft fl fly-panel content">
+<div class="data clear" id="div_detail" data-code="{{ order.product_code }}">
+    <div class="img fl">
+        <img src="{{ order.product_image }}">
+    </div>
+    <div class="dataList fl">
+        <div class="clear">
+            <h3 class="fl">{{ order.product_name }}</h3>
+            <span class="fr view-count" style="margin-right: 10px"><label></label>{{ order.view_count or 0 }}</span>
+        </div>
+
+        <p>
+            类别：<label>{{ order.product_type }}</label>
+            <label>已售{{ order.sale_num or 0 }}件</label>
+
+        </p>
+        <p>
+            价格：<span class="gold">{{ order.price }}{{ order.price_type }}</span>
+
+        </p>
+        <p>
+            库存：<span class="layui-badge-rim">{{ order.inventory or 0 }} 件</span>
+        </p>
+        {% if current_user.is_authenticated %}
+            <p>
+            金币：<span>{{ current_user.user.coin or 0 }}</span>
+            积分：<span>{{ current_user.user.credit or 0 }}</span>
+            <span class="duihuan layui-btn btn fr" id="exchange">我要兑换</span>
+        </p>
+        {% endif %}
+
+    </div>
+</div>
+    <div class="detaltext">
+    <h3><label></label>金币积分</h3>
+    <div class="imgbox">
+        <p>金币：在论坛内参与发帖及回帖，以及每日签到。</p>
+        <p>积分：玩家在游戏内充值累积元宝金额会自动转换为积分。</p>
+    </div>
+</div>
+<div class="detaltext">
+    <h3><label></label>详情介绍</h3>
+    <div class="imgbox">
+        <p>{{ order.content }}</p>
+    </div>
+</div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block other_js %}
+<script src="/static/mods/exchange.js"></script>
+{% endblock %}
