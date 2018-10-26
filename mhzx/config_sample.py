@@ -37,16 +37,14 @@ class Config:
 
 
 SQL_CONF = {
-    "zztx_1345": {
-        "host": SQL_HOST,
-        "port": 1989,
-        "user": "sa",
-        "password": "123456",
-        "database": "wm",
-        "timeout": 10,
-        "login_timeout": 5,
-        "charset": "utf8"
-    }
+    "host": SQL_HOST,
+    "port": 1989,
+    "user": "sa",
+    "password": "123456",
+    "database": "wm",
+    "timeout": 10,
+    "login_timeout": 5,
+    "charset": "utf8"
 }
 
 
