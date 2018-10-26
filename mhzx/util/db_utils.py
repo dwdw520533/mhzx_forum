@@ -15,6 +15,11 @@ def get_option(name, default=None):
     return mongo.db.options.find_one({'code': name}) or default
 
 
+def get_option_val(name, default=None):
+    ret = mongo.db.options.find_one({'code': name}) or {}
+    return ret.get("val", default)
+
+
 def get_page(collection_name, pn=1, size=10, sort_by=None, filter1=None):
     _process_filter(filter1)
     if size <= 0:

@@ -62,7 +62,7 @@ UPLOAD_UN_ALLOWED = R(status=50001, msg='不支持的文件格式')
 
 # 短信
 SMS_PHONE_ERROR = R(status=50201, msg='手机号错误')
-SMS_PHONE_EXIST = R(status=50201, msg='手机号已被注册')
+SMS_PHONE_LIMIT = R(status=50201, msg='手机号注册用户数已达上限')
 SMS_SEND_REPEAT = R(status=50201, msg='已发送短信验证码，不允许重复发送')
 SMS_SEND_SUCCESS = R(status=0, msg='短信验证码发送成功')
 

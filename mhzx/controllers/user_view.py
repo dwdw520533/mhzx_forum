@@ -150,8 +150,8 @@ def user_active():
 
 @user_view.route('/reg', methods=['GET', 'POST'])
 def register():
-    # if db_utils.get_option('open_user', {}).get('val') != '1':
-    #     abort(404)
+    if db_utils.get_option('open_user', {}).get('val') != '1':
+        abort(404)
     user_form = forms.RegisterForm()
     if user_form.is_submitted():
         if not user_form.validate():
@@ -159,9 +159,10 @@ def register():
         phone = user_form.phone.data
         if not filter_phone(phone):
             return jsonify(code_msg.SMS_PHONE_ERROR)
-        user = mongo.db.users.find_one({'phone': phone})
-        if user:
-            return jsonify(code_msg.SMS_PHONE_EXIST)
+        user_list = mongo.db.users.find({'phone': phone})
+        reg_limit = int(db_utils.get_option_val('phone_register_limit', 0))
+        if len(user_list) >= reg_limit:
+            return jsonify(code_msg.SMS_PHONE_LIMIT)
         if not verify_phone_code(phone, user_form.vercode.data):
             raise models.GlobalApiException(code_msg.VERIFY_CODE_ERROR)
         loginname = user_form.loginname.data
@@ -171,9 +172,6 @@ def register():
             return jsonify(code_msg.USER_ID_EXIST)
         if not filter_phone(phone):
             return jsonify(code_msg.SMS_PHONE_ERROR)
-        user = mongo.db.users.find_one({'phone': phone})
-        if user:
-            return jsonify(code_msg.SMS_PHONE_EXIST)
         user = dict({
             'is_active': True,
             'coin': 0,
@@ -236,9 +234,10 @@ def send_verify_sms():
     sms_type = int(request.values.get('sms_type', SMS_TYPE_REGISTER))
     if not filter_phone(phone):
         return jsonify(code_msg.SMS_PHONE_ERROR)
-    user = mongo.db.users.find_one({'phone': phone})
-    if user:
-        return jsonify(code_msg.SMS_PHONE_EXIST)
+    user_list = mongo.db.users.find({'phone': phone})
+    reg_limit = int(db_utils.get_option_val('phone_register_limit', 0))
+    if len(user_list) >= reg_limit:
+        return jsonify(code_msg.SMS_PHONE_LIMIT)
     phone_code = generate_verify_code(phone, sms_type, IS_MOCK)
     if not phone_code:
         return jsonify(code_msg.SMS_SEND_REPEAT)

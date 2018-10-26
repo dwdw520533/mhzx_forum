@@ -1,9 +1,10 @@
-from werkzeug.security import generate_password_hash
-from datetime import datetime
 import pymongo
+from datetime import datetime
+from werkzeug.security import generate_password_hash
+from mhzx.config import MONGO
 
-client = pymongo.MongoClient(host="192.168.4.5", port=27017)
-db = client["pysls"]
+client = pymongo.MongoClient(host=MONGO["mhzx"]["host"], port=27017)
+db = client[MONGO["mhzx"]["name"]]
 
 
 def init():
@@ -48,8 +49,13 @@ def init():
             'code': 'footer',
             'val': 'Copyright © 2018 mhzx1345.com'
         },
+        {
+            'name': '手机号允许注册用户数限制',
+            'code': 'phone_register_limit',
+            'val': '2'
+        },
     ]
-    #db.options.insert_many(options)
+    db.options.insert_many(options)
     db.users.insert_one({
         'email': 'admin',
         'loginname': 'admin',
