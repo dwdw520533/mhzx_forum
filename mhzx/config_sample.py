@@ -54,8 +54,19 @@ ALIYUN_ACCESS_SECRET = "cXg0iumlpoANhyKoPHyf23YqHdgjY0"
 MONGO = {
     'mhzx': {
         'name': 'mhzx',
-        'host': '127.0.0.1',
+        'host': SQL_HOST,
         'port': 27017
+    }
+}
+
+ZONE_SSH = {
+    "1": {
+        "name": "征战天下",
+        "code": "1",
+        "host": SQL_HOST,
+        "port": 22,
+        "user": "root",
+        "password": "123456"
     }
 }
 
