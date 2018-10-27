@@ -1875,10 +1875,6 @@ p {
         min-width: 320px;
     }
 
-    .layui-nav {
-        display: none;
-    }
-
     .jump {
         display: none;
     }
