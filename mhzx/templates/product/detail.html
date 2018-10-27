@@ -28,7 +28,7 @@
             <p>
             {% if current_user.is_authenticated %}
                 金币：<span>{{ current_user.user.coin or 0 }}</span>
-                积分：<span>{{ current_user.user.credit or 0 }}</span>
+                积分：<span>{{ current_user.user.credit_balance or 0 }}</span>
             {% endif %}
             <span class="duihuan layui-btn btn fr" id="exchange">我要兑换</span>
         </p>

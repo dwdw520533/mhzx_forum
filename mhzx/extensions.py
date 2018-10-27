@@ -45,13 +45,17 @@ def get_user_credit_balance(user):
     return balance
 
 
-@cached(lambda x: "cache_refresh_user_data_%s" % str(x._id), timeout=600)
+@cached(lambda x: "cache_refresh_user_data_%s" % str(["_id"]), timeout=600)
 def refresh_user_data(user):
-    ret = user_sql.get_user_credit(user["game_user_id"])
-    credit = ret.get("credit", 0) if ret else 0
-    user["credit"] = credit
-    user["credit_balance"] = get_user_credit_balance(user)
-    mongo.db.users.update({"_id": user["_id"]}, {'$set': {"credit": credit}})
+    try:
+        ret = user_sql.get_user_credit(user["game_user_id"])
+        credit = ret.get("credit", 0) if ret else 0
+        user["credit"] = credit
+        user["credit_balance"] = get_user_credit_balance(user)
+        mongo.db.users.update({"_id": user["_id"]}, {'$set': {"credit": credit}})
+    except KeyError:
+        user["credit"] = 0
+        user["credit_balance"] = 0
 
 
 @login_manager.user_loader
@@ -59,7 +63,7 @@ def load_user(user_id):
     u = mongo.db.users.find_one({'_id': ObjectId(user_id)})
     if not u:
         return None
-    #refresh_user_data(u)
+    refresh_user_data(u)
     return User(u)
 
 
