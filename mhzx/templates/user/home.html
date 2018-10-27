@@ -33,7 +33,9 @@
     <p class="fly-home-info">
       <i class="iconfont icon-jifen" title="金币"></i><span style="color: #FF7200;">{{ user.get('coin', 0) }} 金币</span>
       <i class="iconfont icon-renzhengv" title="积分"></i><span style="color: #cc0000;">{{ user.get('credit_balance', 0) }} 积分</span>
-      <i class="iconfont icon-shijian"></i><span>{{ user.get('create_at')|mongo_date_str or '时间保密 ' }} 加入</span>
+    </p>
+    <p class="fly-home-info">
+        <i class="iconfont icon-shijian"></i><span>{{ user.get('create_at')|mongo_date_str or '时间保密 ' }} 加入</span>
       <i class="iconfont icon-chengshi"></i><span>来自{{ user.get('city') or '保密的火星' }}</span>
     </p>
 
