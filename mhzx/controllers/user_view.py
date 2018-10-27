@@ -180,6 +180,7 @@ def register():
             'coin': 0,
             'credit': 0,
             'credit_used': 0,
+            'credit_balance': 0,
             'game_user_id': game_user["ID"],
             'phone': phone,
             'loginname': loginname,
