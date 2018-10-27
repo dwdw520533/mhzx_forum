@@ -82,3 +82,5 @@ VIP_CREDIT = [
     (80000, 7),
     (150000, 8),
 ]
+
+SIGN_RANK_LIMIT = 10

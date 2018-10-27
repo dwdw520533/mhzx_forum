@@ -398,11 +398,11 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
   //签到活跃榜
   var tplSigninTop = ['{{# layui.each(d.data, function(index, item){ }}'
     ,'<li>'
-      ,'<a href="/u/{{item.uid}}" target="_blank">'
+      ,'<a href="/user/{{item.user_id}}" target="_blank">'
         ,'<img src="{{item.user.avatar}}">'
         ,'<cite class="fly-link">{{item.user.username}}</cite>'
       ,'</a>'
-      ,'{{# var date = new Date(item.time); if(d.index < 2){ }}'
+      ,'{{# var date = new Date(item.created); if(d.index < 2){ }}'
         ,'<span class="fly-grey">签到于 {{ layui.laytpl.digit(date.getHours()) + ":" + layui.laytpl.digit(date.getMinutes()) + ":" + layui.laytpl.digit(date.getSeconds()) }}</span>'
       ,'{{# } else { }}'
         ,'<span class="fly-grey">已连续签到 <i>{{ item.days }}</i> 天</span>'
@@ -419,7 +419,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
 
   elemSigninTop.on('click', function(){
     var loadIndex = layer.load(1, {shade: 0.8});
-    fly.json('../json/signin.js', function(res){ //实际使用，请将 url 改为真实接口
+    fly.json('/api/sign/rank', function(res){ //实际使用，请将 url 改为真实接口
       var tpl = $(['<div class="layui-tab layui-tab-brief" style="margin: 5px 0 0;">'
         ,'<ul class="layui-tab-title">'
           ,'<li class="layui-this">最新签到</li>'

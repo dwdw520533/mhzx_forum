@@ -10,11 +10,12 @@ from datetime import datetime
 from mhzx.constant import *
 from mhzx.ops.coin import award_coin
 from mhzx import forms
-from mhzx.config import ZONE_SSH
+from mhzx.config import ZONE_SSH, SIGN_RANK_LIMIT
 from mhzx.ops.game import query_user_roles
 from mhzx.ops.user import user_sql
-from mhzx.mongo import Order, Product
+from mhzx.mongo import Order
 from mhzx.ops.mail import MailSend
+from mhzx.util.utils import format_data
 
 api_view = Blueprint("api", __name__, url_prefix="", template_folder="templates")
 
@@ -237,6 +238,7 @@ def user_sign():
     doc = {
         'user_id': user['_id'],
         'date': date,
+        'created': datetime.utcnow(),
     }
     sign_log = mongo.db['user_signs'].find_one(doc)
     if sign_log:
@@ -266,6 +268,42 @@ def sign_status():
         coin = sign_log.get('coin', 0)
 
     return jsonify(models.R.ok(data={'signed': signed, 'coin': coin}))
+
+
+@api_view.route('/sign/rank', methods=['GET'])
+def sign_rank_list():
+    now = datetime.now()
+    limit, _date = SIGN_RANK_LIMIT, datetime(now.year, now.month, now.day)
+    rank_recent = list(mongo.db['user_signs'].find().sort([("_id", -1)]).limit(limit))
+    rank_quick = list(mongo.db['user_signs'].find({"created": {
+        "$gte": _date}}).sort([("_id", 1)]).limit(limit))
+    rank_count = list(mongo.db['user_signs'].aggregate([
+        {"$limit": limit},
+        {"$group": {"_id": "$user_id", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}}
+    ]))
+    user_ids = set()
+    for i in rank_recent:
+        user_ids.add(i["user_id"])
+    for i in rank_quick:
+        user_ids.add(i["user_id"])
+    for i in rank_count:
+        i["user_id"] = i["_id"]
+        i["days"] = i["count"]
+        user_ids.add(i["user_id"])
+    user_dict = {i["_id"]: i for i in mongo.db['users'].find({'_id': {"$in": list(user_ids)}})}
+
+    def _wrap_data(data):
+        if "created" not in data:
+            data["created"] = datetime.now()
+        data["user"] = user_dict.get(data['user_id'])
+    list(map(_wrap_data, rank_recent))
+    list(map(_wrap_data, rank_quick))
+    list(map(_wrap_data, rank_count))
+    return jsonify(models.R.ok(data=[
+        format_data(rank_recent),
+        format_data(rank_quick),
+        format_data(rank_count)]))
 
 
 @api_view.route('/roles', methods=['POST'])
