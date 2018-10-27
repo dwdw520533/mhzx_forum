@@ -3,6 +3,14 @@ from mongoengine import *
 from mhzx.constant import *
 
 
+class NewObjectMixin(object):
+    @classmethod
+    def create_new(cls, **kwargs):
+        obj = cls(**kwargs)
+        obj.save()
+        return obj
+
+
 class PhoneCode(DynamicDocument):
     """
     Telephone verification code.
@@ -69,6 +77,7 @@ class Product(DynamicDocument):
             "product_image": self.product_image,
             "inventory": self.inventory,
             "sale_num": self.sale_num,
+            "view_count": self.view_count,
             "price": self.price,
             "price_type": self.price_type,
             "content": self.content,
@@ -100,4 +109,27 @@ class Order(DynamicDocument):
             "user_id": self.user_id,
             "cd_key": self.cd_key,
             "product": self.product.dict_data
+        }
+
+
+class UserRole(DynamicDocument, NewObjectMixin):
+    """
+    user role model.
+    """
+    meta = {"db_alias": "mhzx",
+            "indexes": ["login_name", "game_user_id", "created"]}
+
+    login_name = StringField(required=True)
+    role_id = IntField(required=True)
+    game_user_id = IntField()
+    role_name = StringField()
+
+    created = DateTimeField(default=datetime.datetime.now)
+    lut = DateTimeField(default=datetime.datetime.now)
+
+    @property
+    def dict_data(self):
+        return {
+            "role_id": self.role_id,
+            "role_name": self.role_name
         }

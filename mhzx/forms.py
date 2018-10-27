@@ -45,3 +45,10 @@ class ChangePassWordForm(FlaskForm):
     password = fields.PasswordField(
         validators=[Length(min=6, max=16, message=code_msg.PASSWORD_LENGTH_ERROR.get_msg())])
     repassword = fields.PasswordField(validators=[EqualTo('password', code_msg.PASSWORD_REPEAT_ERROR.get_msg())])
+
+
+class ExchangeForm(FlaskForm):
+    zone_id = fields.StringField(validators=[InputRequired(code_msg.ZONE_EMPTY.get_msg())])
+    login_name = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg())])
+    cd_key = fields.StringField(validators=[InputRequired(code_msg.CD_KEY_EMPTY.get_msg())])
+    role_id = fields.IntegerField(validators=[InputRequired(code_msg.ROLE_EMPTY.get_msg())])

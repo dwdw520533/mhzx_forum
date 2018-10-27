@@ -8,7 +8,13 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 from datetime import datetime
 from mhzx.constant import *
-from mhzx.ops.coin import award_coin\
+from mhzx.ops.coin import award_coin
+from mhzx import forms
+from mhzx.config import ZONE_SSH
+from mhzx.ops.game import query_user_roles
+from mhzx.ops.user import user_sql
+from mhzx.mongo import Order, Product
+from mhzx.ops.mail import MailSend
 
 api_view = Blueprint("api", __name__, url_prefix="", template_folder="templates")
 
@@ -260,3 +266,55 @@ def sign_status():
         coin = sign_log.get('coin', 0)
 
     return jsonify(models.R.ok(data={'signed': signed, 'coin': coin}))
+
+
+@api_view.route('/roles', methods=['POST'])
+def query_role_list():
+    zone_id = str(request.values.get('zone_id'))
+    if zone_id not in ZONE_SSH:
+        raise models.GlobalApiException(code_msg.PARAM_ERROR)
+    login_name = request.values.get('login_name')
+    user = mongo.db.users.find_one({'loginname': login_name})
+    if not user:
+        return jsonify(code_msg.USER_NOT_EXIST)
+    game_user = user_sql.get_user_by_name(login_name)
+    if not game_user:
+        return jsonify(code_msg.GAME_USER_NOT_EXIST)
+    flag, user_roles = query_user_roles(zone_id, user)
+    if not flag:
+        return jsonify(models.R(status=50001, msg=user_roles))
+    if not user_roles:
+        return jsonify(code_msg.ROLE_NOT_EXIST)
+    return jsonify(models.R.ok(data=user_roles))
+
+
+@api_view.route('/exchange', methods=['POST'])
+def exchange_order():
+    exchange_form = forms.ExchangeForm()
+    if not exchange_form.validate():
+        return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(exchange_form.errors)))
+    login_name = exchange_form.login_name.data
+    zone_id = exchange_form.zone_id.data
+    cd_key = exchange_form.cd_key.data
+    role_id = exchange_form.role_id.data
+    if zone_id not in ZONE_SSH:
+        raise models.GlobalApiException(code_msg.PARAM_ERROR)
+    user = mongo.db.users.find_one({'loginname': login_name})
+    if not user:
+        return jsonify(code_msg.USER_NOT_EXIST)
+    order = Order.objects(cd_key=cd_key).first()
+    if not order:
+        return jsonify(code_msg.ORDER_NOT_EXIST)
+    if order.product.status != PRODUCT_STATUS_NORMAL:
+        # 商品下架 订单处理无效
+        order.status = ORDER_STATUS_CANCEL
+        order.save()
+        return jsonify(code_msg.PRODUCT_OUT)
+    if order.status != ORDER_STATUS_INIT:
+        return jsonify(code_msg.ORDER_EXCHANGE_INVALID)
+    MailSend().send(role_id, order.product.item, order.product.num,
+                    order.product.title, order.product.text)
+    # 物品发送成功，订单已使用
+    order.status = ORDER_STATUS_USED
+    order.save()
+    return jsonify(code_msg.ORDER_EXCHANGE_SUCCESS)

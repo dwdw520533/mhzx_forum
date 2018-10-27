@@ -58,3 +58,5 @@ MONGO = {
         'port': 27017
     }
 }
+
+GAME_EMAIL_SERVER = (SQL_HOST, 29100)

@@ -65,7 +65,7 @@ def recharge_coin(user, amount):
         raise ValueError("amount value not allow empty!")
     balance = user.get("coin", 0)
     if balance < 0:
-        mongo.db.users.update({"_id": user["_id"]}, {"coin": 0})
+        mongo.db.users.update({"_id": user["_id"]}, {'$set': {"coin": 0}})
         balance = 0
     if not (balance > 0 and amount <= balance):
         return False

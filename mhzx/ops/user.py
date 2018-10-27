@@ -34,7 +34,7 @@ class ZxUser(object):
     def register_user(self, name, passwd, question, answer, qq):
         user = self.get_user_by_name(name)
         if user:
-            return False, "用户名已存在"
+            return True, user
         latest_id = self.get_latest_user_id()
         if not latest_id:
             latest_id = 1
@@ -74,6 +74,7 @@ user_sql = ZxUser(SQL_CONF)
 def register_zx_user(*args, **kwargs):
     ret = user_sql.register_user(*args, **kwargs)
     logger.info("regist zx user ret: %s", ret)
+    return ret
 
 
 def update_zx_user_password(*args, **kwargs):

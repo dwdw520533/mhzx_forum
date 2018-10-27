@@ -69,7 +69,11 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
         data: data,
         url: url,
         success: function(res){
-          if(res.status === 0) {
+          if (res.status === 302) {
+            layer.msg(res.msg);
+            location.href = "/user/login?next=" + url;
+          }
+          else if(res.status === 0) {
             success && success(res);
           } else {
             layer.msg(res.msg || res.code, {shift: 6});

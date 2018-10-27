@@ -2,9 +2,10 @@ import json
 import uuid
 import base64
 import random
+import xml.etree.cElementTree as ET
 from bson import ObjectId
 from mhzx import models
-from flask import session, request
+from flask import session
 
 
 class JSONEncoder(json.JSONEncoder):

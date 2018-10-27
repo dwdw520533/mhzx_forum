@@ -9,6 +9,7 @@ import pymongo
 from datetime import datetime
 from whoosh import sorting, qparser
 from mhzx.ops.coin import award_coin
+from mhzx.config import ZONE_SSH
 
 
 bbs_index = Blueprint("index", __name__, url_prefix="", template_folder="templates")
@@ -184,3 +185,10 @@ def refresh_indexes():
     writer.commit()
     return ''
 
+
+@bbs_index.route('/exchange')
+def exchange_page():
+    cd_key = request.values.get("cd_key")
+    return render_template("exchange.html",
+                           zone_list=list(ZONE_SSH.values()),
+                           cd_key=cd_key)

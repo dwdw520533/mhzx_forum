@@ -1,7 +1,7 @@
 # 官方邮件
 EMAIL_TITLE = "官方"
 EMAIL_TEXT = "这是您在官方论坛领取的奖励，请查收！"
-PRODUCT_IMAGE = "static/images/weixin.jpg"
+PRODUCT_IMAGE = "/static/images/weixin.jpg"
 # 金币奖励类型
 AWARD_TYPE_ADD_BBS = "add_bbs"
 AWARD_TYPE_REPLY_BBS = "reply_bbs"

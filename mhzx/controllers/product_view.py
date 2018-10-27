@@ -25,10 +25,9 @@ def product_detail(product_id, pn=1):
     product = Product.objects(id=product_id).first()
     if not product:
         abort(404)
-    product.view_count = product.view_count or 0 + 1
+    product.view_count = (product.view_count or 0) + 1
     product.save()
     post = product.dict_data
-
     # page = db_utils.get_page('comments', pn=pn, size=10,
     #                          filter1={'product_code': product_code},
     #                          sort_by=('is_adopted', -1))
@@ -38,8 +37,9 @@ def product_detail(product_id, pn=1):
 
 @product_view.route('/order', methods=['POST'])
 @product_view.route('/order/<ObjectId:order_id>', methods=['GET'])
-@login_required
 def get_create_order(order_id=None):
+    if not current_user.is_authenticated:
+        raise models.GlobalApiException(code_msg.USER_NO_LOGIN)
     if request.method == 'GET':
         order = Order.objects(id=order_id).first()
         if not order:

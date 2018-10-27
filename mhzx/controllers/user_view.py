@@ -159,9 +159,9 @@ def register():
         phone = user_form.phone.data
         if not filter_phone(phone):
             return jsonify(code_msg.SMS_PHONE_ERROR)
-        user_list = mongo.db.users.find({'phone': phone})
+        user_count = mongo.db.users.find({'phone': phone}).count()
         reg_limit = int(db_utils.get_option_val('phone_register_limit', 0))
-        if len(user_list) >= reg_limit:
+        if user_count >= reg_limit:
             return jsonify(code_msg.SMS_PHONE_LIMIT)
         if not verify_phone_code(phone, user_form.vercode.data):
             raise models.GlobalApiException(code_msg.VERIFY_CODE_ERROR)
@@ -172,11 +172,15 @@ def register():
             return jsonify(code_msg.USER_ID_EXIST)
         if not filter_phone(phone):
             return jsonify(code_msg.SMS_PHONE_ERROR)
+        flag, game_user = register_zx_user(loginname, password, "123", "123", "123")
+        if not flag:
+            return jsonify(code_msg.USER_GAME_CREATE_ERROR)
         user = dict({
             'is_active': True,
             'coin': 0,
             'credit': 0,
             'credit_used': 0,
+            'game_user_id': game_user["ID"],
             'phone': phone,
             'loginname': loginname,
             'username': user_form.username.data or loginname,
@@ -188,7 +192,6 @@ def register():
             'perms': []
         })
         mongo.db.users.insert_one(user)
-        register_zx_user(loginname, password, "123", "123", "123")
         return jsonify(code_msg.REGISTER_SUCCESS.put('action', url_for('user.login')))
     ver_code = utils.gen_verify_num()
     # session['ver_code'] = ver_code['answer']
@@ -234,9 +237,9 @@ def send_verify_sms():
     sms_type = int(request.values.get('sms_type', SMS_TYPE_REGISTER))
     if not filter_phone(phone):
         return jsonify(code_msg.SMS_PHONE_ERROR)
-    user_list = mongo.db.users.find({'phone': phone})
+    user_count = mongo.db.users.find({'phone': phone}).count()
     reg_limit = int(db_utils.get_option_val('phone_register_limit', 0))
-    if len(user_list) >= reg_limit:
+    if user_count >= reg_limit:
         return jsonify(code_msg.SMS_PHONE_LIMIT)
     phone_code = generate_verify_code(phone, sms_type, IS_MOCK)
     if not phone_code:

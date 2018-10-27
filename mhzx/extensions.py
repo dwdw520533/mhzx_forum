@@ -40,7 +40,7 @@ whoosh_searcher = WhooshSearcher()
 def get_user_credit_balance(user):
     balance = user.get("credit", 0) - user.get("credit_used", 0)
     if balance < 0:
-        mongo.db.users.update({"_id": user["_id"]}, {"coin": 0})
+        mongo.db.users.update({"_id": user["_id"]}, {'$set': {"coin": 0}})
         balance = 0
     return balance
 
@@ -51,7 +51,7 @@ def refresh_user_data(user):
     credit = ret.get("credit", 0) if ret else 0
     user["credit"] = credit
     user["credit_balance"] = get_user_credit_balance(user)
-    mongo.db.users.update({"_id": user["_id"]}, {"credit": credit})
+    mongo.db.users.update({"_id": user["_id"]}, {'$set': {"credit": credit}})
 
 
 @login_manager.user_loader

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="layui-container fly-marginTop">
+  <div class="fly-panel fly-panel-user" pad20>
+    <div class="layui-tab layui-tab-brief" lay-filter="user">
+      <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+        <div class="layui-tab-item layui-show">
+          <div class="layui-form layui-form-pane">
+            <form method="post" action="/api/exchange">
+              <div class="layui-form-item">
+                <label for="L_zone_id" class="layui-form-label">选择分区</label>
+                <div class="layui-input-inline">
+                    <select id="L_zone_id" name="zone_id" lay-verify="required">
+                     {% for item in zone_list %}
+                         <option value="{{ item.code }}">{{ item.name }}</option>
+                     {% else %}
+                        <option value="">暂无分区数据</option>
+                     {% endfor %}
+                    </select>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_login_name" class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="L_login_name" name="login_name" required lay-verify="required" autocomplete="off" class="layui-input" value="{{ current_user.user.loginname if current_user.is_authenticated else "" }}">
+                </div>
+                  <div class="layui-input-inline">
+                  <span class="layui-btn layui-btn-primary" id="query_role">查询角色</span>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_role_id" class="layui-form-label">选择角色</label>
+                <div class="layui-input-inline">
+                    <select name="role_id" id="L_role_id" lay-verify="required">
+                        <option value="">暂无数据</option>
+                    </select>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_cd_key" class="layui-form-label">CD-KEY</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="L_cd_key" name="cd_key" required lay-verify="required" autocomplete="off" class="layui-input" value="{{ cd_key or "" }}">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <button class="layui-btn" lay-filter="*" alert="true" lay-submit>立即兑换</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block other_js %}
+<script src="/static/mods/exchange.js"></script>
+{% endblock %}

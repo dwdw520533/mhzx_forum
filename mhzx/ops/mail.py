@@ -1,8 +1,8 @@
 # coding:utf-8
 import re
-import conf
 import socket
 from binascii import hexlify, unhexlify
+from mhzx.config import GAME_EMAIL_SERVER
 
 PROTECT_VALUE = {
     0: "00:00",
@@ -67,7 +67,7 @@ class MailSend(object):
         hex_str = self.get_hex(receiver, item, number, title, text, protect)
         print(hex_str)
         sc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sc.connect(conf.MAIL_SERVER)
+        sc.connect(GAME_EMAIL_SERVER)
         bf = hex_str.split(":")
         sc.sendall(unhexlify("".join(bf)))
         data = sc.recv(1024)

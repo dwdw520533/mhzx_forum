@@ -55,6 +55,8 @@ def init():
             'val': '2'
         },
     ]
+    db.options.drop()
+    db.users.drop()
     db.options.insert_many(options)
     db.users.insert_one({
         'email': 'admin',
