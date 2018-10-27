@@ -40,12 +40,13 @@ whoosh_searcher = WhooshSearcher()
 def get_user_credit_balance(user):
     balance = user.get("credit", 0) - user.get("credit_used", 0)
     if balance < 0:
-        mongo.db.users.update({"_id": user["_id"]}, {'$set': {"coin": 0}})
+        mongo.db.users.update({"_id": user["_id"]}, {
+            '$set': {"credit_used": user.get("credit", 0)}})
         balance = 0
     return balance
 
 
-@cached(lambda x: "cache_refresh_user_data_%s" % str(["_id"]), timeout=600)
+@cached(lambda x: "cache_refresh_user_data_%s" % str(x["_id"]), timeout=600)
 def refresh_user_data(user):
     try:
         ret = user_sql.get_user_credit(user["game_user_id"])
