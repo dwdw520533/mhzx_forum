@@ -128,14 +128,16 @@ class FooterLinksModelView(BaseModelView):
 class PagesForm(form.Form):
     name = fields.StringField('名称')
     url = fields.StringField('链接')
+    blank = fields.BooleanField(default=False)
     sort = fields.IntegerField('排序', default=0)
     icon_code = fields.StringField('图标代码（http://www.layui.com/doc/element/icon.html）')
     form_columns = ('name', 'url', 'icon_code')
 
 
 class PagesModelView(BaseModelView):
-    column_list = ( 'name', 'url', 'icon_code', 'sort')
-    column_labels = dict(name='名称', url='链接', icon_code='图标代码', sort='排序')
+    column_list = ('name', 'url', 'icon_code', 'blank', 'sort')
+    column_labels = dict(name='名称', url='链接', icon_code='图标代码',
+                         blank='打开新页面', sort='排序')
     column_sortable_list = 'name'
     column_default_sort = ('name', False)
     can_create = True
