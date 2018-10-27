@@ -28,7 +28,7 @@ class CommandClient(object):
 
 
 def query_user_game_data(cmd_client, user):
-    exe_cmd = "/root/gamedbd/gamedbd /root/gamedbd/gamesys.conf exportuser " + str(user["game_user_id"])
+    exe_cmd = "cd /root/gamedbd;./gamedbd gamesys.conf exportuser " + str(user["game_user_id"])
     content = cmd_client.ssh_cmd(exe_cmd).decode('gbk')
     if not content or content.startswith("err") or "NOTFOUND" in content:
         return None
@@ -37,7 +37,7 @@ def query_user_game_data(cmd_client, user):
 
 
 def query_game_role_by_id(cmd_client, role_id):
-    exe_cmd = "/root/gamedbd/gamedbd /root/gamedbd/gamesys.conf query " + str(role_id)
+    exe_cmd = "cd /root/gamedbd;./gamedbd gamesys.conf query " + str(role_id)
     content = cmd_client.ssh_cmd(exe_cmd).decode('gbk')
     if not content or content.startswith("err") or "NOTFOUND" in content:
         return {}
