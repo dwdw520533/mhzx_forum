@@ -15,6 +15,7 @@ from whoosh.fields import Schema, TEXT, ID, DATETIME
 #from jieba.analyse import ChineseAnalyzer
 from mhzx.util import cached
 from mhzx.ops.user import user_sql
+from mhzx.config import VIP_CREDIT
 
 # 初始化Mail
 mail = Mail()
@@ -51,12 +52,17 @@ def refresh_user_data(user):
     try:
         ret = user_sql.get_user_credit(user["game_user_id"])
         credit = ret.get("credit", 0) if ret else 0
-        user["credit"] = credit
+        vip, user["credit"] = 0, credit
         credit_balance = get_user_credit_balance(user)
         user["credit_balance"] = credit_balance
         print("#refresh user:", user)
+        for num, v in sorted(VIP_CREDIT, reverse=True):
+            if credit < num:
+                continue
+            vip = v
+            break
         mongo.db.users.update({"_id": user["_id"]}, {
-            '$set': {"credit": credit,
+            '$set': {"credit": credit, "vip": vip,
                      "credit_balance": credit_balance}})
     except KeyError:
         user["credit"] = 0
