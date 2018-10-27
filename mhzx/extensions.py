@@ -47,7 +47,7 @@ def get_user_credit_balance(user):
 
 @cached(lambda x: "cache_refresh_user_data_%s" % str(x._id), timeout=600)
 def refresh_user_data(user):
-    ret = user_sql(user["loginname"])
+    ret = user_sql.get_user_credit(user["game_user_id"])
     credit = ret.get("credit", 0) if ret else 0
     user["credit"] = credit
     user["credit_balance"] = get_user_credit_balance(user)
