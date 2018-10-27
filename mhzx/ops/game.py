@@ -22,7 +22,8 @@ class CommandClient(object):
         stdin, stdout, stderr = s.exec_command(exe_cmd)
         content = stdout.read()
         s.close()
-        print(content)
+        print("#cmd:", exe_cmd)
+        print("#ret:", content)
         return content
 
 
