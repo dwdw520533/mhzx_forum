@@ -12,7 +12,7 @@ class ZxUser(object):
         self.ms = Mysql(config)
 
     def get_user_credit(self, uid):
-        return self.ms.first("select count(cash)/100 as credit from [dbo].[usecashlog] where userid=%s;" % uid)
+        return self.ms.first("select count(cash)/100 as credit from [dbo].[usecashlog] where status=4 and userid=%s;" % uid)
 
     def get_user_by_uid(self, uid):
         return self.ms.first("select * from [dbo].[users] where ID=%s;" % uid)
