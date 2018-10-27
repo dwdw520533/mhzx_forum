@@ -7,14 +7,14 @@ IS_MOCK = True
 
 if DEBUG:
     SQL_HOST = "127.0.0.1"
-    MONGO_URI = "mongodb://127.0.0.1:27017/mhzx"
+    MONGO_HOST = "127.0.0.1"
 else:
     SQL_HOST = "172.31.187.199"
-    MONGO_URI = "mongodb://127.0.0.1:27017/mhzx"
+    MONGO_HOST = "127.0.0.1"
 
 
 class Config:
-    MONGO_URI = MONGO_URI
+    MONGO_URI = "mongodb://%s:27017/mhzx" % MONGO_HOST
     MAIL_SERVER = 'smtp.163.com'
     MAIL_PROT = 465
     MAIL_USE_TLS = True
@@ -54,7 +54,7 @@ ALIYUN_ACCESS_SECRET = "cXg0iumlpoANhyKoPHyf23YqHdgjY0"
 MONGO = {
     'mhzx': {
         'name': 'mhzx',
-        'host': SQL_HOST,
+        'host': MONGO_HOST,
         'port': 27017
     }
 }
