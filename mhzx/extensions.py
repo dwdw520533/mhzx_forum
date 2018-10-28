@@ -51,7 +51,7 @@ def get_user_credit_balance(user):
 def refresh_user_data(user):
     try:
         ret = user_sql.get_user_credit(user["game_user_id"])
-        credit = ret.get("credit", 0) if ret else 0
+        credit = ret.get("credit") or 0 if ret else 0
         vip, user["credit"] = 0, credit
         credit_balance = get_user_credit_balance(user)
         user["credit_balance"] = credit_balance
