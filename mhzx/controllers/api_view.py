@@ -293,13 +293,23 @@ def sign_rank_list():
         user_ids.add(i["user_id"])
     user_dict = {i["_id"]: i for i in mongo.db['users'].find({'_id': {"$in": list(user_ids)}})}
 
-    def _wrap_data(data):
-        if "created" not in data:
-            data["created"] = datetime.now()
-        data["user"] = user_dict.get(data['user_id'])
-    list(map(_wrap_data, rank_recent))
-    list(map(_wrap_data, rank_quick))
-    list(map(_wrap_data, rank_count))
+    def _wrap_data_list(data_list):
+        ret = []
+        for data in data_list:
+            user = user_dict.get(data['user_id'])
+            if not user:
+                continue
+            if "created" not in data:
+                data["created"] = datetime.now()
+            data["user"] = {
+                "avatar": user["avatar"],
+                "username": user["username"],
+            }
+            ret.append(data)
+        return ret
+    rank_recent = _wrap_data_list(rank_recent)
+    rank_quick = _wrap_data_list(rank_quick)
+    rank_count = _wrap_data_list(rank_count)
     return jsonify(models.R.ok(data=[
         format_data(rank_recent),
         format_data(rank_quick),
