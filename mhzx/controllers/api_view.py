@@ -355,4 +355,4 @@ def exchange_order():
     # 物品发送成功，订单已使用
     order.status = ORDER_STATUS_USED
     order.save()
-    return jsonify(code_msg.ORDER_EXCHANGE_SUCCESS)
+    return jsonify(code_msg.ORDER_EXCHANGE_SUCCESS.put('action', url_for('index.exchange_page')))
