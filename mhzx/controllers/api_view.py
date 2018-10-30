@@ -16,6 +16,7 @@ from mhzx.ops.user import user_sql
 from mhzx.mongo import Order
 from mhzx.ops.mail import MailSend
 from mhzx.util.utils import format_data
+from mhzx.util.date import strftime
 
 api_view = Blueprint("api", __name__, url_prefix="", template_folder="templates")
 
@@ -301,6 +302,7 @@ def sign_rank_list():
                 continue
             if "created" not in data:
                 data["created"] = datetime.now()
+            data["created_slice"] = strftime(data["created"], "%H:%M:%S")
             data["user"] = {
                 "avatar": user["avatar"],
                 "username": user["username"],
