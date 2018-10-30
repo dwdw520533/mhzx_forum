@@ -76,8 +76,9 @@ SMS_SEND_SUCCESS = R(status=0, msg='短信验证码发送成功')
 
 # 订单
 ORDER_NOT_EXIST = R(status=50301, msg='订单不存在')
-ORDER_SURPASS_LIMIT = R(status=50302, msg='您已领取过该礼包，不可再次领取')
-ORDER_EXCHANGE_INVALID = R(status=50303, msg='商品已兑换，无法重复使用')
+ORDER_SURPASS_LIMIT = R(status=50302, msg='您已领取过该礼包')
+ORDER_SURPASS_DAY_LIMIT = R(status=50303, msg='您当日已领取过该礼包')
+ORDER_EXCHANGE_INVALID = R(status=50304, msg='商品已兑换，无法重复使用')
 ORDER_EXCHANGE_SUCCESS = R(status=0, msg='兑换成功，请前往邮件邮箱收取!')
 
 # 商品

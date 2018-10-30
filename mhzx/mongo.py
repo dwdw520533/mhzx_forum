@@ -58,6 +58,7 @@ class Product(DynamicDocument):
     title = StringField(default=EMAIL_TITLE)
     text = StringField(default=EMAIL_TEXT)
     limit = IntField(default=1)
+    limit_type = StringField(default=LIMIT_TYPE_ONCE)
     inventory = IntField(default=9999)
     require_perm = StringField()
     sale_num = IntField(default=0)

@@ -6,6 +6,7 @@ from mhzx.mongo import Product, Order
 from mhzx.constant import *
 from mhzx.ops import coin
 from mhzx.util import cache_lock
+from datetime import datetime
 
 product_view = Blueprint("prod", __name__, url_prefix="", template_folder="templates")
 
@@ -52,12 +53,20 @@ def get_create_order(order_id=None):
             product_code = request.values.get('product_code')
             num = int(request.values.get('num', 1))
             product = Product.objects(product_code=product_code).first()
-            history_orders = Order.objects(user_id=user_id, product=product,
-                                           status__in=ORDER_STATUS_VALID)
             if product.inventory < num:
                 return jsonify(code_msg.PRODUCT_INVENTORY_EMPTY)
-            if product.limit and len(history_orders) >= product.limit:
-                return jsonify(code_msg.ORDER_SURPASS_LIMIT)
+            if product.limit:
+                params, msg = {}, code_msg.ORDER_SURPASS_LIMIT
+                if product.limit_type == LIMIT_TYPE_DAY:
+                    now = datetime.now()
+                    params = dict(created__gte=datetime(
+                        now.year, now.month, now.day))
+                    msg = code_msg.ORDER_SURPASS_DAY_LIMIT
+                history_orders = Order.objects(
+                    user_id=user_id, product=product,
+                    status__in=ORDER_STATUS_VALID, **params)
+                if len(history_orders) >= product.limit:
+                    return jsonify(msg)
             if product.require_perm and product.require_perm not in user.perms:
                 raise models.GlobalApiException(code_msg.PERM_ERROR)
             if product.price_type == PRICE_TYPE_COIN:

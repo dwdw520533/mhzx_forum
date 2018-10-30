@@ -45,3 +45,7 @@ PERM_USER_GIFT_PROMO = "perm_promo"
 # 金额类型
 PRICE_TYPE_COIN = "金币"
 PRICE_TYPE_CREDIT = "积分"
+
+# 产品限制类型
+LIMIT_TYPE_ONCE = "once"
+LIMIT_TYPE_DAY = "day"
