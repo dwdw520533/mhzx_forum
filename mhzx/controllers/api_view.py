@@ -360,7 +360,8 @@ def exchange_order():
         return jsonify(code_msg.PRODUCT_OUT)
     if order.status != ORDER_STATUS_INIT:
         return jsonify(code_msg.ORDER_EXCHANGE_INVALID)
-    MailSend().send(role_id, order.product.item, order.product.num,
+    MailSend().send(role_id, order.product.item,
+                    order.product.num * order.num,
                     order.product.title, order.product.text)
     # 物品发送成功，订单已使用
     order.status = ORDER_STATUS_USED

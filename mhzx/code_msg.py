@@ -83,4 +83,5 @@ ORDER_EXCHANGE_SUCCESS = R(status=0, msg='兑换成功，请前往邮件邮箱�
 # 商品
 PRODUCT_CODE_EMPTY = R(status=50401, msg='商品编号不能为空')
 PRODUCT_NOT_EXIST = R(status=50402, msg='商品不存在')
-PRODUCT_OUT = R(status=50403, msg='商品已下架')
+PRODUCT_INVENTORY_EMPTY = R(status=50403, msg='商品库存不足')
+PRODUCT_OUT = R(status=50404, msg='商品已下架')

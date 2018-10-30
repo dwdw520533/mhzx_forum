@@ -1,5 +1,6 @@
-from mhzx.util.db_utils import get_list,get_option,get_page, find_one
 from datetime import datetime, timedelta
+from mhzx.util.db_utils import get_list, get_option, get_page, find_one
+
 
 def utc2local(utc_st):
     now_stamp = datetime.now().timestamp()
@@ -9,10 +10,12 @@ def utc2local(utc_st):
     local_st = utc_st + offset
     return local_st
 
+
 def mongo_date_str(date):
     if not date:
         return ''
     return utc2local(date).strftime('%Y-%m-%d %H:%M')
+
 
 def date_cal(d1, num, is_add=True):
     delta = timedelta(num)
@@ -21,8 +24,10 @@ def date_cal(d1, num, is_add=True):
     else:
         return d1 - delta
 
+
 def init_func(app):
     app.add_template_global(get_option, 'get_option')
+    app.add_template_global(min, 'min')
     app.add_template_global(get_page, 'get_page')
     app.add_template_global(get_list, 'get_list')
     app.add_template_global(datetime.now, 'now')

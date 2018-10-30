@@ -17,9 +17,9 @@ layui.use(['laypage', 'fly', 'element', 'flow', 'form'], function(){
   $('#exchange').on('click', function(){
       layer.confirm('您确认购买该商品？', function(index){
         layer.close(index);
-        var product_code = $("#div_detail").data("code");
         fly.json('/prod/order', {
-                "product_code": product_code
+                "num": $("#L_num").val(),
+                "product_code": $("#div_detail").data("code")
             }, function(res){
               if(res.status === 0){
                   layer.alert("购买成功，请前往已购商品查看订单信息");

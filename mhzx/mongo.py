@@ -80,6 +80,7 @@ class Product(DynamicDocument):
             "sale_num": self.sale_num,
             "view_count": self.view_count,
             "price": self.price,
+            "limit": self.limit,
             "price_type": self.price_type,
             "content": self.content,
             "status": self.status

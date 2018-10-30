@@ -50,9 +50,12 @@ def get_create_order(order_id=None):
         user_id = str(user['_id'])
         with cache_lock("user_create_order_%s" % user_id):
             product_code = request.values.get('product_code')
+            num = int(request.values.get('num', 1))
             product = Product.objects(product_code=product_code).first()
             history_orders = Order.objects(user_id=user_id, product=product,
                                            status__in=ORDER_STATUS_VALID)
+            if product.inventory < num:
+                return jsonify(code_msg.PRODUCT_INVENTORY_EMPTY)
             if product.limit and len(history_orders) >= product.limit:
                 return jsonify(code_msg.ORDER_SURPASS_LIMIT)
             if product.require_perm and product.require_perm not in user.perms:
@@ -63,14 +66,14 @@ def get_create_order(order_id=None):
             else:
                 recharge_handler = coin.recharge_credit
                 not_enough_msg = code_msg.CREDIT_BALANCE_NOT_ENOUGH
-            result = recharge_handler(user, product.price)
+            result = recharge_handler(user, product.price * num)
             if not result:
                 return jsonify(not_enough_msg)
             order = Order(user_id=user_id, product=product,
                           cd_key=utils.generate_cd_key(),
-                          price=product.price)
+                          num=num, price=product.price)
             order.save()
-            product.sale_num += 1
-            product.inventory -= 1
+            product.sale_num += num
+            product.inventory -= num
             product.save()
             return jsonify(models.R.ok(data=order.dict_data).put('action', url_for('user.user_order')))

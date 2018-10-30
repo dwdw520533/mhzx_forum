@@ -25,11 +25,17 @@
         <p>
             库存：<span class="layui-badge-rim">{{ order.inventory or 0 }} 件</span>
         </p>
-            <p>
+        <p>
             {% if current_user.is_authenticated %}
                 金币：<span>{{ current_user.user.coin or 0 }}</span>
                 积分：<span>{{ current_user.user.credit_balance or 0 }}</span>
             {% endif %}
+                选择数量：
+                <select id="L_num" name="num">
+                     {% for item in range(min(order.limit,10)) %}
+                         <option value="{{ item+1 }}">{{ item+1 }}</option>
+                     {% endfor %}
+                </select>
             <span class="duihuan layui-btn btn fr" id="exchange">我要兑换</span>
         </p>
     </div>
