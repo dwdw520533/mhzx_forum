@@ -18,7 +18,7 @@
         <i class="layui-badge fly-badge-vip">VIP{{ item_user.vip }}</i>
       {% endif %}
     </a>
-    <span>{{ item.create_at|mongo_date_str }}</span>
+    <span class="layui-hide-xs">{{ item.create_at|mongo_date_str }}</span>
 {#    <span class="fly-list-kiss layui-hide-xs" title="悬赏金币"><i class="iconfont icon-jifen"></i>{{ item.get('reward', 0) }}</span>#}
 {#    {% if item.is_closed %}#}
 {#      <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>#}
