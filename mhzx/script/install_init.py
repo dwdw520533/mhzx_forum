@@ -69,7 +69,7 @@ def init():
         'coin': 99999,
         'avatar': '/static/images/avatar/1.jpg',
         'is_active': True,
-        'create_at': datetime.utcnow(),
+        'create_at': datetime.now(),
     })
 
 

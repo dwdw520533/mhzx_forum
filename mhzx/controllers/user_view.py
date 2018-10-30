@@ -189,7 +189,7 @@ def register():
             'reply_count': 0,
             'avatar': url_for('static', filename='images/avatar/' + str(randint(0, 12)) + '.jpg'),
             'password': generate_password_hash(password),
-            'create_at': datetime.utcnow(),
+            'create_at': datetime.now(),
             'perms': []
         })
         mongo.db.users.insert_one(user)

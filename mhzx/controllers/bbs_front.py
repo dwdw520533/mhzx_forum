@@ -78,7 +78,7 @@ def add(post_id=None):
             msg = '修改成功'
 
         else:
-            posts['create_at'] = datetime.utcnow()
+            posts['create_at'] = datetime.now()
             posts['reward'] = 0
             posts['user_id'] = user['_id']
             # 扣除用户发帖悬赏

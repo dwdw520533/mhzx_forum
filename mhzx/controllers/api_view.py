@@ -27,7 +27,7 @@ def add_message(user, content):
         message = {
             'user_id': user['_id'],
             'content': content,
-            'create_at': datetime.utcnow()
+            'create_at': datetime.now()
         }
         mongo.db.messages.insert_one(message)
         mongo.db.users.update({'_id': user['_id']}, {'$inc': {'unread': 1}})
@@ -121,7 +121,7 @@ def post_reply():
         'content': content,
         'post_id': post_id,
         'user_id': user['_id'],
-        'create_at': datetime.utcnow(),
+        'create_at': datetime.now(),
     }
 
     # 保存评论
@@ -234,12 +234,12 @@ def post_list(pn=1):
 @api_view.route('/sign', methods=['POST'])
 @login_required
 def user_sign():
-    date = datetime.utcnow().strftime('%Y-%m-%d')
+    date = datetime.now().strftime('%Y-%m-%d')
     user = current_user.user
     doc = {
         'user_id': user['_id'],
         'date': date,
-        'created': datetime.utcnow(),
+        'created': datetime.now(),
     }
     sign_log = mongo.db['user_signs'].find_one(doc)
     if sign_log:
@@ -261,7 +261,7 @@ def user_sign():
 @login_required
 def sign_status():
     user = current_user.user
-    sign_log = mongo.db['user_signs'].find_one({'user_id': user['_id'], 'date': datetime.utcnow().strftime('%Y-%m-%d')})
+    sign_log = mongo.db['user_signs'].find_one({'user_id': user['_id'], 'date': datetime.now().strftime('%Y-%m-%d')})
     signed = False
     coin = 0
     if sign_log:
