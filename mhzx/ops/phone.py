@@ -28,8 +28,8 @@ def filter_phone(phone_number):
     return match.group() if match else None
 
 
-def generate_verify_code(phone_number, sms_type=SMS_TYPE_REGISTER, is_mock=False):
-    phone_key = "phone_verify_%s_%s" % (phone_number, sms_type)
+def generate_verify_code(login_name, phone_number, sms_type=SMS_TYPE_REGISTER, is_mock=False):
+    phone_key = "phone_verify_%s_%s_%s" % (login_name, phone_number, sms_type)
     if not cache.add(phone_key, 1, 60):
         return None
     if is_mock:
@@ -37,15 +37,18 @@ def generate_verify_code(phone_number, sms_type=SMS_TYPE_REGISTER, is_mock=False
     else:
         phone_code = PhoneCode.objects(
             verified=None, phone_number=phone_number,
-            sms_type=sms_type).order_by("-created").first()
+            login_name=login_name, sms_type=sms_type)\
+            .order_by("-created").first()
         if phone_code and phone_code.created + datetime.timedelta(0, CODE_TIMEOUT) >= \
                 datetime.datetime.now():
             code = phone_code.code
         else:
             code = "%06d" % random.randint(0, 100000)
-    phone_code = PhoneCode.objects(code=code, phone_number=phone_number).first()
+    phone_code = PhoneCode.objects(code=code, login_name=login_name,
+                                   phone_number=phone_number).first()
     if not phone_code:
-        phone_code = PhoneCode(code=code, phone_number=phone_number)
+        phone_code = PhoneCode(code=code, login_name=login_name,
+                               phone_number=phone_number)
     phone_code.verified = None
     phone_code.sms_type = sms_type
     phone_code.save()
@@ -60,8 +63,9 @@ def send_sms_phone_code(phone_code):
     print("Send verify code %s to %s" % (phone_code.code, phone_code.phone_number))
 
 
-def verify_phone_code(phone_number, code, sms_type=SMS_TYPE_REGISTER):
+def verify_phone_code(login_name, phone_number, code, sms_type=SMS_TYPE_REGISTER):
     phone_code = PhoneCode.objects(code=code, sms_type=sms_type,
+                                   login_name=login_name,
                                    phone_number=phone_number).first()
     if not phone_code:
         return None

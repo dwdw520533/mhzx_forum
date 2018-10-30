@@ -37,11 +37,16 @@ layui.define(['laypage', 'fly', 'element', 'flow'], function(exports){
 
   $('#vercodesend').on('click', function(){
       var phone = $("#L_phone").val();
+      var loginname = $("#L_loginname").val();
         if (phone === "") {
             layer.msg("手机号未填写");
             return false;
         }
-        fly.json('/user/sms?sms_type=2&phone=' + phone,
+        if (loginname === "") {
+            layer.msg("用户名未填写");
+            return false;
+        }
+        fly.json('/user/sms?sms_type=2&phone=' + phone + '&loginname=' + loginname,
             {}, function(res){
           if(res.status === 0){
               set_time($('#vercodesend'));

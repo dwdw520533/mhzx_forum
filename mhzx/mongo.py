@@ -18,6 +18,7 @@ class PhoneCode(DynamicDocument):
     meta = {"db_alias": "mhzx",
             "indexes": ["code", "phone_number"]}
 
+    login_name = StringField(required=True)
     phone_number = StringField(required=True)
     code = StringField(required=True)
     sms_type = IntField(default=1)

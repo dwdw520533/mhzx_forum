@@ -161,12 +161,12 @@ def register():
             return jsonify(code_msg.SMS_PHONE_ERROR)
         user_count = mongo.db.users.find({'phone': phone}).count()
         reg_limit = int(db_utils.get_option_val('phone_register_limit', 0))
-        if user_count >= reg_limit:
+        if reg_limit and user_count >= reg_limit:
             return jsonify(code_msg.SMS_PHONE_LIMIT)
-        if not verify_phone_code(phone, user_form.vercode.data):
-            raise models.GlobalApiException(code_msg.VERIFY_CODE_ERROR)
         loginname = user_form.loginname.data
         password = user_form.password.data
+        if not verify_phone_code(loginname, phone, user_form.vercode.data):
+            raise models.GlobalApiException(code_msg.VERIFY_CODE_ERROR)
         user = mongo.db.users.find_one({'loginname': loginname})
         if user:
             return jsonify(code_msg.USER_ID_EXIST)
@@ -235,14 +235,18 @@ def logout():
 @user_view.route('/sms', methods=['GET'])
 def send_verify_sms():
     phone = request.values.get('phone')
+    login_name = request.values.get('loginname')
     sms_type = int(request.values.get('sms_type', SMS_TYPE_REGISTER))
     if not filter_phone(phone):
         return jsonify(code_msg.SMS_PHONE_ERROR)
+    user = mongo.db.users.find_one({'loginname': login_name})
+    if user:
+        return jsonify(code_msg.USER_ID_EXIST)
     user_count = mongo.db.users.find({'phone': phone}).count()
     reg_limit = int(db_utils.get_option_val('phone_register_limit', 0))
-    if user_count >= reg_limit:
+    if reg_limit and user_count >= reg_limit:
         return jsonify(code_msg.SMS_PHONE_LIMIT)
-    phone_code = generate_verify_code(phone, sms_type, IS_MOCK)
+    phone_code = generate_verify_code(login_name, phone, sms_type, IS_MOCK)
     if not phone_code:
         return jsonify(code_msg.SMS_SEND_REPEAT)
     if not IS_MOCK:
