@@ -33,7 +33,7 @@
         </p>
         <p>
             选择数量：
-                <select id="L_num" name="num">
+                <select id="L_num" name="num" style="width: 50px">
                      {% for item in range(min(order.limit,10) or 1) %}
                          <option value="{{ item+1 }}">{{ item+1 }}</option>
                      {% endfor %}
