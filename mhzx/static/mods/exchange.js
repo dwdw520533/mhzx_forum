@@ -15,8 +15,8 @@ layui.use(['laypage', 'fly', 'element', 'flow', 'form'], function(){
   var fly = layui.fly;
 
   $('#exchange').on('click', function(){
-      layer.confirm('您确认购买该商品？', function(index){
-        layer.close(index);
+      layer.confirm('您确认购买该商品？', function(){
+        var index = layer.load();
         fly.json('/prod/order', {
                 "num": $("#L_num").val(),
                 "product_code": $("#div_detail").data("code")
@@ -24,7 +24,9 @@ layui.use(['laypage', 'fly', 'element', 'flow', 'form'], function(){
               if(res.status === 0){
                   layer.alert("购买成功，请前往已购商品查看订单信息");
               }
-            }, {});
+            }, {}, function () {
+                layer.close(index);
+            });
           });
       });
 
@@ -36,6 +38,7 @@ layui.use(['laypage', 'fly', 'element', 'flow', 'form'], function(){
             layer.msg("请输入用户名");
             return false;
         }
+        var index = layer.load();
     fly.json('/api/roles', {
         "zone_id": zone_id,
         "login_name": login_name
@@ -53,6 +56,8 @@ layui.use(['laypage', 'fly', 'element', 'flow', 'form'], function(){
           $("#L_role_id").html(html);
           form.render("select");
       }
-    }, {});
+    }, {}, function () {
+        layer.close(index);
+    });
   });
 });

@@ -52,7 +52,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
   var fly = {
 
     //Ajax
-    json: function(url, data, success, options){
+    json: function(url, data, success, options, cb){
       var that = this, type = typeof data === 'function';
       
       if(type){
@@ -69,6 +69,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
         data: data,
         url: url,
         success: function(res){
+          cb && cb();
           if (res.status === 302) {
             layer.msg(res.msg);
             location.href = "/user/login?next=" + url;
@@ -82,6 +83,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
         }, error: function(e){
           layer.msg('请求异常，请重试', {shift: 6});
           options.error && options.error(e);
+          cb && cb();
         }
       });
     }
