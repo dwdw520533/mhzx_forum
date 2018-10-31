@@ -16,9 +16,17 @@ product_view = Blueprint("prod", __name__, url_prefix="", template_folder="templ
 @product_view.route('/page/<int:pn>')
 def show_product(pn=1):
     sort_key = request.values.get('sort_key', '_id')
-    product_page = db_utils.get_page('product', pn, filter1={'status': PRODUCT_STATUS_NORMAL}, sort_by=(sort_key, -1))
-    return render_template('product/index.html', user_page='product', page_name='user', page=product_page,
-                           sort_key=sort_key)
+    coin_page = db_utils.get_page('product', pn, filter1={
+        'status': PRODUCT_STATUS_NORMAL,
+        'price_type': PRICE_TYPE_COIN
+    }, sort_by=(sort_key, -1))
+    credit_page = db_utils.get_page('product', pn, filter1={
+        'status': PRODUCT_STATUS_NORMAL,
+        'price_type': PRICE_TYPE_CREDIT
+    }, sort_by=(sort_key, -1))
+    return render_template('product/index.html', user_page='product',
+                           page_name='user', coin_page=coin_page,
+                           credit_page=credit_page, sort_key=sort_key)
 
 
 @product_view.route('/detail/<ObjectId:product_id>')
