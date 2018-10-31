@@ -10,6 +10,7 @@ from datetime import datetime
 from whoosh import sorting, qparser
 from mhzx.ops.coin import award_coin
 from mhzx.config import ZONE_SSH
+from mhzx.util.web import is_mobile
 
 
 bbs_index = Blueprint("index", __name__, url_prefix="", template_folder="templates")
@@ -38,10 +39,14 @@ def index(pn=1, size=10, catalog_id=None):
         filter1['is_cream'] = True
     if catalog_id:
         filter1['catalog_id'] = catalog_id
+    if is_mobile(request):
+        base_template = 'posts_mob.html'
+    else:
+        base_template = 'posts.html'
     page = db_utils.get_page('posts', pn=pn, filter1=filter1, size=size, sort_by=sort_by)
-    # print(page)
     return render_template("post_list.html", is_index=catalog_id is None, page=page, sort_key=sort_key
-                           , catalog_id=catalog_id, post_type=post_type)
+                           , catalog_id=catalog_id, post_type=post_type,
+                           base_template=base_template)
 
 
 @bbs_index.route('/add', methods=['GET', 'POST'])
