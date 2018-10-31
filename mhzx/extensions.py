@@ -64,6 +64,7 @@ def refresh_user_data(user):
         mongo.db.users.update({"_id": user["_id"]}, {
             '$set': {"credit": credit, "vip": vip,
                      "credit_balance": credit_balance}})
+        user["sign_days"] = mongo.db['user_signs'].find({'user_id': user['_id']}).count()
     except KeyError:
         user["credit"] = 0
         user["credit_balance"] = 0
