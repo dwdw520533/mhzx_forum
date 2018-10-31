@@ -83,6 +83,17 @@
           {#        </li>#}
         {% endif %}
       {% endif %}
+
+      <li class="layui-nav-item layui-hide-md">
+          <a class="fly-nav-avatar" href="javascript:;" style="margin-bottom: -8px">
+              <i class="layui-icon" style="font-size: 30px;">&#xe671;</i>
+          </a>
+          <dl class="layui-nav-child">
+            {% for item in get_list('pages', sort_by=('sort', -1)) %}
+                <dd><a href="{{ item.url }}">{{ item.name }} <i class="layui-icon">{{ item.icon_code|safe }}</i></a></dd>
+            {% endfor %}
+          </dl>
+        </li>
     </ul>
   </div>
 </div>
