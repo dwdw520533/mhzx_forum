@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, url_for, redirect, abort
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import current_user
 from mhzx import models, code_msg
 from mhzx.util import db_utils, utils
 from mhzx.mongo import Product, Order
@@ -7,6 +7,7 @@ from mhzx.constant import *
 from mhzx.ops import coin
 from mhzx.util import cache_lock
 from datetime import datetime
+from mhzx.util.web import is_mobile
 
 product_view = Blueprint("prod", __name__, url_prefix="", template_folder="templates")
 
@@ -32,7 +33,11 @@ def product_detail(product_id, pn=1):
     # page = db_utils.get_page('comments', pn=pn, size=10,
     #                          filter1={'product_code': product_code},
     #                          sort_by=('is_adopted', -1))
-    return render_template('product/detail.html', user_page='product_detail',
+    if is_mobile(request):
+        template = 'product/detail_mob.html'
+    else:
+        template = 'product/detail.html'
+    return render_template(template, user_page='product_detail',
                            order=post, page_name='user')
 
 

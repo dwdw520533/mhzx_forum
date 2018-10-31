@@ -17,11 +17,11 @@
                 <a href="/prod/detail/{{ item.product.product_id }}">{{ item.product.product_name }}</a>
               </h2>
               <div class="fly-list-info" style="line-height: 30px; height: 50px;">
-                价格：<span>{{ item.price }}{{ item.product.price_type }}</span>
-                数量：<span>{{ item.num }}</span>
-                状态：<span>{{ item.status }}</span>
-                创建时间：<span>{{ item.created|mongo_date_str }}</span>
-                <button class="layui-btn fr layui-btn-sm" style="margin-right: 30px" data-key="{{ item.cd_key }}" data-method="show_cd_key">查看卡密</button>
+                <span>价格：{{ item.price }}{{ item.product.price_type }}</span>
+                <span class="layui-hide-xs">数量：{{ item.num }}</span>
+                <span>状态：{{ item.status }}</span>
+                <span class="layui-hide-xs">创建时间：{{ item.created|mongo_date_str }}</span>
+                <button class="layui-btn layui-btn-sm" data-key="{{ item.cd_key }}" style="margin-bottom: 5px; margin-left: 10px" data-method="show_cd_key">查看卡密</button>
               </div>
             </li>
         {% else %}

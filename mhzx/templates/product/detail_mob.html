@@ -4,10 +4,10 @@
     <div class="layui-col-md8">
     <div class="showleft fly-panel content">
 <div class="data clear" id="div_detail" data-code="{{ order.product_code }}">
-    <div class="img fl" style="margin-top: 20px">
+    <div>
         <img src="{{ order.product_image }}" style="width: 100%;">
     </div>
-    <div class="dataList fl">
+    <div class="dataList fl" style="width: 90%">
         <div class="clear">
             <h3 class="fl">{{ order.product_name }}</h3>
             <span class="fr view-count" style="margin-right: 10px"><label></label>{{ order.view_count or 0 }}</span>
@@ -36,8 +36,10 @@
                          <option value="{{ item+1 }}">{{ item+1 }}</option>
                      {% endfor %}
                 </select>
-            <span class="duihuan layui-btn btn fr" id="exchange">我要兑换</span>
         </p>
+    </div>
+    <div class="but">
+        <button class="duihuan layui-btn btn" id="exchange">我要兑换</button>
     </div>
 </div>
     <div class="detaltext">
