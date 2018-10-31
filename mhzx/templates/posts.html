@@ -3,9 +3,9 @@
   <div class="fly-panel fly-column">
     <div class="layui-container">
       <ul class="layui-clear">
-        <li class="layui-hide-xs {{ 'layui-this' if is_index }}"><a href="/">综合</a></li>
+        <li class="{{ 'layui-this' if is_index }}"><a href="/">综合</a></li>
         {% for item in get_list('catalogs', sort_by=('sort_key', 1)) %}
-          <li class="layui-hide-xs {{ 'layui-this' if catalog_id == item._id }}"><a
+          <li class="{{ 'layui-this' if catalog_id == item._id }}"><a
                   href="/catalog/{{ item._id }}">{{ item.name }}</a></li>
         {% endfor %}
 

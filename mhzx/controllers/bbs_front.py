@@ -39,14 +39,9 @@ def index(pn=1, size=10, catalog_id=None):
         filter1['is_cream'] = True
     if catalog_id:
         filter1['catalog_id'] = catalog_id
-    if is_mobile(request):
-        base_template = 'posts_mob.html'
-    else:
-        base_template = 'posts.html'
     page = db_utils.get_page('posts', pn=pn, filter1=filter1, size=size, sort_by=sort_by)
     return render_template("post_list.html", is_index=catalog_id is None, page=page, sort_key=sort_key
-                           , catalog_id=catalog_id, post_type=post_type,
-                           base_template=base_template)
+                           , catalog_id=catalog_id, post_type=post_type)
 
 
 @bbs_index.route('/add', methods=['GET', 'POST'])
