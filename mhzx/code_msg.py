@@ -57,6 +57,7 @@ CD_KEY_EMPTY = R(status=50001, msg='CD-KEY不能为空')
 ROLE_EMPTY = R(status=50001, msg='角色不能为空')
 ZONE_EMPTY = R(status=50001, msg='分区不能为空')
 ROLE_NOT_EXIST = R(status=50001, msg='未查询到角色信息')
+PHONE_INVALID = R(status=50001, msg='手机号错误')
 
 # 帖子
 POST_TITLE_EMPTY = R(status=50001, msg='标题不能为空')

@@ -19,7 +19,7 @@ RESTRICT_AWARD_ONE = [
 
 # 短信类型
 SMS_TYPE_REGISTER = 1           # 用户注册
-SMS_TYPE_UPDATE_PASS = 2        # 修改密码
+SMS_TYPE_BACK_PASS = 2          # 找回密码
 
 
 # 商品类型

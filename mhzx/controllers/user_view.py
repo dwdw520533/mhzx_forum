@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash
 from random import randint
 from datetime import datetime
 from mhzx.config import IS_MOCK
-from mhzx.constant import SMS_TYPE_REGISTER
+from mhzx.constant import SMS_TYPE_REGISTER, SMS_TYPE_BACK_PASS
 from mhzx.ops.user import register_zx_user, update_zx_user_password
 from mhzx.ops.phone import (send_sms_phone_code, filter_phone,
                             generate_verify_code, verify_phone_code)
@@ -104,17 +104,15 @@ def user_pass_forget():
             return jsonify(models.R.fail(code_msg.PARAM_ERROR.get_msg(), str(forget_form.errors)))
         loginname = forget_form.loginname.data
         password = forget_form.password.data
-        question = forget_form.question.data
-        answer = forget_form.answer.data
+        phone = forget_form.phone.data
         ver_code = forget_form.vercode.data
-        utils.verify_num(ver_code)
         user = mongo.db.users.find_one({'loginname': loginname})
         if not user:
             return jsonify(code_msg.USER_ID_NOT_EXIST)
-        if user["question"] != question:
-            return jsonify(code_msg.QUESTION_ERROR)
-        if user["answer"] != answer:
-            return jsonify(code_msg.ANSWER_ERROR)
+        if phone != user["phone"]:
+            return jsonify(code_msg.PHONE_INVALID)
+        if not verify_phone_code(loginname, phone, ver_code):
+            raise models.GlobalApiException(code_msg.VERIFY_CODE_ERROR)
         mongo.db.users.update({'_id': user['_id']}, {'$set': {
             'password': generate_password_hash(password)}})
         update_zx_user_password(loginname, password)
@@ -172,9 +170,7 @@ def register():
             return jsonify(code_msg.USER_ID_EXIST)
         if not filter_phone(phone):
             return jsonify(code_msg.SMS_PHONE_ERROR)
-        flag, game_user = register_zx_user(loginname, password, "123", "123", "123")
-        if not flag:
-            return jsonify(code_msg.USER_GAME_CREATE_ERROR)
+        game_user = register_zx_user(loginname, password, "123", "123", "123")
         user = dict({
             'is_active': True,
             'coin': 0,
@@ -239,13 +235,20 @@ def send_verify_sms():
     sms_type = int(request.values.get('sms_type', SMS_TYPE_REGISTER))
     if not filter_phone(phone):
         return jsonify(code_msg.SMS_PHONE_ERROR)
-    user = mongo.db.users.find_one({'loginname': login_name})
-    if user:
-        return jsonify(code_msg.USER_ID_EXIST)
-    user_count = mongo.db.users.find({'phone': phone}).count()
-    reg_limit = int(db_utils.get_option_val('phone_register_limit', 0))
-    if reg_limit and user_count >= reg_limit:
-        return jsonify(code_msg.SMS_PHONE_LIMIT)
+    if sms_type == SMS_TYPE_REGISTER:
+        user = mongo.db.users.find_one({'loginname': login_name})
+        if user:
+            return jsonify(code_msg.USER_ID_EXIST)
+        user_count = mongo.db.users.find({'phone': phone}).count()
+        reg_limit = int(db_utils.get_option_val('phone_register_limit', 0))
+        if reg_limit and user_count >= reg_limit:
+            return jsonify(code_msg.SMS_PHONE_LIMIT)
+    elif sms_type == SMS_TYPE_BACK_PASS:
+        user = mongo.db.users.find_one({'loginname': login_name})
+        if not user:
+            return jsonify(code_msg.USER_ID_NOT_EXIST)
+        if phone != user["phone"]:
+            return jsonify(code_msg.PHONE_INVALID)
     phone_code = generate_verify_code(login_name, phone, sms_type, IS_MOCK)
     if not phone_code:
         return jsonify(code_msg.SMS_SEND_REPEAT)

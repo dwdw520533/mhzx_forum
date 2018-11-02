@@ -34,7 +34,7 @@ class ZxUser(object):
     def register_user(self, name, passwd, question, answer, qq):
         user = self.get_user_by_name(name)
         if user:
-            return True, user
+            user
         latest_id = self.get_latest_user_id()
         if not latest_id:
             latest_id = 1
@@ -46,7 +46,7 @@ class ZxUser(object):
         sql = "INSERT INTO [dbo].[users] (ID,name,passwd,prompt,answer," \
               "truename,idnumber,email,qq,creatime) VALUES(%s)" % values
         self.ms.execute_non_query(sql)
-        return True, self.get_user_by_uid(uid)
+        return self.get_user_by_uid(uid)
 
     def get_password(self, name, pwd):
         return "0x" + hashlib.md5((name + pwd).encode("utf-8")).hexdigest().upper()
