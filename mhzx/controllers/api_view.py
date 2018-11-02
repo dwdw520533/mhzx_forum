@@ -280,7 +280,7 @@ def sign_rank_list():
         "$gte": _date}}).sort([("_id", 1)]).limit(limit))
     rank_count = list(mongo.db['user_signs'].aggregate([
         {"$limit": limit},
-        {"$group": {"_id": "$user_id", "count": {"$sum": 1}}},
+        {"$group": {"_id": "$user_id", "count": {"$count": 1}}},
         {"$sort": {"count": -1}}
     ]))
     user_ids = set()
