@@ -188,7 +188,7 @@ class UsersForm(form.Form):
 
 
 class UsersModelView(BaseModelView):
-    column_list = ('loginname','username', 'is_active', 'is_disabled', 'is_admin', 'vip', 'avatar', 'coin', 'description', 'city', 'renzheng')
+    column_list = ('loginname','username', 'phone', 'is_active', 'is_disabled', 'is_admin', 'vip', 'avatar', 'coin', 'description', 'city', 'renzheng')
     column_labels = dict(
         loginname='用户名',
         username='昵称',
