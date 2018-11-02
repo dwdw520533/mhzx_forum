@@ -111,7 +111,8 @@ def user_pass_forget():
             return jsonify(code_msg.USER_ID_NOT_EXIST)
         if phone != user["phone"]:
             return jsonify(code_msg.PHONE_INVALID)
-        if not verify_phone_code(loginname, phone, ver_code):
+        if not verify_phone_code(loginname, phone, ver_code,
+                                 sms_type=SMS_TYPE_BACK_PASS):
             raise models.GlobalApiException(code_msg.VERIFY_CODE_ERROR)
         mongo.db.users.update({'_id': user['_id']}, {'$set': {
             'password': generate_password_hash(password)}})
