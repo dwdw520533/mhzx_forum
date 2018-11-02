@@ -149,14 +149,15 @@ class PagesModelView(BaseModelView):
 class CatalogsForm(form.Form):
     name = fields.StringField('栏目名称')
     sort_key = fields.IntegerField('排序', default=0)
+    allow_post = fields.BooleanField('用户发帖', default=True)
     form_columns = ('name', 'sort_key')
 
 
 class CatalogsModelView(BaseModelView):
-    column_list = ('name', 'sort_key')
-    column_labels = dict(name='栏目名称', sort_key='排序')
+    column_list = ('name', 'sort_key', 'allow_post')
+    column_labels = dict(name='栏目名称', sort_key='排序', allow_post='允许用户发帖')
     # column_sortable_list = 'name'
-    # column_default_sort = ('name', False)
+    column_default_sort = ('sort_key', False)
     can_create = True
     can_delete = True
     can_edit = True
