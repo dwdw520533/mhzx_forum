@@ -187,6 +187,7 @@ def refresh_indexes():
 
 
 @bbs_index.route('/exchange')
+@login_required
 def exchange_page():
     cd_key = request.values.get("cd_key")
     return render_template("exchange.html",

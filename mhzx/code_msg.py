@@ -79,6 +79,7 @@ ORDER_NOT_EXIST = R(status=50301, msg='订单不存在')
 ORDER_SURPASS_LIMIT = R(status=50302, msg='您的兑换次数已达上限')
 ORDER_SURPASS_DAY_LIMIT = R(status=50303, msg='您当日已兑换过该礼包')
 ORDER_EXCHANGE_INVALID = R(status=50304, msg='商品已兑换，无法重复使用')
+ORDER_USER_INVALID = R(status=50305, msg='订单所属用户与登录用户不符')
 ORDER_EXCHANGE_SUCCESS = R(status=0, msg='兑换成功，请前往邮件邮箱收取!')
 
 # 商品

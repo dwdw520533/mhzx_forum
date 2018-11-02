@@ -339,6 +339,7 @@ def query_role_list():
 
 
 @api_view.route('/exchange', methods=['POST'])
+@login_required
 def exchange_order():
     exchange_form = forms.ExchangeForm()
     if not exchange_form.validate():
@@ -355,6 +356,8 @@ def exchange_order():
     order = Order.objects(cd_key=cd_key).first()
     if not order:
         return jsonify(code_msg.ORDER_NOT_EXIST)
+    if order.user_id != str(current_user.user["_id"]):
+        return jsonify(code_msg.ORDER_USER_INVALID)
     if order.product.status != PRODUCT_STATUS_NORMAL:
         # 商品下架 订单处理无效
         order.status = ORDER_STATUS_CANCEL
