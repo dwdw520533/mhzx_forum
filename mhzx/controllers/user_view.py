@@ -8,11 +8,12 @@ from werkzeug.security import generate_password_hash
 from random import randint
 from datetime import datetime
 from mhzx.config import IS_MOCK
-from mhzx.constant import SMS_TYPE_REGISTER, SMS_TYPE_BACK_PASS
+from mhzx.constant import SMS_TYPE_REGISTER, SMS_TYPE_BACK_PASS, AWARD_TYPE_REGISTER
 from mhzx.ops.user import register_zx_user, update_zx_user_password
 from mhzx.ops.phone import (send_sms_phone_code, filter_phone,
                             generate_verify_code, verify_phone_code)
 from mhzx.mongo import Product
+from mhzx.ops.coin import award_coin
 
 user_view = Blueprint("user", __name__, url_prefix="", template_folder="templates")
 
@@ -190,6 +191,7 @@ def register():
             'perms': []
         })
         mongo.db.users.insert_one(user)
+        award_coin(user, user["_id"], AWARD_TYPE_REGISTER)
         return jsonify(code_msg.REGISTER_SUCCESS.put('action', url_for('user.login')))
     ver_code = utils.gen_verify_num()
     # session['ver_code'] = ver_code['answer']
