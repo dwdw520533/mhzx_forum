@@ -1,3 +1,4 @@
+import logging
 from flask_mail import Mail
 from flask_admin import Admin
 from flask_admin.base import MenuView
@@ -17,6 +18,7 @@ from mhzx.util import cached
 from mhzx.ops.user import user_sql
 from mhzx.config import VIP_CREDIT
 
+logger = logging.getLogger(__name__)
 # 初始化Mail
 mail = Mail()
 # 初始化Flask-Admin
@@ -55,7 +57,6 @@ def refresh_user_data(user):
         vip, user["credit"] = 0, credit
         credit_balance = get_user_credit_balance(user)
         user["credit_balance"] = credit_balance
-        print("#refresh user:", user)
         for num, v in sorted(VIP_CREDIT, reverse=True):
             if credit < num:
                 continue
@@ -65,6 +66,7 @@ def refresh_user_data(user):
             '$set': {"credit": credit, "vip": vip,
                      "credit_balance": credit_balance}})
         user["sign_days"] = mongo.db['user_signs'].find({'user_id': user['_id']}).count()
+        logger.info("[%s]refresh user: %s", user["phone"], user)
     except KeyError:
         user["credit"] = 0
         user["credit_balance"] = 0
