@@ -80,7 +80,7 @@ def get_create_order(order_id=None):
                     status__in=ORDER_STATUS_VALID, **params)
                 if len(history_orders) >= product.limit:
                     return jsonify(msg)
-            if product.require_perm and user["promote_perm"]:
+            if product.require_perm and not user["promote_perm"]:
                 raise models.GlobalApiException(code_msg.PERM_ERROR)
             if product.price_type == PRICE_TYPE_COIN:
                 recharge_handler = coin.recharge_coin
