@@ -183,7 +183,7 @@ class UsersForm(form.Form):
     description = fields.TextAreaField('签名')
     city = fields.StringField('城市')
     phone = fields.StringField('手机号')
-    perms = fields.FieldList('购买权限')
+    perms = fields.FieldList(fields.StringField('购买权限'))
     renzheng = fields.StringField('认证信息')
     form_columns = ('loginname', 'username', 'is_active', 'is_admin', 'avatar', 'coin', 'description', 'city')
 
