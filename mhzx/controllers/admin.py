@@ -183,13 +183,13 @@ class UsersForm(form.Form):
     description = fields.TextAreaField('签名')
     city = fields.StringField('城市')
     phone = fields.StringField('手机号')
-    perms = fields.FieldList(fields.StringField('购买权限'))
+    promote_perm = fields.BooleanField('购买权限')
     renzheng = fields.StringField('认证信息')
     form_columns = ('loginname', 'username', 'is_active', 'is_admin', 'avatar', 'coin', 'description', 'city')
 
 
 class UsersModelView(BaseModelView):
-    column_list = ('loginname','username', 'phone', 'is_active', 'is_disabled', 'is_admin', 'vip', 'avatar', 'coin', 'description', 'city', 'perms', 'renzheng')
+    column_list = ('loginname','username', 'phone', 'is_active', 'is_disabled', 'is_admin', 'vip', 'avatar', 'coin', 'description', 'city', 'promote_perm', 'renzheng')
     column_labels = dict(
         loginname='用户名',
         username='昵称',
@@ -202,7 +202,7 @@ class UsersModelView(BaseModelView):
         description='签名',
         city='城市',
         phone='手机号',
-        perms="购买权限",
+        promote_perm="购买权限",
         renzheng='认证信息')
     # column_sortable_list = 'name'
     # column_default_sort = ('name', False)

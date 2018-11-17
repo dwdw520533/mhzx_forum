@@ -188,7 +188,8 @@ def register():
             'avatar': url_for('static', filename='images/avatar/' + str(randint(0, 12)) + '.jpg'),
             'password': generate_password_hash(password),
             'create_at': datetime.now(),
-            'perms': []
+            'perms': [],
+            "promote_perm": False
         })
         mongo.db.users.insert_one(user)
         award_coin(user, user["_id"], AWARD_TYPE_REGISTER)
