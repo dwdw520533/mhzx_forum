@@ -13,7 +13,7 @@ for alias, attrs in MONGO.items():
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'PyFly123'
+    app.config['SECRET_KEY'] = 'hx123'
     app.config.from_object(Config)
     init_extensions(app)
     init_func(app)

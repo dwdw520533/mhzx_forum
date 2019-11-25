@@ -52,3 +52,13 @@ class ExchangeForm(FlaskForm):
     login_name = fields.StringField(validators=[DataRequired(code_msg.USER_ID_EMPTY.get_msg())])
     cd_key = fields.StringField(validators=[InputRequired(code_msg.CD_KEY_EMPTY.get_msg())])
     role_id = fields.IntegerField(validators=[InputRequired(code_msg.ROLE_EMPTY.get_msg())])
+
+
+class DataForm(FlaskForm):
+    date = fields.StringField(validators=[InputRequired('日期不能为空')])
+    order = fields.StringField(validators=[InputRequired('次序不能为空')])
+    jin = fields.StringField(validators=[InputRequired('数据错误')])
+    mu = fields.StringField(validators=[InputRequired('数据错误')])
+    shui = fields.StringField(validators=[InputRequired('数据错误')])
+    huo = fields.StringField(validators=[InputRequired('数据错误')])
+    tu = fields.StringField(validators=[InputRequired('数据错误')])

@@ -14,9 +14,6 @@ from mhzx.mongo import Product
 from mhzx.plugins import WhooshSearcher
 from whoosh.fields import Schema, TEXT, ID, DATETIME
 #from jieba.analyse import ChineseAnalyzer
-from mhzx.util import cached
-from mhzx.ops.user import user_sql
-from mhzx.config import VIP_CREDIT
 
 logger = logging.getLogger(__name__)
 # 初始化Mail
@@ -40,55 +37,55 @@ oauth = OAuth()
 whoosh_searcher = WhooshSearcher()
 
 
-def get_user_credit_balance(user):
-    balance = user.get("credit", 0) - user.get("credit_used", 0)
-    if balance < 0:
-        mongo.db.users.update({"_id": user["_id"]}, {
-            '$set': {"credit_used": user.get("credit", 0)}})
-        balance = 0
-    return balance
+# def get_user_credit_balance(user):
+#     balance = user.get("credit", 0) - user.get("credit_used", 0)
+#     if balance < 0:
+#         mongo.db.users.update({"_id": user["_id"]}, {
+#             '$set': {"credit_used": user.get("credit", 0)}})
+#         balance = 0
+#     return balance
 
 
-@cached(lambda x: "cache_refresh_user_data_%s" % str(x["_id"]), timeout=600)
-def refresh_user_data(user):
-    try:
-        ret = user_sql.get_user_credit(user["game_user_id"])
-        credit = ret.get("credit") or 0 if ret else 0
-        vip, user["credit"] = 0, credit
-        credit_balance = get_user_credit_balance(user)
-        user["credit_balance"] = credit_balance
-        for num, v in sorted(VIP_CREDIT, reverse=True):
-            if credit < num:
-                continue
-            vip = v
-            break
-        mongo.db.users.update({"_id": user["_id"]}, {
-            '$set': {"credit": credit, "vip": vip,
-                     "credit_balance": credit_balance}})
-        user["sign_days"] = mongo.db['user_signs'].find({'user_id': user['_id']}).count()
-        logger.info("[%s]refresh user: %s", user["phone"], user)
-    except KeyError:
-        user["credit"] = 0
-        user["credit_balance"] = 0
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    u = mongo.db.users.find_one({'_id': ObjectId(user_id)})
-    if not u:
-        return None
-    refresh_user_data(u)
-    return User(u)
+# @cached(lambda x: "cache_refresh_user_data_%s" % str(x["_id"]), timeout=600)
+# def refresh_user_data(user):
+#     try:
+#         ret = user_sql.get_user_credit(user["game_user_id"])
+#         credit = ret.get("credit") or 0 if ret else 0
+#         vip, user["credit"] = 0, credit
+#         credit_balance = get_user_credit_balance(user)
+#         user["credit_balance"] = credit_balance
+#         for num, v in sorted(VIP_CREDIT, reverse=True):
+#             if credit < num:
+#                 continue
+#             vip = v
+#             break
+#         mongo.db.users.update({"_id": user["_id"]}, {
+#             '$set': {"credit": credit, "vip": vip,
+#                      "credit_balance": credit_balance}})
+#         user["sign_days"] = mongo.db['user_signs'].find({'user_id': user['_id']}).count()
+#         logger.info("[%s]refresh user: %s", user["phone"], user)
+#     except KeyError:
+#         user["credit"] = 0
+#         user["credit_balance"] = 0
+#
+#
+# @login_manager.user_loader
+# def load_user(user_id):
+#     u = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+#     if not u:
+#         return None
+#     refresh_user_data(u)
+#     return User(u)
 
 
 def init_extensions(app):
-    whoosh_searcher.init_app(app)
-    configure_uploads(app, upload_photos)
-    mail.init_app(app)
+    #whoosh_searcher.init_app(app)
+    #configure_uploads(app, upload_photos)
+    #mail.init_app(app)
     admin.init_app(app)
     mongo.init_app(app, "MONGO")
-    oauth.init_app(app)
-    login_manager.init_app(app)
+    #oauth.init_app(app)
+    #login_manager.init_app(app)
     # if app.config.get('USE_CACHE', False):
     #     cache.init_app(app, {})
 

@@ -1,7 +1,10 @@
 # coding=utf-8
 # !/usr/bin/env python
 import logging
-import pymssql
+try:
+    import pymssql
+except ImportError:
+    pass
 
 logger = logging.getLogger(__name__)
 
