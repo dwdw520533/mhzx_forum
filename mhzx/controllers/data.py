@@ -2,7 +2,7 @@ import json
 import pymongo
 import itertools
 from operator import itemgetter
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 from mhzx.util.date import strftime, increase_day
 from datetime import datetime
 from mhzx import forms
@@ -12,6 +12,11 @@ from mhzx import models, code_msg
 
 
 page_index = Blueprint("index", __name__, url_prefix="", template_folder="templates")
+
+
+@page_index.route('/')
+def index():
+    return redirect('/report')
 
 
 @page_index.route('/api/data', methods=['POST'])
