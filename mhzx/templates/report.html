@@ -1,0 +1,74 @@
+{% extends 'base_hx.html' %}
+{% block body %}
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  <legend>近七日走势</legend>
+</fieldset>
+
+<div class="layui-main site-inline">
+<div class="site-content">
+<div id="main1" style="width: auto; height: 300px"></div>
+</div>
+</div>
+{% endblock %}
+
+{% block other_js %}
+<script src="/static/echarts.min.js"></script>
+<script>
+layui.use(['fly', 'form', 'layedit', 'laydate'], function(){
+    var $ = layui.$
+    ,form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate
+  ,fly = layui.fly;
+
+  var myChart = echarts.init(document.getElementById('main1'));
+  var option = {
+    title: {
+        text: '真身走势'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    legend: {},
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+    },
+    xAxis: {},
+    yAxis: {
+        type: 'value'
+    },
+    series: []
+};
+
+     myChart.setOption(option);
+     $.get('/api/report?category=真身', function(res){
+      if(res.status === 0) {
+        myChart.setOption({
+            legend: {
+                x: '50px',
+                y: '30px',
+                data: res.data.legend
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: res.data.x_axis
+            },
+            series: res.data.series
+        });
+      }
+    });
+
+});
+</script>
+{% endblock %}

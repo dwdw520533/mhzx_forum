@@ -1,5 +1,9 @@
+import json
+import pymongo
+import itertools
+from operator import itemgetter
 from flask import Blueprint, render_template
-from mhzx.util.date import strftime
+from mhzx.util.date import strftime, increase_day
 from datetime import datetime
 from mhzx import forms
 from mhzx.extensions import mongo
@@ -42,3 +46,64 @@ def data_page():
         ],
         default_date=strftime(datetime.now(), '%Y-%m-%d')
     )
+
+
+@page_index.route('/report')
+def report_page():
+    return render_template("report.html")
+
+
+@page_index.route('/api/report')
+def report_data():
+    category = request.args['category']
+    category_enum = {
+        'jin': '金',
+        'mu': '木',
+        'shui': '水',
+        'huo': '火',
+        'tu': '土'
+    }
+    begin_date = increase_day(-7, datetime.now())
+    x_axis, series, source_dict = [], [], {}
+    for date, items in itertools.groupby(mongo.db.hx.find({
+        '$and': [
+            {'date': {'$gte': strftime(begin_date, '%Y-%m-%d')}},
+            {'$or': [
+                {'jin': category},
+                {'mu': category},
+                {'shui': category},
+                {'huo': category},
+                {'tu': category},
+            ]}
+        ]
+    }).sort('date', pymongo.ASCENDING), key=itemgetter('date')):
+        temp = {}
+        for i in items:
+            def accumulate(ct):
+                if i.get(ct) == category:
+                    temp.setdefault(ct, 0)
+                    temp[ct] += 1
+
+            list(map(accumulate, category_enum))
+        source_dict.setdefault(date, temp)
+
+    for ct, desc in category_enum.items():
+        ct_data, x = [], []
+        for i in range(-7, 1):
+            _date = increase_day(i, datetime.now())
+            data = source_dict.get(strftime(_date, '%Y-%m-%d')) or {}
+            ct_data.append(data.get(ct) or 0)
+            x.append(strftime(_date, '%m%d'))
+        series.append({
+            'name': desc,
+            'type': 'line',
+            'stack': '次数',
+            'data': ct_data
+        })
+        x_axis = x
+
+    return jsonify(models.R.ok(data=dict(
+            x_axis=x_axis,
+            series=series,
+            legend=list(category_enum.values())
+        )))

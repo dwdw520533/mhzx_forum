@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>魔王数据采集</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="/static/layui/css/layui.css">
-  <link rel="stylesheet" href="/static/css/global.css">
-<script src="/static/layui/layui.js"></script>
-</head>
-<body>
+{% extends 'base_hx.html' %}
+{% block body %}
 
 <blockquote class="layui-elem-quote layui-text">
   主要收集每日放逐魔王数据。
@@ -22,10 +11,10 @@
 
 <div class="layui-main site-inline">
 <div class="site-content">
-<form class="layui-form" action="" style="padding-right: 20px">
+<form class="layui-form" action="" style="margin-left: -50px">
   <div class="layui-form-item">
     <div class="layui-inline">
-      <label class="layui-form-label">记录日期</label>
+      <label class="layui-form-label">日期</label>
       <div class="layui-input-inline">
         <input type="text" name="date" id="date" lay-verify="date" value="{{ default_date }}" autocomplete="off" class="layui-input">
       </div>
@@ -33,7 +22,7 @@
   </div>
 
   <div class="layui-form-item">
-    <label class="layui-form-label">选择次序</label>
+    <label class="layui-form-label">次序</label>
     <div class="layui-input-block">
       <select id="order" name="order" lay-filter="order">
      {% for item in order_options %}
@@ -88,7 +77,7 @@
       <input type="radio" name="tu" value="空图" title="空图">
     </div>
   </div>
-  <div class="layui-form-item">
+  <div class="layui-form-item" style="margin-left: 40px">
     <div class="layui-input-block">
       <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -97,18 +86,13 @@
 </form>
 </div>
 </div>
-<script>
-    layui.cache.user = {};
-    layui.config({
-        version: "3.0.0"
-        , base: '/static/mods/' //这里实际使用时，建议改成绝对路径
-    }).extend({
-        fly: 'index'
-    }){% block fly_use %}.use('fly');{% endblock %}
-</script>
+{% endblock %}
+
+{% block other_js %}
 <script>
 layui.use(['fly', 'form', 'layedit', 'laydate'], function(){
-  var form = layui.form
+  var $ = layui.$
+  ,form = layui.form
   ,layer = layui.layer
   ,layedit = layui.layedit
   ,laydate = layui.laydate
@@ -181,6 +165,4 @@ layui.use(['fly', 'form', 'layedit', 'laydate'], function(){
 
 });
 </script>
-
-</body>
-</html>
+{% endblock %}
