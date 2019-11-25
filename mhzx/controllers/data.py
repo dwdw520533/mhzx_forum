@@ -98,7 +98,7 @@ def report_data():
             _date = increase_day(i, datetime.now())
             data = source_dict.get(strftime(_date, '%Y-%m-%d')) or {}
             ct_data.append(data.get(ct) or 0)
-            x.append(strftime(_date, '%m%d'))
+            x.append(strftime(_date, '%m-%d'))
         series.append({
             'name': desc,
             'type': 'line',
