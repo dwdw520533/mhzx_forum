@@ -111,7 +111,6 @@ def report_data():
             'name': desc,
             'type': 'line',
             'stack': '次数',
-            'areaStyle': {},
             'data': ct_data
         })
         x_axis = x
