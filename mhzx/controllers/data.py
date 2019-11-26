@@ -70,6 +70,7 @@ def report_data():
     }
     begin_date = increase_day(-7, datetime.now())
     x_axis, series, source_dict = [], [], {}
+    max_idx, max_value = 0, 0
     for date, items in itertools.groupby(mongo.db.hx.find({
         '$and': [
             {'date': {'$gte': strftime(begin_date, '%Y-%m-%d')}},
@@ -91,7 +92,7 @@ def report_data():
 
             list(map(accumulate, category_enum))
         source_dict.setdefault(date, temp)
-
+    number = 0
     for ct, desc in category_enum.items():
         ct_data, x = [], []
         for i in range(-7, 1):
@@ -103,10 +104,21 @@ def report_data():
             'name': desc,
             'type': 'line',
             'stack': '次数',
+            'areaStyle': {},
             'data': ct_data
         })
         x_axis = x
 
+        if sum(ct_data) > max_value:
+            max_value = sum(ct_data)
+            max_idx = number
+        number += 1
+    series[max_idx]['label'] = {
+        'normal': {
+            'show': True,
+            'position': 'top'
+        }
+    }
     return jsonify(models.R.ok(data=dict(
             x_axis=x_axis,
             series=series,
