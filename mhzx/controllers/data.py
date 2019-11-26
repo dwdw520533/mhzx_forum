@@ -1,6 +1,8 @@
 import json
 import pymongo
 import itertools
+import logging
+from datetime import datetime
 from operator import itemgetter
 from flask import Blueprint, render_template, redirect
 from mhzx.util.date import strftime, increase_day
@@ -10,7 +12,7 @@ from mhzx.extensions import mongo
 from flask import Blueprint, render_template, request, jsonify
 from mhzx import models, code_msg
 
-
+logger = logging.getLogger(__name__)
 page_index = Blueprint("index", __name__, url_prefix="", template_folder="templates")
 
 
@@ -25,17 +27,22 @@ def data_api():
     date = exchange_form.date.data
     order = exchange_form.order.data
     data = dict(
+        date=date,
+        order=order,
         jin=exchange_form.jin.data,
         mu=exchange_form.mu.data,
         shui=exchange_form.shui.data,
         huo=exchange_form.huo.data,
-        tu=exchange_form.tu.data
+        tu=exchange_form.tu.data,
+        created=datetime.now()
     )
     record = mongo.db.hx.find_one({'date': date, 'order': order})
     if record:
         mongo.db.hx.update({'_id': record['_id']}, data)
+        logger.info('#Update record: %s', data)
     else:
-        mongo.db.hx.insert_one(dict(data, date=date, order=order))
+        mongo.db.hx.insert_one(data)
+        logger.info('#Create record: %s', data)
     return jsonify(models.R.ok())
 
 
