@@ -135,12 +135,14 @@ layui.use(['fly', 'form', 'layedit', 'laydate'], function(){
 
   //监听提交
   form.on('submit(demo1)', function(data){
-    fly.json('/api/data', data.field, function(res){
-      if(res.status === 0) {
-          layer.alert("提交成功");
-      }
-    }, {}, function () {
-    });
+      layer.confirm('确认提交？', function() {
+          fly.json('/api/data', data.field, function (res) {
+              if (res.status === 0) {
+                  layer.alert("提交成功");
+              }
+          }, {}, function () {
+          });
+      });
     return false;
   });
 
