@@ -118,7 +118,7 @@ def report_data():
         series.append({
             'name': desc,
             'type': 'line',
-            'stack': '次数',
+            'stack': '次数%s' % number,
             'data': ct_data
         })
         x_axis = x

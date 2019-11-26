@@ -2,7 +2,7 @@
 {% block body %}
 
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-  <legend>近七日走势</legend>
+  <legend>数据图表</legend>
 </fieldset>
 
 <div class="layui-main site-inline">
@@ -31,7 +31,7 @@ layui.use(['fly', 'form', 'layedit', 'laydate'], function(){
       if(res.status === 0) {
         myChart1.setOption({
             title: {
-                text: '魔王真身走势'
+                text: '真身走势'
             },
             tooltip : {
                 trigger: 'axis',
@@ -73,7 +73,7 @@ layui.use(['fly', 'form', 'layedit', 'laydate'], function(){
 
         myChart2.setOption({
             title : {
-                text: '魔王真身数量',
+                text: '真身数量',
                 subtext: '近3日',
                 x:'left'
             },
