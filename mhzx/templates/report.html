@@ -8,6 +8,7 @@
 <div class="layui-main site-inline">
 <div class="site-content">
 <div id="main1" style="width: auto; height: 300px"></div>
+<div id="main2" style="width: auto; height: 300px; margin-top: 50px"></div>
 </div>
 </div>
 {% endblock %}
@@ -23,62 +24,88 @@ layui.use(['fly', 'form', 'layedit', 'laydate'], function(){
   ,laydate = layui.laydate
   ,fly = layui.fly;
 
-  var myChart = echarts.init(document.getElementById('main1'));
-  var option = {
-    title: {
-        text: '魔王真身走势'
-    },
-    tooltip : {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'cross',
-            label: {
-                backgroundColor: '#6a7985'
-            }
-        }
-    },
-    legend: {},
-    toolbox: {
-        feature: {
-            saveAsImage: {}
-        }
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis : [
-        {
-            type : 'category',
-            boundaryGap : false,
-            data : ['周一','周二','周三','周四','周五','周六','周日']
-        }
-    ],
-    yAxis : [
-        {
-            type : 'value'
-        }
-    ],
-    series : []
-};
+  var myChart1 = echarts.init(document.getElementById('main1'));
+  var myChart2 = echarts.init(document.getElementById('main2'));
 
-     myChart.setOption(option);
      $.get('/api/report?category=真身', function(res){
       if(res.status === 0) {
-        myChart.setOption({
+        myChart1.setOption({
+            title: {
+                text: '魔王真身走势'
+            },
+            tooltip : {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
             legend: {
                 x: '50px',
                 y: '30px',
-                data: res.data.legend
+                data: res.data.data1.legend
             },
             xAxis: [{
                 type: 'category',
                 boundaryGap: false,
-                data: res.data.x_axis
+                data: res.data.data1.x_axis
             }],
-            series: res.data.series
+            series: res.data.data1.series
+        });
+
+        myChart2.setOption({
+            title : {
+                text: '魔王真身数量',
+                subtext: '近3日',
+                x:'left'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 10,
+                top: 20,
+                bottom: 20,
+                data: res.data.data2.legend,
+                selected: res.data.data2.selected
+            },
+            series: [
+                {
+                    name: '地图',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['40%', '50%'],
+                    data: res.data.data2.series,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
         });
       }
     });

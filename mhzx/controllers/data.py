@@ -75,12 +75,14 @@ def report_data():
         'huo': '火',
         'tu': '土'
     }
-    begin_date = increase_day(-7, datetime.now())
+    begin_date = strftime(increase_day(-7, datetime.now()))
+    begin3_date = increase_day(-3, datetime.now())
     x_axis, series, source_dict = [], [], {}
     max_idx, max_value = 0, 0
+    pie_data = {i: 0 for i in category_enum.values()}
     for date, items in itertools.groupby(mongo.db.hx.find({
         '$and': [
-            {'date': {'$gte': strftime(begin_date, '%Y-%m-%d')}},
+            {'date': {'$gte': begin_date}},
             {'$or': [
                 {'jin': category},
                 {'mu': category},
@@ -105,8 +107,14 @@ def report_data():
         for i in range(-7, 1):
             _date = increase_day(i, datetime.now())
             data = source_dict.get(strftime(_date, '%Y-%m-%d')) or {}
-            ct_data.append(data.get(ct) or 0)
+            count = data.get(ct) or 0
+            ct_data.append(count)
             x.append(strftime(_date, '%m-%d'))
+
+            if _date < begin3_date:
+                continue
+            pie_data[desc] += count
+
         series.append({
             'name': desc,
             'type': 'line',
@@ -126,7 +134,17 @@ def report_data():
         }
     }
     return jsonify(models.R.ok(data=dict(
+        data1=dict(
             x_axis=x_axis,
             series=series,
             legend=list(category_enum.values())
-        )))
+        ),
+        data2=dict(
+            selected={},
+            series=[{
+                'name': k,
+                'value': v
+            }for k, v in pie_data.items()],
+            legend=list(category_enum.values())
+        ),
+    )))
