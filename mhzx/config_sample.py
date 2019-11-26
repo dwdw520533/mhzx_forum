@@ -3,11 +3,11 @@ from flask_uploads import IMAGES
 
 DEBUG = True
 IS_MOCK = True
-MONGO_HOST = "39.97.250.47"
+MONGO_HOST = "47.95.218.175"
 
 
 class Config:
-    MONGO_URI = "mongodb://%s:27017/rtconfig" % MONGO_HOST
+    MONGO_URI = "mongodb://%s:27017/hx" % MONGO_HOST
     MAIL_SERVER = 'smtp.163.com'
     MAIL_PROT = 465
     MAIL_USE_TLS = True
@@ -33,6 +33,6 @@ MONGO = {
     'hx': {
         'name': 'hx',
         'host': MONGO_HOST,
-        'port': 27018
+        'port': 27017
     }
 }
