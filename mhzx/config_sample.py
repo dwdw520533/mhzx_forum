@@ -1,4 +1,5 @@
 import os
+import logging
 from flask_uploads import IMAGES
 
 DEBUG = True
@@ -36,3 +37,7 @@ MONGO = {
         'port': 27017
     }
 }
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.StreamHandler())
