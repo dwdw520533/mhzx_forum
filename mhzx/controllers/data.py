@@ -118,6 +118,7 @@ def report_data():
         series.append({
             'name': desc,
             'type': 'line',
+            'smooth': True,
             'stack': '次数%s' % number,
             'data': ct_data
         })
