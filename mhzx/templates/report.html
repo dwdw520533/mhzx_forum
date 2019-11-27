@@ -68,7 +68,8 @@ layui.use(['fly', 'form', 'layedit', 'laydate'], function(){
                 boundaryGap: false,
                 data: res.data.data1.x_axis
             }],
-            series: res.data.data1.series
+            series: res.data.data1.series,
+            color:['#F4CB29', '#12e78c','#4B7CF3','red', '#dd3ee5']
         });
 
         myChart2.setOption({
@@ -106,7 +107,7 @@ layui.use(['fly', 'form', 'layedit', 'laydate'], function(){
                     }
                 }
             ],
-            color:['#F4CB29', '#12e78c','#4B7CF3','red', '#FD9E06']
+            color:['#F4CB29', '#12e78c','#4B7CF3','red', '#dd3ee5']
         });
       }
     });
